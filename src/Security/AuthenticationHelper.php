@@ -7,7 +7,6 @@ use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface;
 
 class AuthenticationHelper {
@@ -15,11 +14,6 @@ class AuthenticationHelper {
      * @var FirewallMap
      */
     private $firewallMap;
-
-    /**
-     * @var TokenStorageInterface
-     */
-    private $tokenStorage;
 
     /**
      * @var RememberMeServicesInterface
@@ -33,12 +27,10 @@ class AuthenticationHelper {
 
     public function __construct(
         FirewallMap $firewallMap,
-        TokenStorageInterface $tokenStorage,
         RememberMeServicesInterface $rememberMeServices,
         string $secret
     ) {
         $this->firewallMap = $firewallMap;
-        $this->tokenStorage = $tokenStorage;
         $this->rememberMeServices = $rememberMeServices;
         $this->secret = $secret;
     }
@@ -53,9 +45,13 @@ class AuthenticationHelper {
      * @return Response provided response, or a new one if none was provided
      */
     public function login(User $user, Request $request, Response $response = null): Response {
-        $name = $this->firewallMap->getFirewallConfig($request)->getName();
+        $config = $this->firewallMap->getFirewallConfig($request);
 
-        $token = new RememberMeToken($user, $name, $this->secret);
+        if (!$config) {
+            throw new \BadMethodCallException('No firewall for this request');
+        }
+
+        $token = new RememberMeToken($user, $config->getName(), $this->secret);
 
         $response = $response ?: new Response();
 
