@@ -61,7 +61,7 @@ final class ForumController extends AbstractController {
         $submissions = $this->submissions->findSubmissions($sortBy, [
             'forums' => [$forum->getId()],
             'stickies' => true,
-        ], $this->submissionPage($sortBy, $request));
+        ], $request);
 
         return $this->render('forum/forum.html.twig', [
             'forum' => $forum,
@@ -81,7 +81,7 @@ final class ForumController extends AbstractController {
 
         $submissions = $this->submissions->findSubmissions($sortBy, [
             'forums' => array_keys($names),
-        ], $this->submissionPage($sortBy, $request));
+        ], $request);
 
         return $this->render('forum/multi.html.twig', [
             'forums' => $names,
@@ -167,7 +167,7 @@ final class ForumController extends AbstractController {
             'forum' => $forum,
             'submissions' => $this->submissions->findSubmissions($sortBy, [
                 'forums' => [$forum->getId()],
-            ], $this->submissionPage($sortBy, $request)),
+            ], $request),
         ]);
     }
 

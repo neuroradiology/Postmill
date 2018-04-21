@@ -25,7 +25,7 @@ class ForumCategoryController extends AbstractController {
 
         $submissions = $sr->findSubmissions($sortBy, [
             'forums' => array_keys($forums),
-        ], $this->submissionPage($sortBy, $request));
+        ], $request);
 
         return $this->render('forum_category/category.html.twig', [
             'category' => $category,
