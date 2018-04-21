@@ -12,8 +12,14 @@ abstract class AbstractController extends BaseAbstractController {
         return SubmissionPager::getParamsFromRequest($sortBy, $request);
     }
 
-    protected function validateCsrf(string $id, string $token) {
-        if (!$this->isCsrfTokenValid($id, $token)) {
+    /**
+     * @param string       $id
+     * @param string|mixed $token
+     *
+     * @throws BadRequestHttpException if the token isn't valid
+     */
+    protected function validateCsrf(string $id, $token): void {
+        if (!\is_string($token) || !$this->isCsrfTokenValid($id, $token)) {
             throw new BadRequestHttpException('Invalid CSRF token');
         }
     }
