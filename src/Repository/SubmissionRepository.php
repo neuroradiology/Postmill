@@ -117,9 +117,17 @@ class SubmissionRepository extends ServiceEntityRepository {
             throw new \InvalidArgumentException("Sort mode '$sortBy' not implemented");
         }
 
-        if (!$pager && !empty($options['stickies'])) {
-            // FIXME: won't work if there are >= $maxPerPage stickies (lol)
-            $qb->orderBy('sticky', 'DESC');
+        if (!empty($options['stickies'])) {
+            if (!$pager) {
+                // Order by stickies on page 1.
+                $qb->orderBy('sticky', 'DESC');
+            } else {
+                // Exclude all stickies from page 2 and onward, since they're
+                // assumed to be on page 1. Will miss all stickies that are
+                // meant to be on the next page. The solution is to not be a
+                // doofus and sticky more than $maxPerPage posts.
+                $qb->where($qb->expr()->eq('sticky', 'false'));
+            }
         }
 
         foreach (self::SORT_COLUMN_MAP[$sortBy] as $column) {
