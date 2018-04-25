@@ -4,6 +4,7 @@ import $ from 'jquery';
 import distanceInWords from 'date-fns/distance_in_words';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import isBefore from 'date-fns/is_before';
+import Translator from 'bazinga-translator';
 
 function makeTimesRelative(locale) {
     $('.relative-time[datetime]').each(function () {

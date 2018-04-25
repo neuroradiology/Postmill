@@ -29,6 +29,6 @@ Encore
 
 module.exports = merge(Encore.getWebpackConfig(), {
     externals: {
-        "fosjsrouting": "Routing"
+        "fosjsrouting": "Routing",
     },
 });

@@ -74,7 +74,7 @@ function vote($form, isUp) {
 
     const data = {
         choice: choice,
-        token: $form.find('input[name=token]').val()
+        token: $form.find('input[name=token]').val(),
     };
 
     $.post(url, data).done(() => {
@@ -88,7 +88,7 @@ function vote($form, isUp) {
 
         // update title attributes
         $form.find('.vote-up').attr('title', getUpButtonTitle(choice));
-        $form.find('.vote-down').attr('title', getDownButtonTitle(choice))
+        $form.find('.vote-down').attr('title', getDownButtonTitle(choice));
     }).fail((xhr, textStatus, err) => {
         console && console.log('Failed to vote', textStatus, err);
     });

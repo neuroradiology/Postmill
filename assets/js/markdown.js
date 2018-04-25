@@ -10,7 +10,7 @@ function createPreview() {
         url: Routing.generate('markdown_preview'),
         method: 'POST',
         dataType: 'html',
-        data: { markdown: $(this).val() }
+        data: { markdown: $(this).val() },
     }).done(content => {
         const html = content.length > 0
             ? `<div class="markdown-input__preview">${content}</div>`

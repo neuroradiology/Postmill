@@ -22,7 +22,7 @@ $(function () {
         Promise.all([
             import('highlight.js/lib/highlight'),
             import(`highlight.js/lib/languages/${language}`),
-            import(`highlight.js/styles/${theme}.css`)
+            import(`highlight.js/styles/${theme}.css`),
         ]).then(imports => {
             const [hljs, definition] = imports;
 
