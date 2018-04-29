@@ -9,13 +9,13 @@
         "font-blast": "^0.6.1",
         "fontello-cli": "^0.4.0",
         "less": "^2.7.3",
-        "less-loader": "^4.0.5",
+        "less-loader": "^4.1.0",
         "webpack": "^3.11.0",
-        "webpack-merge": "^4.1.1"
+        "webpack-merge": "^4.1.2"
     },
     "dependencies": {
         "babel-polyfill": "^6.26.0",
-        "bazinga-translator": "^2.6.5",
+        "bazinga-translator": "^2.6.6",
         "date-fns": "^1.29.0",
         "highlight.js": "^9.12.0",
         "jquery": "^3.3.1",
