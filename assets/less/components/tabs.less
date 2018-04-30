@@ -6,26 +6,25 @@
   margin-right: -1rem;
 
   &__bar {
+    background: @tab-background-color;
     display: flex;
     margin: 0 1rem 1rem 0;
     padding: 0;
   }
 
   &__tab {
+    border-bottom: solid 1px @tab-inactive-border-color;
     display: block;
     padding: 0;
+
+    &--active {
+      border-bottom: solid 3px @tab-active-border-color;
+    }
   }
 
   &__link {
-    border: solid 1px transparent;
-    color: @tab-color;
+    color: unset;
     display: block;
-    padding: 0.5rem 1rem;
-  }
-
-  &__link--active {
-    background: @tab-active-background-color;
-    border-color: @tab-active-border-color;
-    color: @tab-active-color;
+    padding: 0.4rem 0.7rem 0.2rem 0.7rem;
   }
 }
