@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Form\Model\ForumCategoryData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,6 +17,12 @@ class ForumCategoryType extends AbstractType {
             ])
             ->add('title', TextType::class, [
                 'label' => 'label.title',
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'label.description',
+            ])
+            ->add('sidebar', TextareaType::class, [
+                'label' => 'label.sidebar',
             ]);
     }
 

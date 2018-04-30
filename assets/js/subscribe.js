@@ -24,11 +24,11 @@ $(() => {
         $.ajax({
             url: Router.generate(subscribe ? 'subscribe' : 'unsubscribe', {
                 forum_name: forum,
-                _format: 'json'
+                _format: 'json',
             }),
             method: 'POST',
             data: $form.serialize(),
-            dataType: 'json'
+            dataType: 'json',
         }).done(() => {
             const proto = $button.data('toggle-prototype');
 

@@ -38,21 +38,46 @@ final class ForumCategoryData {
      */
     private $title;
 
+    /**
+     * @Assert\Length(max=300)
+     * @Assert\NotBlank()
+     *
+     * @var string|null
+     */
+    private $description;
+
+    /**
+     * @Assert\Length(max=1500)
+     * @Assert\NotBlank()
+     *
+     * @var string|null
+     */
+    private $sidebar;
+
     public function __construct(ForumCategory $forumCategory = null) {
         if ($forumCategory) {
             $this->entityId = $forumCategory->getId();
             $this->setName($forumCategory->getName());
             $this->title = $forumCategory->getTitle();
+            $this->description = $forumCategory->getDescription();
+            $this->sidebar = $forumCategory->getSidebar();
         }
     }
 
     public function toForumCategory(): ForumCategory {
-        return new ForumCategory($this->name, $this->title);
+        return new ForumCategory(
+            $this->name,
+            $this->title,
+            $this->description,
+            $this->sidebar
+        );
     }
 
     public function updateForumCategory(ForumCategory $category): void {
         $category->setName($this->name);
         $category->setTitle($this->title);
+        $category->setDescription($this->description);
+        $category->setSidebar($this->sidebar);
     }
 
     public function getEntityId(): ?int {
@@ -80,5 +105,21 @@ final class ForumCategoryData {
 
     public function setTitle(?string $title): void {
         $this->title = $title;
+    }
+
+    public function getDescription(): ?string {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): void {
+        $this->description = $description;
+    }
+
+    public function getSidebar(): ?string {
+        return $this->sidebar;
+    }
+
+    public function setSidebar(?string $sidebar): void {
+        $this->sidebar = $sidebar;
     }
 }

@@ -84,6 +84,7 @@ services:
     App\Security\AuthenticationHelper:
         arguments:
             $rememberMeServices: "@security.authentication.rememberme.services.simplehash.main"
+            $firewallMap: "@security.firewall.map"
             $secret: "%env(APP_SECRET)%"
 
     App\Security\Voter\TokenVoter:
@@ -98,10 +99,5 @@ services:
 
     ## Misc
 
-    Doctrine\DBAL\Connection: "@doctrine.dbal.default_connection"
-
-    Doctrine\Common\Persistence\ObjectManager: "@doctrine.orm.entity_manager"
     Doctrine\ORM\EntityManager: "@doctrine.orm.entity_manager"
     Doctrine\ORM\EntityManagerInterface: "@doctrine.orm.default_entity_manager"
-
-    Symfony\Bundle\SecurityBundle\Security\FirewallMap: "@security.firewall.map"

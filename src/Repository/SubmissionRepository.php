@@ -8,6 +8,7 @@ use App\Repository\Submission\SubmissionPager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Symfony\Component\HttpFoundation\Request;
 
 class SubmissionRepository extends ServiceEntityRepository {
     public const SORT_HOT = 'hot';
@@ -68,29 +69,24 @@ class SubmissionRepository extends ServiceEntityRepository {
     /**
      * The amazing submission finder.
      *
-     * @param string $sortBy    One of SORT_* constants
-     * @param array  $options   An array with the following keys:
-     *                          <ul>
-     *                          <li><kbd>forums</kbd>: IDs of forums to restrict
-     *                          to.
-     *                          <li><kbd>excluded_forums</kbd>: IDs of excluded
-     *                          (blacklisted) forums. Blacklisted forums will
-     *                          not be displayed even if they are included in
-     *                          <kbd>forums</kbd>.
-     *                          <li><kbd>users</kbd>: IDs of users to restrict to.
-     *                          <li><kbd>excluded_users</kbd>: IDs of excluded
-     *                          users. Again, blacklisting takes precedence.
-     *                          <li><kbd>stickies</kbd>: Put stickies first.
-     *                          <li><kbd>max_per_page</kbd>: Self-explanatory.
-     *                          </ul>
-     * @param array  $pager
+     * @param string  $sortBy  One of SORT_* constants
+     * @param array   $options An array with the following keys:
+     *                         <ul>
+     *                         <li><kbd>forums</kbd>
+     *                         <li><kbd>excluded_forums</kbd>
+     *                         <li><kbd>users</kbd>
+     *                         <li><kbd>excluded_users</kbd>
+     *                         <li><kbd>stickies</kbd> - show stickies first
+     *                         <li><kbd>max_per_page</kbd>
+     *                         </ul>
+     * @param Request $request Request to retrieve pager options from
      *
      * @return Submission[]|SubmissionPager
      *
      * @throws \InvalidArgumentException if $sortBy is bad
      * @throws NoSubmissionsException    if there are no submissions
      */
-    public function findSubmissions(string $sortBy, array $options = [], array $pager = []) {
+    public function findSubmissions(string $sortBy, array $options = [], Request $request = null) {
         $maxPerPage = $options['max_per_page'] ?? self::MAX_PER_PAGE;
 
         $rsm = $this->createResultSetMappingBuilder('s');
@@ -117,9 +113,21 @@ class SubmissionRepository extends ServiceEntityRepository {
             throw new \InvalidArgumentException("Sort mode '$sortBy' not implemented");
         }
 
-        if (!$pager && !empty($options['stickies'])) {
-            // FIXME: won't work if there are >= $maxPerPage stickies (lol)
-            $qb->orderBy('sticky', 'DESC');
+        $pager = $request
+            ? SubmissionPager::getParamsFromRequest($sortBy, $request)
+            : [];
+
+        if (!empty($options['stickies'])) {
+            if (!$pager) {
+                // Order by stickies on page 1.
+                $qb->orderBy('sticky', 'DESC');
+            } else {
+                // Exclude all stickies from page 2 and onward, since they're
+                // assumed to be on page 1. Will miss all stickies that are
+                // meant to be on the next page. The solution is to not be a
+                // doofus and sticky more than $maxPerPage posts.
+                $qb->where($qb->expr()->eq('sticky', 'false'));
+            }
         }
 
         foreach (self::SORT_COLUMN_MAP[$sortBy] as $column) {

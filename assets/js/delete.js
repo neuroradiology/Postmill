@@ -1,6 +1,7 @@
 'use strict';
 
 import $ from 'jquery';
+import Translator from 'bazinga-translator';
 
 $(function () {
     $('.confirm-comment-delete').click(function () {

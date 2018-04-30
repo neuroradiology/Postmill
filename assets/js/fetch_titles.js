@@ -13,7 +13,7 @@ $(function () {
                 url: Routing.generate('fetch_title'),
                 method: 'POST',
                 dataType: 'json',
-                data: { url: url }
+                data: { url: url },
             }).done(data => {
                 if ($receiver.val().trim() === '') {
                     $('.receive-title').val(data.title);

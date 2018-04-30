@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\ForumRepository;
 use App\Repository\SubmissionRepository;
-use App\Repository\Submission\SubmissionPager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -75,7 +74,7 @@ final class FrontController extends AbstractController {
 
         $submissions = $this->submissions->findSubmissions($sortBy, [
             'forums' => array_keys($this->forums->findFeaturedForumNames()),
-        ], $this->submissionPage($sortBy, $request));
+        ], $request);
 
         return $this->render('front/featured.html.twig', [
             'forums' => $forums,
@@ -97,7 +96,7 @@ final class FrontController extends AbstractController {
 
         $submissions = $this->submissions->findSubmissions($sortBy, [
             'forums' => array_keys($forums),
-        ], $this->submissionPage($sortBy, $request));
+        ], $request);
 
         return $this->render('front/subscribed.html.twig', [
             'forums' => $forums,
@@ -110,7 +109,7 @@ final class FrontController extends AbstractController {
 
     public function all(string $sortBy, Request $request): Response {
         $submissions = $this->submissions->findSubmissions($sortBy, [],
-            $this->submissionPage($sortBy, $request));
+            $request);
 
         return $this->render('front/all.html.twig', [
             'listing' => 'all',
@@ -126,7 +125,7 @@ final class FrontController extends AbstractController {
 
         $submissions = $this->submissions->findSubmissions($sortBy, [
             'forums' => array_keys($forums),
-        ], $this->submissionPage($sortBy, $request));
+        ], $request);
 
         return $this->render('front/moderated.html.twig', [
             'forums' => $forums,
@@ -141,7 +140,7 @@ final class FrontController extends AbstractController {
 
         $submissions = $this->submissions->findSubmissions($sortBy, [
             'forums' => array_keys($forums),
-        ], $this->submissionPage($sortBy, $request));
+        ], $request);
 
         return $this->render('front/featured.xml.twig', [
             'forums' => $forums,

@@ -46,6 +46,16 @@ class ForumCategory {
     private $title;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $sidebar;
+
+    /**
      * @ORM\OneToMany(targetEntity="Forum", mappedBy="category")
      * @ORM\OrderBy({"normalizedName": "ASC"})
      *
@@ -53,9 +63,11 @@ class ForumCategory {
      */
     private $forums;
 
-    public function __construct(string $name, string $title) {
+    public function __construct(string $name, string $title, string $description, string $sidebar) {
         $this->setName($name);
         $this->title = $title;
+        $this->description = $description;
+        $this->sidebar = $sidebar;
         $this->forums = new ArrayCollection();
     }
 
@@ -83,6 +95,22 @@ class ForumCategory {
 
     public function setTitle(string $title): void {
         $this->title = $title;
+    }
+
+    public function getDescription(): string {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): void {
+        $this->description = $description;
+    }
+
+    public function getSidebar(): string {
+        return $this->sidebar;
+    }
+
+    public function setSidebar(string $sidebar): void {
+        $this->sidebar = $sidebar;
     }
 
     /**
