@@ -2,14 +2,12 @@
 
 {% block page_classes 'subscribed-page' %}
 
-{% block body %}
+{% block front_alerts %}
   {% if not has_subscriptions %}
     <div class="alert alert--notice">
       <p>{{ 'front.no_subscriptions'|trans }}</p>
     </div>
   {% endif %}
-
-  {{ parent() }}
 {% endblock %}
 
 {% block sidebar %}
