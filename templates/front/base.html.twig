@@ -23,6 +23,8 @@
     <ul class="tabs__bar">{{ submission_filter(listing, sort_by) }}</ul>
   </nav>
 
+  {% block front_alerts '' %}
+
   {% for submission in submissions %}
     {{ submission(submission) }}
   {% endfor %}

@@ -8,9 +8,10 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * @see http://symfony.com/doc/current/session/locale_sticky_session.html
+ * @see https://symfony.com/doc/current/session/locale_sticky_session.html
  */
 final class LocaleListener {
     /**
@@ -23,12 +24,19 @@ final class LocaleListener {
      */
     private $tokenStorage;
 
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
     public function __construct(
         SessionInterface $session,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        TranslatorInterface $translator
     ) {
         $this->session = $session;
         $this->tokenStorage = $tokenStorage;
+        $this->translator = $translator;
     }
 
     public function onKernelRequest(GetResponseEvent $event) {
@@ -38,8 +46,10 @@ final class LocaleListener {
             return;
         }
 
-        if ($request->getSession()->has('_locale')) {
-            $request->setLocale($request->getSession()->get('_locale'));
+        $locale = $request->getSession()->get('_locale');
+
+        if ($locale) {
+            $request->setLocale($locale);
         }
     }
 
@@ -47,37 +57,28 @@ final class LocaleListener {
         $user = $event->getAuthenticationToken()->getUser();
 
         if ($user instanceof User) {
-            $this->configureLocale($user);
-        }
-    }
+            $locale = $user->getLocale();
 
-    public function postPersist(LifecycleEventArgs $args) {
-        $user = $args->getEntity();
+            $this->session->set('_locale', $locale);
 
-        if ($user instanceof User) {
-            $this->configureLocale($user);
+            $event->getRequest()->setLocale($locale);
+
+            // Because security.interactive_login runs after kernel.request,
+            // where the translator gets its locale, we must manually set the
+            // locale on the translator. There is no way around this.
+            $this->translator->setLocale($locale);
         }
     }
 
     public function postUpdate(LifecycleEventArgs $args) {
-        $this->postPersist($args);
-    }
+        $user = $args->getEntity();
 
-    private function configureLocale(User $user) {
-        if (
-            !$this->session->isStarted() ||
-            !$this->tokenStorage->getToken() ||
-            $this->tokenStorage->getToken()->getUser() !== $user
-        ) {
-            // The session is not started, or the logged in user is not the
-            // account being modified.
-            return;
-        }
+        if ($user instanceof User) {
+            $token = $this->tokenStorage->getToken();
 
-        if ($user->getLocale() !== null) {
-            $this->session->set('_locale', $user->getLocale());
-        } else {
-            $this->session->remove('_locale');
+            if ($token && $token->getUser() === $user) {
+                $this->session->set('_locale', $user->getLocale());
+            }
         }
     }
 }
