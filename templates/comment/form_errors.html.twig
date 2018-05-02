@@ -19,10 +19,9 @@
 
   <h1 class="page-heading">{{ block('title') }}</h1>
 
-  {% if comment %}
-    {{ comment(comment, {recurse: false}) }}
+  {% if parent %}
+    {{ comment(parent, {recurse: false}) }}
   {% endif %}
 
   {% include 'comment/_form.html.twig' with { form: form } only %}
 {% endblock %}
-
