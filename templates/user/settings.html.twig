@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-  {{ 'user_settings.title'|trans({'%username%': user.username}) }}
-{% endblock %}
+{% block title 'user_settings.title'|trans({'%username%': user.username}) %}
+{% block page_classes 'user-settings-page' %}
 
 {% block body %}
   <h1 class="page-heading">{{ block('title') }}</h1>
@@ -22,6 +21,8 @@
       <legend class="form__group-header">{{ 'label.posting'|trans }}</legend>
 
       {{ form_row(form.autoFetchSubmissionTitles) }}
+
+      {{ form_row(form.enablePostPreviews) }}
     </fieldset>
 
     <fieldset class="form__group">
@@ -35,8 +36,3 @@
     </fieldset>
   {{ form_end(form) }}
 {% endblock %}
-
-{% block page_classes %}
-  user-settings-page
-{% endblock %}
-

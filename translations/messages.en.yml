@@ -292,6 +292,7 @@ label:
     event.edit_comment: Edit comment
     forums_in_this_category: Forums in this category
     description: Description
+    show_post_previews: Show post previews
 
 log:
     comment_deletion: '%user% deleted comment by %author% in "%submission%"'
