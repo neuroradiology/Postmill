@@ -26,7 +26,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 /**
  * @Entity("forum", expr="repository.findOneOrRedirectToCanonical(forum_name, 'forum_name')")
  * @Entity("submission", expr="repository.findOneBy({forum: forum, id: submission_id})")
- * @Entity("comment", expr="repository.findOneBy({submission: submission, id: comment_id})")
+ * @Entity("comment", expr="repository.findOneBySubmissionAndIdOr404(submission, comment_id)")
  */
 final class CommentController extends AbstractController {
     public function list(CommentRepository $repository, int $page) {
@@ -79,9 +79,9 @@ final class CommentController extends AbstractController {
      * @param EntityManager            $em
      * @param Forum                    $forum
      * @param Submission               $submission
+     * @param Comment|null             $comment
      * @param Request                  $request
      * @param EventDispatcherInterface $dispatcher
-     * @param Comment|null             $comment
      *
      * @return Response
      */
@@ -89,9 +89,9 @@ final class CommentController extends AbstractController {
         EntityManager $em,
         Forum $forum,
         Submission $submission,
+        ?Comment $comment,
         Request $request,
-        EventDispatcherInterface $dispatcher,
-        Comment $comment = null
+        EventDispatcherInterface $dispatcher
     ) {
         $data = new CommentData($submission);
 
@@ -118,7 +118,7 @@ final class CommentController extends AbstractController {
             'form' => $form->createView(),
             'forum' => $forum,
             'submission' => $submission,
-            'comment' => $comment,
+            'parent' => $comment,
         ]);
     }
 
@@ -221,7 +221,7 @@ final class CommentController extends AbstractController {
             if (strpos($request->headers->get('Referer'), $commentUrl) === 0) {
                 // redirect to forum since redirect to referrer will 404
                 return $this->redirectToRoute('forum', [
-                    'forum_name' => $forum->getName()
+                    'forum_name' => $forum->getName(),
                 ]);
             }
         }
