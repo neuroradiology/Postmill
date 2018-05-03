@@ -209,7 +209,7 @@ reset_password:
     title: Restarigi pasvorton
 
 site_footer:
-    version: Povigita de %app% %version% (%branch%). Farita kun ☭.
+    version: Povigita de %app% %version% (%branch%)
 
 submission_form:
     title: Titolo

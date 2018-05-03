@@ -210,7 +210,7 @@ reset_password:
     title: Nollataan salasanaa
 
 site_footer:
-    version: Käytössä %app% %version% (%branch%). Tehty ☭lla.
+    version: Käytössä %app% %version% (%branch%)
 
 submission_form:
     title: Otsikko

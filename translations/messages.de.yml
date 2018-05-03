@@ -180,9 +180,6 @@ reset_password:
 
     title: Passwort zurücksetzen
 
-site_footer:
-    version: Running %app% %version% (%branch%). Made with ☭.
-
 submission_form:
     title: Titel
     url: URL

@@ -213,7 +213,7 @@ reset_password:
     title: Nullstille passord
 
 site_footer:
-    version: Kjører %app% %version% (%branch%). Laget med ☭.
+    version: Kjører %app% %version% (%branch%)
 
 submission_form:
     title: Tittel

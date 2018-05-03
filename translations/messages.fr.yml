@@ -276,7 +276,7 @@ reset_password:
     title: Réinitialisation de mot de passe
 
 site_footer:
-    version: '%app% %version% (%branch%) en cours d''exécution. Fait avec ☭.'
+    version: '%app% %version% (%branch%) en cours d''exécution'
 
 submission_form:
     title: Titre

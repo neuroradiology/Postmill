@@ -322,7 +322,7 @@ reset_password:
 
     # this should be kept at 76 columns --------------------------------------------
     email_body: |
-        Algúem solicitou a recuperação da senha para sua conta no %site_name% . 
+        Algúem solicitou a recuperação da senha para sua conta no %site_name% .
         Para recuperar sua senha, clique no link abaixo:
 
         %reset_link%
@@ -333,7 +333,7 @@ reset_password:
     title: Recuperar senha
 
 site_footer:
-    version: Rodando %app% %version% (%branch%). Feito com ☭.
+    version: Rodando %app% %version% (%branch%)
 
 submission_form:
     title: Título

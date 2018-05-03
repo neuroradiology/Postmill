@@ -382,7 +382,7 @@ reset_password:
     title: Restableciendo contraseña
 
 site_footer:
-    version: Usando %app% %version% (%branch%). Hecho con ☭.
+    version: Usando %app% %version% (%branch%)
 
 submission_form:
     title: Título

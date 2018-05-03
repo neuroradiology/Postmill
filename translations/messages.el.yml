@@ -342,7 +342,7 @@ reset_password:
     title: Επαναφορά κωδικού πρόσβασης
 
 site_footer:
-    version: Λειτουργώντας %app% %version% (%branch%). Φτιαγμένο με ☭.
+    version: Λειτουργώντας %app% %version% (%branch%)
 
 submission_form:
     title: Τίτλος

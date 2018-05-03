@@ -201,7 +201,7 @@ reset_password:
     title: Wachtwoord opnieuw instellen
 
 site_footer:
-    version: Deze site draait op %app% %version% (%branch%). Gemaakt met ☭.
+    version: Deze site draait op %app% %version% (%branch%)
 
 submission_form:
     title: Titel
