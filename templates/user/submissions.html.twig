@@ -6,16 +6,12 @@
   {{ include('_includes/meta_pagination.html.twig', {pager: submissions}) }}
 {% endblock %}
 
-{% block page_classes %}
-  user-submissions-page
-{% endblock %}
+{% block page_classes 'user-submissions-page' %}
 
-{% block title %}
-  {{ 'user.submissions'|trans }}
-{% endblock %}
+{% block title 'user.submissions'|trans %}
 
 {% block body %}
-  {{ include('user/_nav.html.twig', {user: user}, with_context=false) }}
+  {{ include('user/_nav.html.twig', {current: 'user_submissions', user: user}, with_context=false) }}
 
   <h1 class="page-heading">{{ block('title') }}</h1>
 
@@ -23,6 +19,5 @@
     {{ submission(submission) }}
   {% endfor %}
 
-  {{ include('_includes/pagination.html.twig', {pager: submissions}) }}
+  {{ include('_includes/pagination.html.twig', {pager: submissions}, with_context=false) }}
 {% endblock %}
-
