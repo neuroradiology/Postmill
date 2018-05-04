@@ -34,12 +34,7 @@ add_moderator:
 ban_add:
     title: Ban an IP address
 
-ban_form:
-    ip: IP address
-    reason: Reason for banning
-    expiry_date: Expires at (YYYY-MM-DD hh:mm)
-    ban: Ban
-    user: User associated with IP
+'Expires at (YYYY-MM-DD hh:mm)': Expires at (YYYY-MM-DD hh:mm)
 
 ban_list:
     ip: IP address
@@ -293,6 +288,8 @@ label:
     forums_in_this_category: Forums in this category
     description: Description
     show_post_previews: Show post previews
+    reason_for_banning: Reason for banning
+    user_associated_with_ip: User associated with IP
 
 log:
     comment_deletion: '%user% deleted comment by %author% in "%submission%"'
@@ -529,8 +526,3 @@ wiki:
     edit_page: Edit page
     navigation: Navigation
     last_edited: Last edited by %username% %timestamp%
-
-wiki_form:
-    title: Title
-    body: Body
-    submit: Submit

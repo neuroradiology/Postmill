@@ -13,15 +13,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class WikiType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-            ->add('title', TextType::class)
-            ->add('body', MarkdownType::class)
-            ->add('submit', SubmitType::class);
+            ->add('title', TextType::class, [
+                'label' => 'label.title',
+            ])
+            ->add('body', MarkdownType::class, [
+                'label' => 'label.body',
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'action.save',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults([
             'data_class' => WikiData::class,
-            'label_format' => 'wiki_form.%name%',
         ]);
     }
 }

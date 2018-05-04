@@ -27,19 +27,24 @@ final class IpBanType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-            ->add('ip', TextType::class)
-            ->add('reason', TextType::class)
+            ->add('ip', TextType::class, [
+                'label' => 'label.ip_address',
+            ])
+            ->add('reason', TextType::class, [
+                'label' => 'label.reason_for_banning',
+            ])
             ->add('expiryDate', DateTimeType::class, [
                 'date_widget' => 'single_text',
-                'label' => 'ban_form.expiry_date',
+                'label' => 'Expires at (YYYY-MM-DD hh:mm)',
                 'time_widget' => 'single_text',
                 'required' => false,
             ])
             ->add('user', TextType::class, [
+                'label' => 'label.user_associated_with_ip',
                 'required' => false,
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'ban_form.ban',
+                'label' => 'action.ban',
             ]);
 
         $builder->get('user')->addModelTransformer(
@@ -53,7 +58,6 @@ final class IpBanType extends AbstractType {
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults([
             'data_class' => IpBanData::class,
-            'label_format' => 'ban_form.%name%',
         ]);
     }
 }

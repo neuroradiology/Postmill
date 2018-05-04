@@ -3,6 +3,7 @@ action:
     downvote: Downvote
     retract_upvote: Upvote rückgängig machen
     retract_downvote: Downvote rückgängig machen
+    ban: Sperrung
 
 add_moderator:
     title: Moderator zu %forum% hinzufügen
@@ -10,12 +11,7 @@ add_moderator:
 ban_add:
     title: Eine IP Adresse sperren
 
-ban_form:
-    ip: IP Adresse
-    reason: Grund für Sperrung
-    expiry_date: Läuft um (YYYY-MM-DD hh:mm) ab
-    ban: Sperrung
-    user: Benutzer mit der IP
+'Expires at (YYYY-MM-DD hh:mm)': Läuft um (YYYY-MM-DD hh:mm) ab
 
 ban_list:
     title: Sperrungen
@@ -126,6 +122,11 @@ inbox:
     title: Posteingang
     clear_inbox: Posteingang leeren
     empty: Der Posteingang ist leer.
+
+label:
+    ip_address: IP Adresse
+    reason_for_banning: Grund für Sperrung
+    user_associated_with_ip: Benutzer mit der IP
 
 login_form:
     log_in: Einloggen

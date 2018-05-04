@@ -24,6 +24,7 @@ action:
     global_ban: Veto global
     filter: Filtrar
     create: Crear
+    save: Guardar
 
 add_moderator:
     title: Agrega una moderadora a %forum%
@@ -31,12 +32,7 @@ add_moderator:
 ban_add:
     title: Veta una dirección IP
 
-ban_form:
-    ip: Dirección IP
-    reason: Razón del veto
-    expiry_date: Expira el (YYYY-MM-DD hh:mm)
-    ban: Vetar
-    user: Usuaria asociada con la IP
+'Expires at (YYYY-MM-DD hh:mm)': Expira el (YYYY-MM-DD hh:mm)
 
 ban_list:
     title: Vetos
@@ -280,6 +276,9 @@ label:
     registration_date: Fecha de registro
     posting: Publicando
     auto_fetch_submission_titles: Obtener automáticamente títulos de publicaciones
+    reason_for_banning: Razón del veto
+    user_associated_with_ip: Usuaria asociada con la IP
+    body: Contenido
 
 log:
     comment_deletion: '%user% eliminó comentario por %author% en "%submission%"'
@@ -509,8 +508,3 @@ wiki:
     edit_page: Editar página
     navigation: Navigación
     last_edited: Última edición por %username% %timestamp%
-
-wiki_form:
-    title: Título
-    body: Contenido
-    submit: Publicar

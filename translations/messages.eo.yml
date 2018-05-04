@@ -3,6 +3,8 @@ action:
     downvote: Kontraŭvoĉdoni
     retract_upvote: Repreni porvoĉdonon
     retract_downvote: Repreni kontraŭvoĉdonon
+    ban: Forbari
+    save: Konservi
 
 add_moderator:
     title: Aldoni kontrolanton al %forum%
@@ -10,12 +12,7 @@ add_moderator:
 ban_add:
     title: Forbari IP-adreson
 
-ban_form:
-    ip: IP-adreso
-    reason: Kialo forbari
-    expiry_date: Finiĝos je (YYYY-MM-DD hh:mm)
-    ban: Forbari
-    user: Uzanto de IP
+'Expires at (YYYY-MM-DD hh:mm)': Finiĝos je (YYYY-MM-DD hh:mm)
 
 ban_list:
     title: Forbaroj
@@ -146,6 +143,10 @@ label:
     to: al
     sent: Sendis
     toolbox: Ilaro
+    ip: IP-adreso
+    reason_for_banning: Kialo forbari
+    user_associated_with_ip: Uzanto de IP
+    body: Korpo
 
 login_form:
     log_in: Saluti
@@ -301,8 +302,3 @@ wiki:
     edit_page: Redakti paĝon
     navigation: Navigado
     last_edited: Laste redaktis %username% %timestamp%
-
-wiki_form:
-    title: Titolo
-    body: Korpo
-    submit: Afiŝi
