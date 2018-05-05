@@ -76,6 +76,8 @@ class UserData implements UserInterface {
 
     private $autoFetchSubmissionTitles;
 
+    private $enablePostPreviews;
+
     private $admin = false;
 
     public static function fromUser(User $user): self {
@@ -91,6 +93,7 @@ class UserData implements UserInterface {
         $self->openExternalLinksInNewTab = $user->openExternalLinksInNewTab();
         $self->biography = $user->getBiography();
         $self->autoFetchSubmissionTitles = $user->autoFetchSubmissionTitles();
+        $self->enablePostPreviews = $user->enablePostPreviews();
         $self->admin = $user->isAdmin();
 
         return $self;
@@ -112,6 +115,7 @@ class UserData implements UserInterface {
         $user->setOpenExternalLinksInNewTab($this->openExternalLinksInNewTab);
         $user->setBiography($this->biography);
         $user->setAutoFetchSubmissionTitles($this->autoFetchSubmissionTitles);
+        $user->setEnablePostPreviews($this->enablePostPreviews);
         $user->setAdmin($this->admin);
     }
 
@@ -129,6 +133,7 @@ class UserData implements UserInterface {
             'preferredTheme',
             'openExternalLinksInNewTab',
             'autoFetchSubmissionTitles',
+            'enablePostPreviews',
         ];
 
         foreach ($settings as $setting) {
@@ -246,6 +251,14 @@ class UserData implements UserInterface {
 
     public function setAutoFetchSubmissionTitles(?bool $autoFetchSubmissionTitles): void {
         $this->autoFetchSubmissionTitles = $autoFetchSubmissionTitles;
+    }
+
+    public function enablePostPreviews(): bool {
+        return $this->enablePostPreviews;
+    }
+
+    public function setEnablePostPreviews(bool $enablePostPreviews): void {
+        $this->enablePostPreviews = $enablePostPreviews;
     }
 
     public function isAdmin(): bool {

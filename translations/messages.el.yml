@@ -19,6 +19,7 @@ action:
     delete: Διέγραψε
     remove: Αφαίρεσε
     global_ban: Πλήρης απαγόρευση
+    save: Υποβάλλετε
 
 add_moderator:
     title: Προσθέστε τον συντονιστή στο %forum%
@@ -26,12 +27,7 @@ add_moderator:
 ban_add:
     title: Κάντε απαγόρευση μιας διεύθυνσης IP
 
-ban_form:
-    ip: Διεύθυνση IP
-    reason: Λόγος απαγορευσεις
-    expiry_date: Λήγει σε (EEEE-ΜΜ-ΗΗ ΩΩ:ΛΛ)
-    ban: Απαγόρευση
-    user: Χρήστης που συνδέεται με τη διεύθυνση IP
+'Expires at (YYYY-MM-DD hh:mm)': Λήγει σε (EEEE-ΜΜ-ΗΗ ΩΩ:ΛΛ)
 
 ban_list:
     title: Απαγορευσεις
@@ -249,6 +245,9 @@ label:
     unban_associated_ips: Αφαιρέστε τις σχετικές απαγορεύσεις IP
     ip_address: Διεύθυνσης IP
     forum: Φόρουμ
+    reason_for_banning: Λόγος απαγορευσεις
+    user_associated_with_ip: Χρήστης που συνδέεται με τη διεύθυνση IP
+    body: Σώμα
 
 log:
     comment_deletion: '%user% διαγράψει σχόλιο που έκανε ο %author% στο "%submission%"'
@@ -342,7 +341,7 @@ reset_password:
     title: Επαναφορά κωδικού πρόσβασης
 
 site_footer:
-    version: Λειτουργώντας %app% %version% (%branch%). Φτιαγμένο με ☭.
+    version: Λειτουργώντας %app% %version% (%branch%)
 
 submission_form:
     title: Τίτλος
@@ -462,8 +461,3 @@ wiki:
     edit_page: Επεξεργασία σελίδας
     navigation: Πλοήγηση
     last_edited: Τελευταία επεξεργασία από %username% %timestamp%
-
-wiki_form:
-    title: Τίτλος
-    body: Σώμα
-    submit: Υποβάλλετε

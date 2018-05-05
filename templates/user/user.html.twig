@@ -4,14 +4,12 @@
 {% from 'comment/_macros.html.twig' import comment %}
 {% from _self import timestamp %}
 
-{% block title %}{{ user.username }}{% endblock %}
+{% block title user.username %}
 
-{% block page_classes %}
-  user-page
-{% endblock %}
+{% block page_classes 'user-page' %}
 
 {% block body %}
-  {{ include('user/_nav.html.twig', {user: user}, with_context=false) }}
+  {{ include('user/_nav.html.twig', {current: 'user', user: user}, with_context=false) }}
 
   <h1 class="page-heading">{{ user.username }}</h1>
 
@@ -19,7 +17,7 @@
     {% if contribution.type == 'submission' %}
       {{ submission(contribution.submission) }}
     {% elseif contribution.type == 'comment' %}
-      {{ comment(contribution.comment, {recurse: false}) }}
+      {{ comment(contribution.comment, {show_context: true}) }}
     {% endif %}
   {% endfor %}
 {% endblock %}

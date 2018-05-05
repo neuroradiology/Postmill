@@ -3,6 +3,8 @@ action:
     downvote: Alaääni
     retract_upvote: Peru ylä-ääni
     retract_downvote: Peru alaääni
+    ban: Banni
+    save: Tallenna
 
 add_moderator:
     title: Lisää moderaattori foorumille %forum%
@@ -10,12 +12,7 @@ add_moderator:
 ban_add:
     title: Bannaa IP-osoite
 
-ban_form:
-    ip: IP-osoite
-    reason: Bannauksen syy
-    expiry_date: Päättyy (VVVV-KK-PP hh:mm)
-    ban: Banni
-    user: IP-osoitteeseen liittyvä käyttäjä
+'Expires at (YYYY-MM-DD hh:mm)': Päättyy (VVVV-KK-PP hh:mm)
 
 ban_list:
     title: Bannit
@@ -148,6 +145,10 @@ label:
     to: Käyttäjälle
     sent: Lähetetty
     toolbox: Työkalut
+    ip_address: IP-osoite
+    reason_for_banning: Bannauksen syy
+    user_associated_with_ip: IP-osoitteeseen liittyvä käyttäjä
+    body: Sisältö
 
 login_form:
     log_in: Kirjaudu
@@ -210,7 +211,7 @@ reset_password:
     title: Nollataan salasanaa
 
 site_footer:
-    version: Käytössä %app% %version% (%branch%). Tehty ☭lla.
+    version: Käytössä %app% %version% (%branch%)
 
 submission_form:
     title: Otsikko
@@ -295,8 +296,3 @@ wiki:
     toolbox: Työkalut
     navigation: Navigointi
     last_edited: Viimeksi muokattu käyttäjän %username% toimesta %timestamp%
-
-wiki_form:
-    title: Otsikko
-    body: Sisältö
-    submit: Lisää

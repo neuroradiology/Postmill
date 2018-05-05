@@ -3,6 +3,7 @@ action:
     downvote: '-1'
     retract_upvote: '+1 verwijderen'
     retract_downvote: '-1 verwijderen'
+    ban: Verbanning
 
 add_moderator:
     title: Voeg een moderator toe aan %forum%
@@ -10,12 +11,7 @@ add_moderator:
 ban_add:
     title: Verban een IP-adres
 
-ban_form:
-    ip: IP-aders
-    reason: Verbanningsreden
-    expiry_date: Verloopt om (YYYY-MM-DD hh:mm)
-    ban: Verbanning
-    user: Gebruiker bij het IP
+'Expires at (YYYY-MM-DD hh:mm)': Verloopt om (YYYY-MM-DD hh:mm)
 
 ban_list:
     title: Verbanningen
@@ -138,6 +134,9 @@ inbox:
 
 label:
     toolbox: Gereedschapskist
+    ip_address: IP-aders
+    reason_for_banning: Verbanningsreden
+    user_associated_with_ip: Gebruiker bij het IP
 
 login_form:
     log_in: Log in
@@ -201,7 +200,7 @@ reset_password:
     title: Wachtwoord opnieuw instellen
 
 site_footer:
-    version: Deze site draait op %app% %version% (%branch%). Gemaakt met ☭.
+    version: Deze site draait op %app% %version% (%branch%)
 
 submission_form:
     title: Titel

@@ -3,6 +3,7 @@ action:
     downvote: Stem ned
     retract_upvote: Fjern oppstemning
     retract_downvote: Fjern nedstemning
+    ban: Utesteng
 
 add_moderator:
     title: Legg til moderator for %forum%
@@ -10,12 +11,7 @@ add_moderator:
 ban_add:
     title: Utesteng en IP-adresse
 
-ban_form:
-    ip: IP-adresse
-    reason: Årsak for utestengelse
-    expiry_date: Varer til (ÅÅÅÅ-MM-DD tt:mm)
-    ban: Utesteng
-    user: Bruker assosiert med IP
+'Expires at (YYYY-MM-DD hh:mm)': Varer til (ÅÅÅÅ-MM-DD tt:mm)
 
 ban_list:
     title: Utestengelser
@@ -149,6 +145,9 @@ label:
     to: Til
     sent: Sendt
     toolbox: Verktøy
+    ip_address: IP-adresse
+    reason_for_banning: Årsak for utestengelse
+    user_associated_with_ip: Bruker assosiert med IP
 
 login_form:
     log_in: Logg inn
@@ -213,7 +212,7 @@ reset_password:
     title: Nullstille passord
 
 site_footer:
-    version: Kjører %app% %version% (%branch%). Laget med ☭.
+    version: Kjører %app% %version% (%branch%)
 
 submission_form:
     title: Tittel

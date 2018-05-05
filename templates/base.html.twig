@@ -19,7 +19,10 @@
     {% block head %}{% endblock %}
   </head>
 
-  <body class="{% block page_classes '' %} {{ app.user ? 'user-logged-in' : 'user-anonymous' }} {{ (app.user.nightMode ?? false) ? 'night-mode' }}">
+  <body class="{% block page_classes '' %}
+      {{ app.user ? 'user-logged-in' : 'user-anonymous' }}
+      {{ (app.user.nightMode ?? false) ? 'night-mode' }}
+      {{ (app.user.enablePostPreviews ?? true) ? 'js-enable-post-previews' }}">
     {% block site_nav %}
       {{ include('_includes/site_nav.html.twig', {forum: forum ?? null}, with_context=false) }}
     {% endblock %}

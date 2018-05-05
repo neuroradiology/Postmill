@@ -12,7 +12,7 @@
   <h1 class="page-heading">{{ block('title') }}</h1>
 
   {% for comment in comments %}
-    {{ comment(comment, {recurse: false}) }}
+    {{ comment(comment, {show_context: true}) }}
   {% endfor %}
 
   {{ include('_includes/pagination.html.twig', {pager: comments}, with_context=false) }}

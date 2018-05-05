@@ -51,6 +51,10 @@ final class UserSettingsType extends AbstractType {
                 'label' => 'label.auto_fetch_submission_titles',
                 'required' => false,
             ])
+            ->add('enablePostPreviews', CheckboxType::class, [
+                'label' => 'label.show_post_previews',
+                'required' => false,
+            ])
             ->add('save', SubmitType::class);
     }
 

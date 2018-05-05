@@ -15,6 +15,7 @@ action:
     go_to_home_page: Aller à la page d'accueil
     ban: Bannir
     unban: Ne plus bannir
+    save: Sauvegarder
 
 add_moderator:
     title: Ajouter à la modération de %forum%
@@ -22,12 +23,7 @@ add_moderator:
 ban_add:
     title: Bannir une adresse IP
 
-ban_form:
-    ip: Adresse IP
-    reason: Raison de bannir
-    expiry_date: Expire le (AAAA-MM-JJ hh:mm)
-    ban: Bannir
-    user: Compte associé à l'IP
+'Expires at (YYYY-MM-DD hh:mm)': Expire le (AAAA-MM-JJ hh:mm)
 
 ban_list:
     title: Bannissements
@@ -190,6 +186,11 @@ label:
     general: Général
     appearance: Apparence
     preferred_theme: Thème préféré
+    ip_address: Adresse IP
+    reason_for_banning: Raison de bannir
+    user_associated_with_ip: Compte associé à l'IP
+    title: Titre
+    body: Corps
 
 login_form:
     log_in: Connexion
@@ -276,7 +277,7 @@ reset_password:
     title: Réinitialisation de mot de passe
 
 site_footer:
-    version: '%app% %version% (%branch%) en cours d''exécution. Fait avec ☭.'
+    version: '%app% %version% (%branch%) en cours d''exécution'
 
 submission_form:
     title: Titre
@@ -393,8 +394,3 @@ wiki:
     toolbox: Boîte à outils
     navigation: Navigation
     last_edited: Dernière modification par %username% %timestamp%
-
-wiki_form:
-    title: Titre
-    body: Corps
-    submit: Envoyer

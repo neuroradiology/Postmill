@@ -19,19 +19,13 @@ action:
     delete: Apagar
     remove: Remover
 
-
 add_moderator:
     title: Adicionar moderador à %forum%
 
 ban_add:
     title: Banir um endereço de IP
 
-ban_form:
-    ip: Endereço IP
-    reason: Motivo para banir
-    expiry_date: Expira em (YYYY-MM-DD hh:mm)
-    ban: Banir
-    user: Usuário associado ao IP
+'Expires at (YYYY-MM-DD hh:mm)': Expira em (YYYY-MM-DD hh:mm)
 
 ban_list:
     title: Banimentos
@@ -243,6 +237,10 @@ label:
     open_external_links_in_new_tab: Abrir links em nova aba
     biography: Biografia
     toolbox: Ferramentas
+    ip_address: Endereço IP
+    reason_for_banning: Motivo para banir
+    user_associated_with_ip: Usuário associado ao IP
+    body: Corpo
 
 log:
     comment_deletion: '%user% deletou o comentário de %author% em "%submission%"'
@@ -322,7 +320,7 @@ reset_password:
 
     # this should be kept at 76 columns --------------------------------------------
     email_body: |
-        Algúem solicitou a recuperação da senha para sua conta no %site_name% . 
+        Algúem solicitou a recuperação da senha para sua conta no %site_name% .
         Para recuperar sua senha, clique no link abaixo:
 
         %reset_link%
@@ -333,7 +331,7 @@ reset_password:
     title: Recuperar senha
 
 site_footer:
-    version: Rodando %app% %version% (%branch%). Feito com ☭.
+    version: Rodando %app% %version% (%branch%)
 
 submission_form:
     title: Título
@@ -449,8 +447,3 @@ wiki:
     edit_page: Alterar página
     navigation: Navegação
     last_edited: Alterado por %username% %timestamp%
-
-wiki_form:
-    title: Título
-    body: Corpo
-    submit: Enviar

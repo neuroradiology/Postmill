@@ -21,11 +21,10 @@ final class Differ {
      *
      * @param string $from
      * @param string $to
-     * @param int    $context
      *
      * @return array[]
      */
-    public static function diff(string $from, string $to, int $context = 0): array {
+    public static function diff(string $from, string $to): array {
         $from = preg_split('/\R/', $from);
         $to = preg_split('/\R/', $to);
 
@@ -46,7 +45,6 @@ final class Differ {
                 if ($i > 0 && $diff[$i - 1][1] == self::B_REMOVED) {
                     $newLineNo++;
                     $oldLineNo++;
-                    $includedIndexes[$i] = true;
 
                     $output[] = [
                         'type' => 'changed',
@@ -57,7 +55,6 @@ final class Differ {
                     ];
                 } else {
                     $newLineNo++;
-                    $includedIndexes[$i] = true;
 
                     $output[] = [
                         'type' => 'added',
@@ -71,7 +68,6 @@ final class Differ {
             case self::B_REMOVED:
                 if ($i == $len - 1 || $diff[$i + 1][1] != self::B_ADDED) {
                     $oldLineNo++;
-                    $includedIndexes[$i] = true;
 
                     $output[] = [
                         'type' => 'removed',

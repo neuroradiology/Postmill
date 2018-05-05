@@ -114,11 +114,11 @@ final class CommentController extends AbstractController {
         }
 
         return $this->render('comment/form_errors.html.twig', [
+            'comment' => $comment,
             'editing' => false,
             'form' => $form->createView(),
             'forum' => $forum,
             'submission' => $submission,
-            'parent' => $comment,
         ]);
     }
 

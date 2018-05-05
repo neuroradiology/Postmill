@@ -37,7 +37,7 @@
 {% block notification_comment %}
   {% from 'comment/_macros.html.twig' import comment %}
 
-  {{ comment(notification.comment, {recurse: false}) }}
+  {{ comment(notification.comment, {show_context: true}) }}
 {% endblock %}
 
 {% block notification_message_thread %}

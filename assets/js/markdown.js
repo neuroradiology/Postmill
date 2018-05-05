@@ -24,5 +24,9 @@ function createPreview() {
 }
 
 $(function () {
-    $(document).on('input', '.markdown-input__input', debounce(createPreview, 600));
+    $(document).on(
+        'input',
+        '.js-enable-post-previews .markdown-input__input',
+        debounce(createPreview, 600)
+    );
 });

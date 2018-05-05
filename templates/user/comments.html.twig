@@ -6,22 +6,18 @@
   {{ include('_includes/meta_pagination.html.twig', {pager: comments}) }}
 {% endblock %}
 
-{% block page_classes %}
-  user-comments-page
-{% endblock %}
+{% block page_classes 'user-comments-page' %}
 
-{% block title %}
-  {{ 'user.comments'|trans }}
-{% endblock %}
+{% block title 'user.comments'|trans %}
 
 {% block body %}
-  {{ include('user/_nav.html.twig', {user: user}, with_context=false) }}
+  {{ include('user/_nav.html.twig', {current: 'user_comments', user: user}, with_context=false) }}
 
   <h1 class="page-heading">{{ block('title') }}</h1>
 
   {% for comment in comments %}
-    {{ comment(comment, {recurse: false}) }}
+    {{ comment(comment, {show_context: true}) }}
   {% endfor %}
 
-  {{ include('_includes/pagination.html.twig', { pager: comments }) }}
+  {{ include('_includes/pagination.html.twig', {pager: comments}, with_context=false) }}
 {% endblock %}
