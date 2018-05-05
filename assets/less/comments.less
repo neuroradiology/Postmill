@@ -1,44 +1,6 @@
 @import (reference) 'mixins';
 @import (reference) 'settings';
 
-.comment {
-  border: solid 1px @comment-border-color;
-  margin-bottom: 1rem;
-  padding-top: 0.5rem;
-
-  &:target > .comment-row {
-    background: @comment-highlight-background;
-    border: dotted 1px;
-  }
-
-  .comment-replies & {
-    // let inner replies have a smaller margin
-    margin: 0 0.5rem 0.5rem;
-  }
-
-  .comment-body {
-    padding-right: 0.5rem;
-    word-wrap: break-word;
-  }
-}
-
-.comment-info {
-  .meta;
-  font-weight: normal;
-}
-
-.comment-row {
-  .vote-flex;
-}
-
-.comment-nav {
-  .meta-nav;
-
-  ul {
-    margin-bottom: 0.5rem;
-  }
-}
-
 /*
  * 1. Hide label in comment form.
  */

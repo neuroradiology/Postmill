@@ -28,7 +28,7 @@
 
   <div class="submission-comments">
     {% for comment in submission.topLevelComments %}
-      {{ comment(comment) }}
+      {{ comment(comment, {recurse: true}) }}
     {% endfor %}
   </div>
 {% endblock %}

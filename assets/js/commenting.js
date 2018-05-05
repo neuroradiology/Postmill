@@ -6,15 +6,13 @@ import Translator from 'bazinga-translator';
 // load comment forms via ajax
 
 $(function () {
-    $('.comment-nav-reply').show();
-
     // hide open forms (they're initially visible for non-js users)
     $('.comment .comment-form').hide();
 
-    $('.comment-nav-reply a[data-form-url]').click(function (event) {
+    $('.comment__reply-link').click(function (event) {
         event.preventDefault();
 
-        const $parent = $(this).closest('.comment-inner');
+        const $parent = $(this).closest('.comment__main');
         const $existingForm = $parent.find('> .comment-form');
 
         // remove existing error messages
