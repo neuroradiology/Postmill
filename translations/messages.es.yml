@@ -487,7 +487,6 @@ user_settings:
 user_settings_form:
     locale: Idioma
     night_mode: Modo nocturno
-    show_custom_stylesheets: Mostrar hojas de estilos personalizadas
     save: Guardar cambios
 
 wiki:

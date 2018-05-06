@@ -371,7 +371,6 @@ user_settings:
 user_settings_form:
     locale: Langue
     night_mode: Mode nuit
-    show_custom_stylesheets: Afficher des feuilles de style personnalisées
     save: Sauvegarder les modifications
 
 wiki:

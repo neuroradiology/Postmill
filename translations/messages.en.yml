@@ -292,6 +292,7 @@ label:
     show_post_previews: Show post previews
     reason_for_banning: Reason for banning
     user_associated_with_ip: User associated with IP
+    let_forums_override_preferred_theme: Let forums override preferred theme
 
 log:
     comment_deletion: '%user% deleted comment by %author% in "%submission%"'
@@ -507,7 +508,6 @@ user_settings:
 user_settings_form:
     locale: Language
     night_mode: Night mode
-    show_custom_stylesheets: Show custom stylesheets
     save: Save changes
 
 wiki:

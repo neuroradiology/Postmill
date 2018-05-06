@@ -440,7 +440,6 @@ user_settings:
 user_settings_form:
     locale: Γλώσσα
     night_mode: Νυχτερινή λειτουργία
-    show_custom_stylesheets: Εμφάνιση προσαρτημένων φύλλων στυλ
     save: Αποθήκευσε τις αλλαγές
 
 wiki:
