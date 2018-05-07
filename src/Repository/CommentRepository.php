@@ -5,9 +5,8 @@ namespace App\Repository;
 use App\Entity\Comment;
 use App\Entity\Submission;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Pagerfanta\Adapter\DoctrineSelectableAdapter;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -34,7 +33,7 @@ class CommentRepository extends ServiceEntityRepository {
 
         $comment = $this->findOneBy(['submission' => $submission, 'id' => $id]);
 
-        if (!$comment) {
+        if (!$comment instanceof Comment) {
             throw new NotFoundHttpException('No such comment');
         }
 
@@ -48,14 +47,66 @@ class CommentRepository extends ServiceEntityRepository {
      * @return Pagerfanta|Comment[]
      */
     public function findRecentPaginated(int $page, int $maxPerPage = 25) {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('softDeleted', false))
-            ->orderBy(['timestamp' => 'DESC']);
+        $query = $this->createQueryBuilder('c')
+            ->where('c.softDeleted = FALSE')
+            ->orderBy('c.id', 'DESC');
 
-        $pager = new Pagerfanta(new DoctrineSelectableAdapter($this, $criteria));
+        $pager = new Pagerfanta(new DoctrineORMAdapter($query, false, false));
         $pager->setMaxPerPage($maxPerPage);
         $pager->setCurrentPage($page);
 
+        $this->hydrateComments(\iterator_to_array($pager));
+
         return $pager;
+    }
+
+    private function hydrateComments(array $comments): void {
+        // hydrate parent and parent's author
+        $this->createQueryBuilder('c')
+            ->select('PARTIAL c.{id}')
+            ->addSelect('p')
+            ->addSelect('pu')
+            ->leftJoin('c.parent', 'p')
+            ->leftJoin('p.user', 'pu')
+            ->where('c IN (?1)')
+            ->setParameter(1, $comments)
+            ->getQuery()
+            ->execute();
+
+        // hydrate comment author/submission/submission author/forum
+        $this->createQueryBuilder('c')
+            ->select('PARTIAL c.{id}')
+            ->addSelect('cu')
+            ->addSelect('s')
+            ->addSelect('su')
+            ->addSelect('f')
+            ->join('c.user', 'cu')
+            ->join('c.submission', 's')
+            ->join('s.user', 'su')
+            ->join('s.forum', 'f')
+            ->where('c IN (?1)')
+            ->setParameter(1, $comments)
+            ->getQuery()
+            ->execute();
+
+        // hydrate votes
+        $this->createQueryBuilder('c')
+            ->select('PARTIAL c.{id}')
+            ->addSelect('cv')
+            ->leftJoin('c.votes', 'cv')
+            ->where('c IN (?1)')
+            ->setParameter(1, $comments)
+            ->getQuery()
+            ->execute();
+
+        // hydrate children (for count only)
+        $this->createQueryBuilder('c')
+            ->select('PARTIAL c.{id}')
+            ->addSelect('PARTIAL r.{id}')
+            ->leftJoin('c.children', 'r')
+            ->where('c IN (?1)')
+            ->setParameter(1, $comments)
+            ->getQuery()
+            ->execute();
     }
 }
