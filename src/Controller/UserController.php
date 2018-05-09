@@ -40,12 +40,23 @@ final class UserController extends AbstractController {
      * Show the user's profile page.
      *
      * @param User           $user
-     * @param UserRepository $repository
+     * @param Request        $request
+     * @param UserRepository $users
      *
      * @return Response
      */
-    public function userPage(User $user, UserRepository $repository) {
-        $contributions = $repository->findLatestContributions($user);
+    public function userPage(User $user, Request $request, UserRepository $users) {
+        $nextUnixTime = $request->query->getInt('next_timestamp');
+
+        if ($nextUnixTime) {
+            $nextTimestamp = new \DateTime('@'.$nextUnixTime);
+        }
+
+        $contributions = $users->findContributions($user, $nextTimestamp ?? null);
+
+        if ($nextUnixTime && !\count($contributions)) {
+            throw $this->createNotFoundException('No such page');
+        }
 
         return $this->render('user/user.html.twig', [
             'contributions' => $contributions,

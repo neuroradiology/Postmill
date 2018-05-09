@@ -426,7 +426,6 @@ user_settings:
 user_settings_form:
     locale: Idioma
     night_mode: Modo noturno
-    show_custom_stylesheets: Mostrar estilos customizados
     save: Salvar alterções
 
 wiki:

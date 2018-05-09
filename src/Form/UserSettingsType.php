@@ -38,6 +38,7 @@ final class UserSettingsType extends AbstractType {
                 'required' => false,
             ])
             ->add('show_custom_stylesheets', CheckboxType::class, [
+                'label' => 'label.let_forums_override_preferred_theme',
                 'required' => false,
             ])
             ->add('preferred_theme', ThemeSelectorType::class, [
