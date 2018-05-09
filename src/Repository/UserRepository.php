@@ -9,7 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\DBAL\Types\Type;
 use Pagerfanta\Adapter\DoctrineSelectableAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
@@ -44,9 +44,11 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     }
 
     /**
-     * {@inheritdoc}
+     * @param string|null $username
+     *
+     * @return User|null
      */
-    public function loadUserByUsername($username) {
+    public function loadUserByUsername($username): ?User {
         if ($username === null) {
             return null;
         }
@@ -98,68 +100,87 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     }
 
     /**
-     * Find the latest comments and submissions for a user, combined.
+     * Find the combined contributions (comments and submissions) of a user.
      *
-     * This takes 1-3 queries to complete. If there is a better way of
-     * performing this, I'm unaware of it.
+     * This has the potential of skipping some contributions if they were posted
+     * at the same second, and if they were to appear on separate pages. This is
+     * an edge case, so we don't really care.
      *
-     * @param User $user
-     * @param int  $limit
+     * @param User           $user
+     * @param \DateTime|null $nextTimestamp
      *
-     * @return array
+     * @return object
      */
-    public function findLatestContributions(User $user, int $limit = 25) {
-        $sql = <<<EOSQL
-SELECT JSON_AGG(id) AS ids, type FROM (
-        SELECT id, timestamp, 'comment'::TEXT AS type FROM comments WHERE user_id = :user_id
-    UNION ALL
-        SELECT id, timestamp, 'submission'::TEXT AS type FROM submissions WHERE user_id = :user_id
-    ORDER BY timestamp DESC
-    LIMIT :limit
-) q
-GROUP BY type
-EOSQL;
+    public function findContributions(User $user, ?\DateTime $nextTimestamp) {
+        if (!$nextTimestamp) {
+            $nextTimestamp = new \DateTime('@'.time());
+        }
 
-        $rsm = new ResultSetMapping();
-        $rsm->addScalarResult('ids', 'ids', 'json_array'); // not really scalar
-        $rsm->addIndexByScalar('type');
-
-        $contributions = $this->_em->createNativeQuery($sql, $rsm)
-            ->setParameter(':user_id', $user->getId())
-            ->setParameter(':limit', $limit, 'integer')
+        $submissions = $this->_em->createQueryBuilder()
+            ->select('s')
+            ->from(Submission::class, 's')
+            ->where('s.user = ?1')
+            ->andWhere('s.timestamp <= ?2')
+            ->setParameter(1, $user)
+            ->setParameter(2, $nextTimestamp, Type::DATETIMETZ)
+            ->orderBy('s.timestamp', 'DESC')
+            ->setMaxResults(26)
+            ->getQuery()
             ->execute();
 
-        if (!empty($contributions['comment']['ids'])) {
-            $comments = $this->_em->createQueryBuilder()
-                ->select('c AS comment')
-                ->addSelect('c.timestamp AS timestamp')
-                ->addSelect("'comment' AS type")
-                ->from(Comment::class, 'c')
-                ->where('c.id IN (?1)')
-                ->getQuery()
-                ->setParameter(1, $contributions['comment']['ids'])
-                ->execute();
-        }
+        $comments = $this->_em->createQueryBuilder()
+            ->select('c')
+            ->from(Comment::class, 'c')
+            ->where('c.softDeleted = FALSE')
+            ->andWhere('c.user = ?1')
+            ->andWhere('c.timestamp <= ?2')
+            ->setParameter(1, $user)
+            ->setParameter(2, $nextTimestamp, Type::DATETIMETZ)
+            ->orderBy('c.timestamp', 'DESC')
+            ->setMaxResults(26)
+            ->getQuery()
+            ->execute();
 
-        if (!empty($contributions['submission']['ids'])) {
-            $submissions = $this->_em->createQueryBuilder()
-                ->select('s AS submission')
-                ->addSelect('s.timestamp AS timestamp')
-                ->addSelect("'submission' AS type")
-                ->from(Submission::class, 's')
-                ->where('s.id IN (?1)')
-                ->getQuery()
-                ->setParameter(1, $contributions['submission']['ids'])
-                ->execute();
-        }
+        $combined = \array_merge($submissions, $comments);
 
-        $combined = array_merge($comments ?? [], $submissions ?? []);
-
-        usort($combined, function ($a, $b) {
-            return $b['timestamp'] <=> $a['timestamp'];
+        \usort($combined, function ($a, $b) {
+            return $b->getTimestamp() <=> $a->getTimestamp();
         });
 
-        return $combined;
+        $contributions = \array_map(function ($element) {
+            $type = $element instanceof Submission ? 'submission' : 'comment';
+
+            return ['type' => $type, $type => $element];
+        }, \array_slice($combined, 0, 25));
+
+        // 26th element of $combined determines if there is a 'next' button
+        return new class($contributions, $combined[25] ?? null) implements \IteratorAggregate, \Countable {
+            private $contributions;
+            private $pagerEntity;
+
+            public function __construct(array $contributions, $pagerEntity) {
+                $this->contributions = $contributions;
+                $this->pagerEntity = $pagerEntity;
+            }
+
+            public function hasNextPage(): bool {
+                return isset($this->pagerEntity);
+            }
+
+            public function getNextPageParams() {
+                $unixTime = $this->pagerEntity->getTimestamp()->getTimestamp();
+
+                return ['next_timestamp' => $unixTime];
+            }
+
+            public function count(): int {
+                return \count($this->contributions);
+            }
+
+            public function getIterator() {
+                return new \ArrayIterator($this->contributions);
+            }
+        };
     }
 
     /**
