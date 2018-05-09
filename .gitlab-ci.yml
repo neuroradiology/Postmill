@@ -1,19 +1,6 @@
-image: php:7.1
-
 cache:
     paths:
         - vendor/
-
-before_script:
-    - apt-get update -yqq
-    - apt-get install -yqq git libmcrypt-dev libpq-dev libcurl4-gnutls-dev libicu-dev libvpx-dev libjpeg-dev libpng-dev libxpm-dev zlib1g-dev libfreetype6-dev libxml2-dev libexpat1-dev libbz2-dev libgmp3-dev libldap2-dev unixodbc-dev libsqlite3-dev libaspell-dev libsnmp-dev libpcre3-dev libtidy-dev
-    - docker-php-ext-install mbstring mcrypt pdo_pgsql curl json intl gd xml zip bz2 opcache
-    - pecl install apcu
-    - docker-php-ext-enable apcu
-    - curl -sS https://getcomposer.org/installer | php
-    - php composer.phar install -n
-    - bin/console doctrine:migrations:migrate -nq
-    - bin/console doctrine:fixtures:load -n
 
 services:
     - postgres:9.6-alpine
@@ -26,6 +13,31 @@ variables:
     POSTGRES_PASSWORD: ""
     SITE_NAME: Postmill
 
-test:
+.php-test: &php-test
+    before_script:
+        - apt-get update -yqq
+        - apt-get install -yqq git libpq-dev libcurl4-gnutls-dev libicu-dev
+          libvpx-dev libjpeg-dev libpng-dev libxpm-dev zlib1g-dev
+          libfreetype6-dev libxml2-dev libexpat1-dev libbz2-dev libgmp3-dev
+          libldap2-dev unixodbc-dev libsqlite3-dev libaspell-dev libsnmp-dev
+          libpcre3-dev libtidy-dev
+        - docker-php-ext-install mbstring pdo_pgsql curl json intl gd xml zip
+          bz2 opcache
+        - pecl install apcu
+        - docker-php-ext-enable apcu
+        - curl -sS https://getcomposer.org/installer | php
+        - php composer.phar install -n
+        - bin/console doctrine:migrations:migrate -nq
+        - bin/console doctrine:fixtures:load -n
     script:
+        - find {config,public,src,tests} -type f -name '*.php' -print0 |
+          xargs -0 -n1 -P4 php -l -n | (! grep -v "No syntax errors detected" )
         - bin/phpunit --coverage-text --colors=never
+
+test:7.1:
+    <<: *php-test
+    image: php:7.1
+
+test:7.2:
+    <<: *php-test
+    image: php:7.2
