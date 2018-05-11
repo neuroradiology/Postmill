@@ -49,9 +49,9 @@
       </div>
     </form>
   {% else %}
-    <div class="alert alert--notice">
-      <p>{{ 'flash.no_entries_to_display'|trans }}</p>
-    </div>
+    <p class="no-entries">
+      <small class="dimmed">{{ 'flash.no_entries_to_display'|trans }}</small>
+    </p>
   {% endif %}
 {% endblock %}
 

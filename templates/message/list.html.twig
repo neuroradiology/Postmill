@@ -39,9 +39,9 @@
       </tbody>
     </table>
   {% else %}
-    <div class="alert alert--notice">
-      <p>{{ 'flash.no_messages'|trans }}</p>
-    </div>
+    <p class="no-entries">
+      <small class="dimmed">{{ 'flash.no_messages'|trans }}</small>
+    </p>
   {% endif %}
 
   {{ include('_includes/pagination.html.twig', {pager: messages}, with_context=false) }}

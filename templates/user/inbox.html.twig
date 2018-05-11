@@ -23,7 +23,9 @@
       </div>
     </form>
   {% else %}
-    <p>{{ 'inbox.empty'|trans }}</p>
+    <p class="no-entries">
+      <small class="dimmed">{{ 'inbox.empty'|trans }}</small>
+    </p>
   {% endif %}
 
   {% for notification in notifications %}
