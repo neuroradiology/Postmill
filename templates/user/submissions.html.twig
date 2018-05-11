@@ -17,6 +17,10 @@
 
   {% for submission in submissions %}
     {{ submission(submission) }}
+  {% else %}
+    <p class="no-entries">
+      <small class="dimmed">{{ 'flash.no_entries_to_display'|trans }}</small>
+    </p>
   {% endfor %}
 
   {{ include('_includes/pagination.html.twig', {pager: submissions}, with_context=false) }}

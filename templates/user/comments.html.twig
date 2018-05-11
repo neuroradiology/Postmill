@@ -17,6 +17,10 @@
 
   {% for comment in comments %}
     {{ comment(comment, {show_context: true}) }}
+  {% else %}
+    <p class="no-entries">
+      <small class="dimmed">{{ 'flash.no_entries_to_display'|trans }}</small>
+    </p>
   {% endfor %}
 
   {{ include('_includes/pagination.html.twig', {pager: comments}, with_context=false) }}
