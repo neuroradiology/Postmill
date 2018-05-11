@@ -21,6 +21,10 @@
     {% elseif contribution.type == 'comment' %}
       {{ comment(contribution.comment, {show_context: true}) }}
     {% endif %}
+  {% else %}
+    <p class="no-entries">
+      <small class="dimmed">{{ 'flash.no_entries_to_display'|trans }}</small>
+    </p>
   {% endfor %}
 
   {{ include('_includes/pagination.html.twig', {pager: contributions}, with_context=false) }}
