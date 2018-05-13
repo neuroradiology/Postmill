@@ -1,0 +1,191 @@
+#!/usr/bin/env php
+<?php
+
+const REPOSITORY = 'edgyemma/Postmill';
+const URL_FORMAT = 'https://gitlab.com/%s/-/jobs/artifacts/%s/download?job=build-assets%%3A%s';
+const DEST_DIR = __DIR__.'/../public/build';
+
+set_error_handler(function ($severity, $message, $file, $line) {
+    if (!(error_reporting() & $severity)) {
+        return;
+    }
+
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
+
+if (!isset($argc)) {
+    echo "This script must be run from the command line.\n";
+    exit;
+}
+
+$options = getopt('', ['dev', 'force', 'help', 'quiet', 'ref::', 'repo::']);
+
+if (isset($options['help'])) {
+    echo getHelpString($argv[0]), "\n";
+
+    exit(0);
+}
+
+if (!class_exists('ZipArchive') && !hasUnzipCommand()) {
+    fwrite(STDERR, <<<EOF
+There is no available method of unzipping downloaded files. Install the 'zip'
+PHP extension or the 'unzip' command-line utility, then try again.
+Alternatively, just compile the assets yourself; read the docs.
+EOF
+);
+    fwrite(STDERR, "\n");
+
+    exit(1);
+}
+
+chdir(__DIR__);
+
+$filesInDestDir = glob(DEST_DIR.'/*.*');
+
+if (count($filesInDestDir) > 0 && $options['force'] ?? false) {
+    if (!function_exists('posix_isatty') || !posix_isatty(STDERR)) {
+        fwrite(STDERR, DEST_DIR." is not empty. Aborting.\n");
+        exit(1);
+    } else {
+        fwrite(STDERR, DEST_DIR." is not empty.\n");
+        fwrite(STDERR, "Do you want to clear it? [y/n]\n");
+
+        if (strtolower(trim(fgets(STDIN))) === 'y') {
+            fwrite(STDERR, "*clears directory*");
+        }
+    }
+}
+
+$ref = $options['ref'] ?? getRef();
+$repository = getRepository($options['repo'] ?? REPOSITORY);
+$type = isset($options['dev']) ? 'dev' : 'prod';
+
+RETRY:
+$url = getUrl($repository, $ref, $type);
+fwrite(STDERR, "Attempting to download $url...\n");
+$tempFile = download($url);
+
+if ($tempFile) {
+    fwrite(STDERR, "Downloaded to $tempFile.\n");
+} elseif (preg_match('/^[A-Fa-f0-9]{40}$/', $ref) && !isset($options['ref'])) {
+    fwrite(STDERR, "Download failed. Retrying with --ref=master ...\n");
+
+    $ref = 'master';
+
+    goto RETRY; // fight me
+}
+
+if (!$tempFile) {
+    fwrite(STDERR, "Failed to download assets\n");
+    exit(1);
+}
+
+function getHelpString(string $command): string {
+    return <<<EOF
+Usage:
+  $command [options]
+
+Description:
+  Downloads frontend assets for Postmill.
+
+Options:
+  --dev         Download non-minified 'development' assets. Default is to use
+                minified 'production' assets.
+  --force       Don't prompt before running potentially destructive tasks.
+  --help        Show this message.
+  --quiet       Don't output anything.
+  --ref=<ref>   Manually select a git reference, e.g. a SHA1 hash or a branch
+                name.
+  --repo=<repo> Use an alternative GitLab repository.
+
+Support:
+  https://community.postmill.xyz/
+EOF;
+}
+
+function getRef(): string {
+    $ref = shell_exec('git rev-parse HEAD');
+
+    if ($ref) {
+        return $ref;
+    }
+
+    return 'master';
+}
+
+function getUrl(string $repository, string $ref, string $type): string {
+    return sprintf(URL_FORMAT, $repository, $ref, $type);
+}
+
+function getRepository(string $repo): string {
+    if (preg_match('!^https?://(?:www\.)?gitlab.com/(.*?/.*?)(?:\.git)(?:/.*)?!', $repo, $matches)) {
+        return $matches[1];
+    }
+
+    if (preg_match('!/?^\w+/\w+(\.git)?/?$!', $repo)) {
+        return $repo;
+    }
+
+    throw new InvalidArgumentException('Invalid repository');
+}
+
+function download(string $url): ?string {
+    $tempnam = tempnam(sys_get_temp_dir(), 'pm_');
+
+    try {
+        $sh = @fopen($url, 'rb');
+
+        if (!$sh) {
+            @unlink($tempnam);
+
+            return null;
+        }
+
+        $fh = fopen($tempnam, 'wb');
+
+        stream_copy_to_stream($sh, $fh);
+
+        return $tempnam;
+    } catch (ErrorException $e) {
+        @unlink($tempnam);
+    } finally {
+        @fclose($fh);
+        @fclose($sh);
+    }
+
+    return null;
+}
+
+function unzipWithZipArchive(string $filename, string $destination): bool {
+    try {
+        $za = new ZipArchive();
+        $za->open($tempnam, ZipArchive::ER_READ);
+        $za->extractTo($destination);
+
+        return true;
+    } finally {
+        if (isset($za)) {
+            $za->close();
+        }
+    }
+
+    return false;
+}
+
+function hasUnzipCommand(): bool {
+    exec('which unzip', $output, $exitCode);
+
+    return $exitCode === 0;
+}
+
+function unzipWithUnzipCommand(string $filename, string $destination): bool {
+    exec(sprintf('unzip %s -d %s',
+        escapeshellarg($tempnam),
+        escapeshellarg($destination)
+    ), $output, $exitCode);
+
+    return $exitCode === 0;
+}
+
+function directoryIsEmpty(string $directory): bool {
+}

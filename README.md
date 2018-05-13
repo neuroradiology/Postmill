@@ -10,7 +10,6 @@ by an alien logo are purely coincidental.
 * PHP >= 7.1 with the APCu, curl, gd, mbstring, PDO_PGSQL and xml extensions.
 * PostgreSQL >= 9.4
 * [Composer](https://getcomposer.org/)
-* [Node.js](https://nodejs.org/en/) (>= 8.x preferred)
 
 Postmill should be able to run under any Unix environment. It has been tested to
 work under Linux, macOS, and Windows 10's Linux subsystem. Running directly on
