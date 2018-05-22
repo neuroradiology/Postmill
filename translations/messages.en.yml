@@ -26,6 +26,7 @@ action:
     create: Create
     compare: Compare
     add: Add
+    post: Post
     save: Save
 
 add_moderator:
@@ -76,7 +77,6 @@ comments:
 
 comment_form:
     comment: Comment
-    submit: Submit
     edit_title: Editing comment
     create_title: Posting a comment
 
