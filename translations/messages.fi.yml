@@ -54,7 +54,6 @@ comments:
 
 comment_form:
     comment: Kommentoi
-    submit: Lisää
     edit_title: Muokataan kommenttia
     create_title: Lisätään kommentti
 

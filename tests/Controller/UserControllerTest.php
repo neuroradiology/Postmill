@@ -8,6 +8,27 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @covers \App\Controller\UserController
  */
 class UserControllerTest extends WebTestCase {
+    public function testCannotSignUpWithPasswordLongerThan72Characters() {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/registration');
+
+        $password = str_repeat('a', 73);
+
+        $form = $crawler->selectButton('user[submit]')->form([
+            'user[username]' => 'random4',
+            'user[password][first]' => $password,
+            'user[password][second]' => $password,
+            'user[verification]' => 'bypass',
+        ]);
+
+        $crawler = $client->submit($form);
+
+        $this->assertContains(
+            'This value is too long. It should have 72 characters or less.',
+            $crawler->filter('.form__error')->text()
+        );
+    }
+
     public function testCanReceiveSubmissionNotifications() {
         $client = $this->createEmmaClient();
         $crawler = $client->request('GET', '/f/cats/3');

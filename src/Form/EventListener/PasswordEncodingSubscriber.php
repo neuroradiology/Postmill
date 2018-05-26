@@ -22,12 +22,18 @@ final class PasswordEncodingSubscriber implements EventSubscriberInterface {
     }
 
     public function onPostSubmit(FormEvent $event) {
-        if ($event->getForm()->getErrors()->count() > 0) {
+        if (!$event->getForm()->isValid()) {
             return;
         }
 
-        /** @var UserData $user */
+        /* @var UserData $user */
         $user = $event->getForm()->getData();
+
+        if (!$user instanceof UserData) {
+            throw new \UnexpectedValueException(
+                'Form data must be instance of '.UserData::class
+            );
+        }
 
         if ($user->getPlainPassword() !== null) {
             $encoded = $this->encoder->encodePassword($user, $user->getPlainPassword());
