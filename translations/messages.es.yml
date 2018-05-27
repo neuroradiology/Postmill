@@ -24,6 +24,9 @@ action:
     global_ban: Veto global
     filter: Filtrar
     create: Crear
+    compare: Comparar
+    add: Añadir
+    post: Publicar
     save: Guardar
 
 add_moderator:
@@ -71,6 +74,8 @@ comments:
     return_to_forum: ← Regresar a %forum%
     edit_info: (Editado %edited_at%)
     moderator_info: (editado por un moderador %edited_at%)
+    context.top_level_reply: Respuesta a %submission_title% por %submission_author%
+    context.comment_reply: Respuesta a comentario de %comment_author% en %submission_title% por %submission_author%
 
 comment_form:
     comment: Comentar
@@ -123,6 +128,8 @@ flash:
     page_unlocked: Se ha desanclado la página.
     no_cookies_verification: ¿La imagen no carga correctamente? Asegúrate de que no estás bloqueando las cookies e inténtalo de nuevo.
     no_password_resets: Los restablecimientos de contraseña han sido deshabilitados por la administradora.
+    webhook_added: El webhook fue añadido con éxito.
+    webhook_edited: El webhook fue editado con éxito.
 
 forum:
     moderators: Moderadoras
@@ -178,6 +185,7 @@ heading:
     multi_forum_view: Vista de múltiples foros
     message_thread: "%sender% le escribió a %receiver% %timestamp%"
     message_reply: "%sender% respondió %timestamp%"
+    category: 'Categoría: %category%'
 
 help:
     delete_forum_warning: ¡Todo el contenido de este foro será borrado irreversiblemente!
@@ -275,13 +283,25 @@ label:
     registration_date: Fecha de registro
     posting: Publicando
     auto_fetch_submission_titles: Obtener automáticamente títulos de publicaciones
+    compare: Comparar
+    url: URL
+    secret_token: Token secreto
+    event: Evento
+    event.new_submission: Nueva publicación
+    event.edit_submission: Editar publicación
+    event.new_comment: Nuevo comentario
+    event.edit_comment: Editar comentario
+    forums_in_this_category: Foros en esta categoría
+    description: Descripción
+    show_post_previews: Muestra previsualización de mensajes
     reason_for_banning: Razón del veto
     user_associated_with_ip: Usuaria asociada con la IP
-    body: Contenido
+    let_forums_override_preferred_theme: Permite a foros sobrescribir el tema preferido
 
 log:
     comment_deletion: '%user% eliminó comentario por %author% en "%submission%"'
     submission_deletion: '%user% eliminó publicación "%title%" por %author%'
+    submission_deletion_with_reason: '%user% eliminó publicación "%title%" de %author%. Razón: "%reason%"'
     submission_lock: '%user% ancló publicación "%title%" por %author%'
     submission_unlock: '%user% desancló publicación "%title%" por %author%'
     ban: '%user% vetó %banned% (expira: %expires%). Razón: "%reason%"'
@@ -341,6 +361,8 @@ nav:
     forum_bans: Vetos de foro
     forum_categories: Categorías de foro
     new_category: Nueva categoría
+    webhooks: Webhooks
+    add_webhook: Añade webhook
 
 placeholder:
     default: (predeterminado)
@@ -403,6 +425,7 @@ submissions:
     sort_by_new: Nuevo
     sort_by_top: Más votado
     sort_by_controversial: Controvertido
+    sort_by_most_commented: Más comentado
     total_votes: '{1} %count% voto|[0,Inf[ %count% votos'
     vote_stats: (+%up%, −%down%)
     ip_ban: Vetar por IP
@@ -450,6 +473,10 @@ title:
     manage_forum_categories: Gestionar cagegorías de foro
     create_forum_category: Crear categoría de foro
     editing_forum_category: 'Editando categoría de foro: %category%'
+    wiki_diff: Mostrando diferencia entre revisiones %from% y %to%
+    add_forum_webhook: Añadiendo webhook para %forum%
+    editing_forum_webhook: Editando webhook en %forum%
+    forum_webhooks: Webhooks para %forum%
 
 user:
     submissions: Publicaciones
