@@ -65,7 +65,6 @@ comments:
 
 comment_form:
     comment: Commentaire
-    submit: Envoyer
     edit_title: Modifier commentaire
     create_title: Publier un commentaire
 

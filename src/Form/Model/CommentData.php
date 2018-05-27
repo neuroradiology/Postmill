@@ -14,6 +14,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CommentData {
     /**
+     * @var int|null
+     */
+    private $entityId;
+
+    /**
      * @var Submission
      */
     private $submission;
@@ -34,6 +39,7 @@ class CommentData {
 
     public static function createFromComment(Comment $comment): self {
         $self = new self($comment->getSubmission());
+        $self->entityId = $comment->getId();
         $self->submission = $comment->getSubmission();
         $self->body = $comment->getBody();
         $self->userFlag = $comment->getUserFlag();
@@ -67,6 +73,10 @@ class CommentData {
                 $comment->setModerated($comment->getUser() !== $editingUser);
             }
         }
+    }
+
+    public function getEntityId(): ?int {
+        return $this->entityId;
     }
 
     public function getBody(): ?string {

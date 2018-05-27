@@ -69,7 +69,6 @@ comments:
 
 comment_form:
     comment: Σχόλιο
-    submit: Στειλε το
     edit_title: Διόρθωση σχολίου
     create_title: Γράφω σχόλιο
 

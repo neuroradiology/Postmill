@@ -48,7 +48,11 @@ final class CommentType extends AbstractType {
 
         $this->addUserFlagOption($builder, $options['forum']);
 
-        $builder->add('submit', SubmitType::class);
+        $editing = $builder->getData() && $builder->getData()->getEntityId();
+
+        $builder->add('submit', SubmitType::class, [
+            'label' => $editing ? 'action.save' : 'action.post',
+        ]);
     }
 
     /**
