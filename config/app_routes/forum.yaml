@@ -21,7 +21,7 @@ forum_feed:
     requirements: { sortBy: "%submission_sort_modes%" }
 
 forum_feed_legacy_redirect:
-    controller: FrameworkBundle:Redirect:redirect
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
     defaults: { route: forum_feed, ignoreAttributes: [page] }
     path: /f/{forum_name}/{sortBy}/{page}.atom
     requirements: { page: \d+ }

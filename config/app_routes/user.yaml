@@ -4,7 +4,7 @@ user:
     methods: [GET]
 
 user_shortcut:
-    controller: FrameworkBundle:Redirect:redirect
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
     defaults: { route: user }
     path: /u/{username}
     methods: [GET]
