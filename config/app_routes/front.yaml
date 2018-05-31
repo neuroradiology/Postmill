@@ -41,7 +41,7 @@ featured_feed:
     requirements: { sortBy: "%submission_sort_modes%" }
 
 featured_feed_legacy_redirect:
-    controller: FrameworkBundle:Redirect:redirect
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
     defaults: { route: featured_feed, ignoreAttributes: true }
     methods: [GET]
     path: /featured/{sortBy}/{_page}.atom
