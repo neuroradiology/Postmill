@@ -1,5 +1,93 @@
 # Change Log
 
+## v1.0.0 (2018-06-22)
+
+* Add ability to set default locale via environment variable.
+* Add `autofocus` attribute to login page.
+* Add button to clear individual notifications from inbox.
+* Add command for modifying a user.
+* Add `/c/` syntax for linking to forum categories.
+* Add diff functionality to wiki.
+* Add French translation.
+* Add global moderation log.
+* Add list of users for admins.
+* Add logging of submission (un)lockings.
+* Add mechanisms for overriding templates and translations.
+* Add 'most commented' sorting mode.
+* Add notice about cookies on registration page because fuckwits keep disabling
+  cookies in their browser then complain about things breaking. Fuck you.
+* Add page showing a user's forum bans.
+* Add pagination to user pages.
+* Add short URL for submissions.
+* Add sidebars and descriptions to categories.
+* Add (un)ban link in profile for admins.
+* Add user setting for toggling automatic fetching of submission titles from
+  URL.
+* Add user setting for toggling Markdown previews.
+* Add webhooks (experimental).
+* Add web interface for managing forum categories.
+* Add `/w/` syntax for linking to wiki pages.
+* Bump minimum required PHP version to 7.1.3.
+* Bump minimum required PostgreSQL version to 9.4.
+* Clearify the functionality of the user setting that lets forums override
+  custom stylesheets.
+* Ensure compatibility with PHP 7.2.
+* Fix 500 errors when user tricks `validateCsrf` into taking a non-string
+  argument via PHP's `[]` syntax in form field names.
+* Fix absence of 'Reply' link being confusing to users who disable JS by making
+  the link visible all the time.
+* Fix chosen locale being ignored when session expires.
+* Fix entries incorrectly being marked as 'admin' in the moderation log.
+* Fix forums with bans being unable to be deleted.
+* Fix language names being sorted incorrectly in user settings.
+* Fix long site names wrapping in the navbar.
+* Fix missing 'active' class of active tab on user pages.
+* Fix missing validation of IP with CIDR notation used in IP ban form.
+* Fix 'open external links in new tab' user setting to work with links in
+  Markdown.
+* Fix redirect to 404 upon deleting a comment via its permalink.
+* Fix redirect to login when password is too long.
+* Fix replying to deleted top-level comments creating new top-level comments.
+* Fix tests not passing reliably.
+* Fix 'top'/'controversial' sorting modes being broken.
+* Hide password reset link when mailing is disabled.
+* Improve appearance of 'no entries on this page' notices.
+* Improve `app:user:add` command.
+* Improve ban form to allow banning of all IP addresses on record for the user.
+* Improve pagination on front page/forums. Caveat: no 'previous' button.
+* Improve performance in comment listings.
+* Improve performance of test suites by not hashing passwords in the `test`
+  environment.
+* Improve styling of blockquotes.
+* Improve styling of tabs.
+* Improve subscribe buttons to use Ajax and avoid reloading the entire page.
+* Improve thumbnailing (correct thumbnail size for 1x, use `srcset` for 2x).
+* Improve vote buttons by using event bubbling, paving the way for future
+  implementations of infinite scroll.
+* Increase number of submissions shown on front page from 20 to 25.
+* Misc code improvements.
+* Move 'no subscriptions' notice beneath the nav bar on the front page.
+* Prompt for reason for deletion when mods/admins delete a submission.
+* Prompt user for confirmation when leaving a page with filled-out forms.
+* Redirect to last visited location when logging in.
+* Redirect to URLs with canonical forum names/usernames.
+* Refactor comments to use BEM class names.
+* Remove broken `CDN` option.
+* Remove deprecated CSS classes as [explained in the
+  documentation](docs/deprecated-css-classes.md).
+* Rename the software to Postmill.
+* Replace 'incrementing number' pagination on front page/forums with
+* Replace Underscore.js with Lodash to reduce size of built assets and fix a
+  build warning.
+* Separate CSS and settings forms in the theme editor.
+* Show info about blocking users on the blocking page.
+* Show 'post'/'save' instead of 'submit' on comment forms.
+* Sort items in forum toolbox.
+* Update Esperanto, Greek, Portuguese, Spanish translations.
+* Update footer with new link.
+* Update to Symfony 4.1.
+* Use only static front-end assets in production.
+
 ## v0.6.0 (2017-11-08)
 
 * Added an admin menu.
@@ -8,7 +96,7 @@
 * Added CAPTCHA on password reset form.
 * Added CSS class for all page headings.
 * Added forum bans.
-* Added maintenance mode that can be toggled via a command. 
+* Added maintenance mode that can be toggled via a command.
 * Added moderation log.
 * Added multi-forum view.
 * Added pretty error pages.
@@ -129,7 +217,7 @@
   moderator.
 * Login automatically upon registration.
 * Notify user when their submission or comment is replied to.
-* Preload some assets with HTTP/2 Server Push. 
+* Preload some assets with HTTP/2 Server Push.
 * Rate limit submissions for untrusted users.
 * Refactored the entire frontend asset build system.
 * Removed .htaccess files as PHP-FPM is the preferred way to run the software.
