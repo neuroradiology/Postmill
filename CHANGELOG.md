@@ -76,7 +76,8 @@
 * Remove deprecated CSS classes as [explained in the
   documentation](docs/deprecated-css-classes.md).
 * Rename the software to Postmill.
-* Replace 'incrementing number' pagination on front page/forums with
+* Replace 'incrementing number' pagination on front page/forums with keyset
+  pagination.
 * Replace Underscore.js with Lodash to reduce size of built assets and fix a
   build warning.
 * Separate CSS and settings forms in the theme editor.
