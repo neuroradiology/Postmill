@@ -28,10 +28,6 @@
     <fieldset class="form__group">
       <legend class="form__group-header">{{ 'label.appearance'|trans }}</legend>
 
-      {{ form_row(form.preferred_theme, {attr: {class: 'select2'}}) }}
-
-      {{ form_row(form.show_custom_stylesheets) }}
-
       {{ form_row(form.night_mode) }}
     </fieldset>
   {{ form_end(form) }}

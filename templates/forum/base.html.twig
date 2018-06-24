@@ -4,17 +4,6 @@
   <link rel="alternate" type="application/atom+xml" href="{{ path('forum_feed', {forum_name: forum.name}) }}" title="{{ forum.name }}">
 {% endblock %}
 
-{% block stylesheets %}
-  {% if (app.user.showCustomStylesheets ?? true) and forum.theme %}
-    {{ include('_includes/stylesheets.html.twig', {
-      theme: forum.theme,
-      night_mode: app.user.nightMode ?? false
-    }, with_context=false) }}
-  {% else %}
-    {{ parent() }}
-  {% endif %}
-{% endblock %}
-
 {% block sidebar %}
   <section class="sidebar__section sidebar__section--forum-meta forum-meta">
     <h1 class="sidebar__title forum-title"><a href="{{ path('forum', {forum_name: forum.name}) }}">{{ forum.title }}</a></h1>
@@ -59,11 +48,6 @@
           <li><a href="{{ path('edit_forum', {forum_name: forum.name}) }}">{{ 'forum.edit'|trans }}</a></li>
         {% endset %}
         {% set items = items|merge({('forum.edit'|trans): item}) %}
-
-        {% set item %}
-          <li><a href="{{ path('forum_appearance', {forum_name: forum.name}) }}">{{ 'nav.appearance'|trans }}</a></li>
-        {% endset %}
-        {% set items = items|merge({('nav.appearance'|trans): item}) %}
 
         {% if app_webhooks_enabled() %}
           {% set item %}

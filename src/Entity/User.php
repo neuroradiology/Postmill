@@ -173,25 +173,11 @@ class User implements UserInterface, EquatableInterface {
     private $nightMode = false;
 
     /**
-     * @ORM\Column(type="boolean", options={"default": true})
-     *
-     * @var bool
-     */
-    private $showCustomStylesheets = true;
-
-    /**
      * @ORM\Column(type="boolean", options={"default": false})
      *
      * @var bool
      */
     private $trusted = false;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Theme")
-     *
-     * @var Theme|null
-     */
-    private $preferredTheme;
 
     /**
      * @ORM\OneToMany(targetEntity="UserBlock", mappedBy="blocker")
@@ -481,14 +467,6 @@ class User implements UserInterface, EquatableInterface {
         $this->nightMode = $nightMode;
     }
 
-    public function isShowCustomStylesheets(): bool {
-        return $this->showCustomStylesheets;
-    }
-
-    public function setShowCustomStylesheets(bool $showCustomStylesheets) {
-        $this->showCustomStylesheets = $showCustomStylesheets;
-    }
-
     public function isTrusted(): bool {
         return $this->trusted;
     }
@@ -499,14 +477,6 @@ class User implements UserInterface, EquatableInterface {
 
     public function setTrusted(bool $trusted) {
         $this->trusted = $trusted;
-    }
-
-    public function getPreferredTheme(): ?Theme {
-        return $this->preferredTheme;
-    }
-
-    public function setPreferredTheme(?Theme $preferredTheme) {
-        $this->preferredTheme = $preferredTheme;
     }
 
     /**

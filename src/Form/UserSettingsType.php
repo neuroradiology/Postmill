@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\User;
 use App\Form\Model\UserData;
-use App\Form\Type\ThemeSelectorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -36,13 +35,6 @@ final class UserSettingsType extends AbstractType {
             ])
             ->add('night_mode', CheckboxType::class, [
                 'required' => false,
-            ])
-            ->add('show_custom_stylesheets', CheckboxType::class, [
-                'label' => 'label.let_forums_override_preferred_theme',
-                'required' => false,
-            ])
-            ->add('preferred_theme', ThemeSelectorType::class, [
-                'label' => 'label.preferred_theme',
             ])
             ->add('openExternalLinksInNewTab', CheckboxType::class, [
                 'required' => false,

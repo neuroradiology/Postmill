@@ -47,8 +47,6 @@ class ForumData {
 
     private $featured = false;
 
-    private $theme;
-
     private $category;
 
     public static function createFromForum(Forum $forum): self {
@@ -59,7 +57,6 @@ class ForumData {
         $self->sidebar = $forum->getSidebar();
         $self->description = $forum->getDescription();
         $self->featured = $forum->isFeatured();
-        $self->theme = $forum->getTheme();
         $self->category = $forum->getCategory();
 
         return $self;
@@ -75,7 +72,6 @@ class ForumData {
         );
 
         $forum->setFeatured($this->featured);
-        $forum->setTheme($this->theme);
         $forum->setCategory($this->category);
 
         return $forum;
@@ -87,7 +83,6 @@ class ForumData {
         $forum->setSidebar($this->sidebar);
         $forum->setDescription($this->description);
         $forum->setFeatured($this->featured);
-        $forum->setTheme($this->theme);
         $forum->setCategory($this->category);
     }
 
@@ -143,14 +138,6 @@ class ForumData {
 
     public function setFeatured(bool $featured) {
         $this->featured = $featured;
-    }
-
-    public function getTheme() {
-        return $this->theme;
-    }
-
-    public function setTheme($theme) {
-        $this->theme = $theme;
     }
 
     public function getCategory() {

@@ -116,13 +116,6 @@ class Forum {
     private $category;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Theme")
-     *
-     * @var Theme|null
-     */
-    private $theme;
-
-    /**
      * @ORM\OneToMany(targetEntity="ForumLogEntry", mappedBy="forum", cascade={"persist", "remove"})
      * @ORM\OrderBy({"timestamp": "DESC"})
      *
@@ -368,14 +361,6 @@ class Forum {
 
     public function setCategory(?ForumCategory $category) {
         $this->category = $category;
-    }
-
-    public function getTheme(): ?Theme {
-        return $this->theme;
-    }
-
-    public function setTheme(?Theme $theme) {
-        $this->theme = $theme;
     }
 
     /**

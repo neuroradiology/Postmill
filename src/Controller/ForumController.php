@@ -6,7 +6,6 @@ use App\Entity\Forum;
 use App\Entity\ForumWebhook;
 use App\Entity\Moderator;
 use App\Entity\User;
-use App\Form\ForumAppearanceType;
 use App\Form\ForumBanType;
 use App\Form\ForumType;
 use App\Form\ForumWebhookType;
@@ -343,39 +342,6 @@ final class ForumController extends AbstractController {
     public function globalModerationLog(ForumLogEntryRepository $forumLogs, int $page) {
         return $this->render('forum/global_moderation_log.html.twig', [
             'logs' => $forumLogs->findAllPaginated($page),
-        ]);
-    }
-
-    /**
-     * Alter a forum's appearance.
-     *
-     * @IsGranted("moderator", subject="forum")
-     *
-     * @param Forum         $forum
-     * @param Request       $request
-     * @param EntityManager $em
-     *
-     * @return Response
-     */
-    public function appearance(Forum $forum, Request $request, EntityManager $em) {
-        $data = ForumData::createFromForum($forum);
-
-        $form = $this->createForm(ForumAppearanceType::class, $data);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data->updateForum($forum);
-
-            $em->flush();
-
-            return $this->redirectToRoute('forum_appearance', [
-                'forum_name' => $forum->getName(),
-            ]);
-        }
-
-        return $this->render('forum/appearance.html.twig', [
-            'form' => $form->createView(),
-            'forum' => $forum,
         ]);
     }
 

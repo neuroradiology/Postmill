@@ -2,7 +2,6 @@
 
 namespace App\Form\Model;
 
-use App\Entity\Theme;
 use App\Entity\User;
 use App\Validator\Constraints\Unique;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -58,13 +57,6 @@ class UserData implements UserInterface {
 
     private $nightMode;
 
-    private $showCustomStylesheets;
-
-    /**
-     * @var Theme|null
-     */
-    private $preferredTheme;
-
     private $openExternalLinksInNewTab;
 
     /**
@@ -88,8 +80,6 @@ class UserData implements UserInterface {
         $self->locale = $user->getLocale();
         $self->frontPage = $user->getFrontPage();
         $self->nightMode = $user->isNightMode();
-        $self->showCustomStylesheets = $user->isShowCustomStylesheets();
-        $self->preferredTheme = $user->getPreferredTheme();
         $self->openExternalLinksInNewTab = $user->openExternalLinksInNewTab();
         $self->biography = $user->getBiography();
         $self->autoFetchSubmissionTitles = $user->autoFetchSubmissionTitles();
@@ -110,8 +100,6 @@ class UserData implements UserInterface {
         $user->setLocale($this->locale);
         $user->setFrontPage($this->frontPage);
         $user->setNightMode($this->nightMode);
-        $user->setShowCustomStylesheets($this->showCustomStylesheets);
-        $user->setPreferredTheme($this->preferredTheme);
         $user->setOpenExternalLinksInNewTab($this->openExternalLinksInNewTab);
         $user->setBiography($this->biography);
         $user->setAutoFetchSubmissionTitles($this->autoFetchSubmissionTitles);
@@ -126,11 +114,9 @@ class UserData implements UserInterface {
         $user->setAdmin($this->admin);
 
         $settings = [
-            'showCustomStylesheets',
             'frontPage',
             'locale',
             'nightMode',
-            'preferredTheme',
             'openExternalLinksInNewTab',
             'autoFetchSubmissionTitles',
             'enablePostPreviews',
@@ -211,22 +197,6 @@ class UserData implements UserInterface {
 
     public function setNightMode($nightMode) {
         $this->nightMode = $nightMode;
-    }
-
-    public function getShowCustomStylesheets() {
-        return $this->showCustomStylesheets;
-    }
-
-    public function setShowCustomStylesheets($showCustomStylesheets) {
-        $this->showCustomStylesheets = $showCustomStylesheets;
-    }
-
-    public function getPreferredTheme() {
-        return $this->preferredTheme;
-    }
-
-    public function setPreferredTheme($preferredTheme) {
-        $this->preferredTheme = $preferredTheme;
     }
 
     public function openExternalLinksInNewTab() {
