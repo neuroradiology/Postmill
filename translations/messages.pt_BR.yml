@@ -267,7 +267,6 @@ moderator_form:
     submit: Adcionar como moderador
 
 nav:
-    appearance: Aparência
     create_theme: Criar tema
     delete_forum: Apagar fórum
     themes: Temas
@@ -366,7 +365,6 @@ time:
 
 title:
     delete_forum: Apagar fórum %forum%
-    forum_appearance: Aparência para %forum%
     showing_revision: 'Mostarndo revisão #%revision% da página %path%'
     editing_forum: Alterar fórums %forum%
     create_submission: Criar postagem

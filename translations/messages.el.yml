@@ -276,7 +276,6 @@ moderator_form:
     submit: Υποβάλλε
 
 nav:
-    appearance: Εμφάνιση
     create_theme: Δημιουργία στυλ
     delete_forum: Διαγραφή φόρουμ
     themes: Στυλ
@@ -375,7 +374,6 @@ time:
 
 title:
     delete_forum: Διαγραφή φόρουμ %forum%
-    forum_appearance: Εμφάνιση για %forum%
     showing_revision: 'Εμφάνιση αλλαγής #%revision% της σελίδας %path%'
     editing_forum: Επεξεργασία φόρουμ %forum%
     create_submission: Δημιουργία υποβολής

@@ -434,7 +434,6 @@ time:
 
 title:
     delete_forum: Delete forum %forum%
-    forum_appearance: Appearance for %forum%
     showing_revision: 'Showing revision #%revision% of page %path%'
     editing_forum: Editing forum %forum%
     create_submission: Create submission

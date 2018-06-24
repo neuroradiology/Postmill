@@ -312,7 +312,6 @@ time:
 
 title:
     delete_forum: Supprimer forum %forum%
-    forum_appearance: Apparence pour %forum%
     showing_revision: 'Affichage de la révision #%revision% de la page %path%'
     editing_forum: Modification forum %forum%
     create_submission: Créer soumission

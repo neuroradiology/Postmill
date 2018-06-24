@@ -1,5 +1,9 @@
 # Change Log
 
+## v2.0.0 (20xx-xx-xx)
+
+* Remove themes functionality.
+
 ## v1.0.0 (2018-06-22)
 
 * Add ability to set default locale via environment variable.

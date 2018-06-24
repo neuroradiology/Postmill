@@ -36,11 +36,6 @@ delete_forum:
     path: /f/{forum_name}/delete
     methods: [GET, POST]
 
-forum_appearance:
-    controller: App\Controller\ForumController::appearance
-    path: /f/{forum_name}/appearance
-    methods: [GET, POST]
-
 forum_bans:
     controller: App\Controller\ForumController::bans
     defaults: { page: 1 }

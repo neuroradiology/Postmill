@@ -10,10 +10,7 @@
     <link rel="apple-touch-icon-precomposed" href="{{ asset('apple-touch-icon-precomposed.png') }}">
 
     {% block stylesheets %}
-      {{ include('_includes/stylesheets.html.twig', {
-        theme: app.user.preferredTheme ?? null,
-        night_mode: app.user.nightMode ?? false,
-      }, with_context=false) }}
+      {{ include('_includes/stylesheets.html.twig', { night_mode: app.user.nightMode ?? false }, with_context=false) }}
     {% endblock %}
 
     {% block head %}{% endblock %}
