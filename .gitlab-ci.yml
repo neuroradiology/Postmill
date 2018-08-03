@@ -25,6 +25,7 @@ variables:
     POSTGRES_USER: postmill
     POSTGRES_PASSWORD: ""
     SITE_NAME: Postmill
+    SYMFONY_DEPRECATIONS_HELPER: disabled
 
 test:
     script:
