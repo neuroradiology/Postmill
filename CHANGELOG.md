@@ -1,5 +1,18 @@
 # Change Log
 
+## v1.0.2 (2018-09-18)
+
+* Fix infinite redirect loop that resulted from a BC break in Symfony.
+* Improve GitLab CI configuration. Frontend assets can now be downloaded
+  pre-built. Postmill is now tested against PHP 7.1 and 7.2 automatically.
+  Templates, translation files, composer.lock, database entities, and all PHP
+  files in the project are now automatically linted.
+* Update dependencies.
+
+## v1.0.1 (2018-08-03)
+
+* Update dependencies (fixes vulnerability in Symfony).
+
 ## v1.0.0 (2018-06-22)
 
 * Add ability to set default locale via environment variable.
