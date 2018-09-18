@@ -19,12 +19,12 @@ Windows may work, but is unsupported.
 
 Clone the repository somewhere and navigate there with the command line.
 
-### Building frontend assets
+### Retrieving frontend assets
 
-1. Run `npm install`.
-
-2. Run `npm run build-dev`. The `public/build/` directory should now contain
-   some files.
+Download [the pre-built assets][assets] and unzip them into the `public/build`
+folder such that this contains a large amount of files. Alternatively, you may
+install Node and compile your own assets with `npm run build-dev`/`npm run
+build-prod`.
 
 ### Setting up the backend
 
@@ -90,3 +90,4 @@ details.
 [issues]: https://gitlab.com/edgyemma/Postmill/issues
 [matrix]: https://matrix.to/#/#postmill:matrix.org
 [support]: https://community.postmill.xyz/f/Support
+[assets]: https://gitlab.com/edgyemma/Postmill/-/jobs/artifacts/master/download?job=build-assets%3Aprod
