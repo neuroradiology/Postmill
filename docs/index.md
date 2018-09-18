@@ -21,10 +21,13 @@
     * [Ugly hacks & workarounds](workarounds.md)
     * [Trusted users](trusted_users.md)
 
+* **Meta**
+    * [Version number policy](version-policy.md)
+
 Something missing? Report it on the [issue tracker][issues] and chances are
 we'll add it!
 
 
-[deploy]: https://symfony.com/doc/4.0/deployment.html
-[web server]: https://symfony.com/doc/4.0/setup/web_server_configuration.html
+[deploy]: https://symfony.com/doc/4.1/deployment.html
+[web server]: https://symfony.com/doc/4.1/setup/web_server_configuration.html
 [issues]: https://gitlab.com/edgyemma/Postmill/issues
