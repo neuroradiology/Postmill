@@ -1,0 +1,26 @@
+.menu-link {
+  cursor: pointer; // for buttons
+  color: var(--main);
+  display: block;
+  padding: 0.5rem 1rem;
+  width: 100%; // for buttons
+
+  &:hover {
+    background-color: var(--accent);
+    color: var(--text-on-accent);
+    text-decoration: none;
+  }
+
+  &--active {
+    position: relative;
+
+    // bullet
+    &::before {
+      content: '\2022';
+      left: 0;
+      position: absolute;
+      text-align: center;
+      width: 1rem;
+    }
+  }
+}

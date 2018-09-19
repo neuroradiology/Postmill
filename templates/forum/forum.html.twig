@@ -1,14 +1,13 @@
 {% extends 'forum/base.html.twig' %}
+{% use '_layouts/list_of_things.html.twig' %}
+{% set things = submissions %}
 
 {% from 'submission/_macros.html.twig' import submission, submission_sort %}
 
-{% block title %}{{ forum.title }}{% endblock %}
+{% block title forum.title %}
 
 {% block head %}
-  {{ parent() }}
-
   <link rel="canonical" href="{{ url('forum', {forum_name: forum.name}) }}">
-  {% include '_includes/meta_pagination.html.twig' with {pager: submissions} %}
 
   <meta property="og:title" content="{{ forum.title }}">
   <meta property="og:site_name" content="{{ site_name() }}">
@@ -19,27 +18,17 @@
   {% if forum.description is not empty %}
     <meta name="description" content="{{ forum.description }}">
   {% endif %}
-{% endblock %}
 
-{% block page_classes %}forum-front{% endblock %}
+  {{ parent() }}
+{% endblock head %}
 
-{% block body %}
-  {% spaceless %}
-    <h1 class="page-heading forum-name-heading">
-      <span class="forum-name-heading__prefix">/f/</span>
-      <strong class="forum-name-heading__name">{{ forum.name }}</strong>
-    </h1>
-  {% endspaceless %}
-
-  <nav class="tabs submission-sort">
-    <ul class="tabs__bar">
-      {{- submission_sort(sort_by) -}}
-    </ul>
+{% block page_header %}
+  <nav class="nav nav--guttered nav--align-center pad" role="navigation">
+    <h1 class="no-margin">/f/{{ forum.name }}</h1>
+    {{ submission_sort(sort_by) }}
   </nav>
+{% endblock page_header %}
 
-  {% for submission in submissions %}
-    {{ submission(submission, {show_forum_name: false}) }}
-  {% endfor %}
-
-  {% include '_includes/pagination.html.twig' with {pager: submissions} %}
+{% block render_thing %}
+  {{ submission(thing) }}
 {% endblock %}

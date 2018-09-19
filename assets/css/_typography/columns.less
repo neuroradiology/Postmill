@@ -1,0 +1,18 @@
+.columns {
+  columns: 4;
+
+  @media screen and (max-width: 768px) {
+    columns: 3;
+  }
+
+  @media screen and (max-width: 480px) {
+    columns: 2;
+  }
+
+  padding: 0;
+
+  > * {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

@@ -1,0 +1,34 @@
+.diff-table {
+  border-collapse: collapse;
+  width: 100%;
+
+  &__line-group {
+    border-bottom: solid 0.5rem var(--washed);
+  }
+
+  &__line-no {
+    background-color: var(--bleached);
+    padding: 0.25rem 0.5rem;
+    width: 5%;
+    text-align: right;
+    vertical-align: top;
+  }
+
+  &__content {
+    padding: 0.25rem 0.5rem;
+    vertical-align: top;
+    width: 45%;
+
+    &--changed {
+      background-color: var(--neutral-bg);
+    }
+
+    &--removed {
+      background-color: var(--bad-bg);
+    }
+
+    &--added {
+      background-color: var(--good-bg);
+    }
+  }
+}

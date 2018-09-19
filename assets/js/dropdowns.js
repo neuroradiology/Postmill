@@ -2,37 +2,42 @@
 
 import $ from 'jquery';
 
-$(function () {
-    // Make all dropdown menus interactive.
-    $('.dropdown-container')
-        .addClass('js')
-        .find('.dropdown-toggle')
-        .click(function (event) {
-            event.stopPropagation();
+$('.dropdown__toggle').each((i, el) => {
+    const $el = $(el);
 
-            const container = $(this).parent('.dropdown-container');
-
-            // close all other dropdowns
-            $('.dropdown-container.expanded')
-                .not(container)
-                .removeClass('expanded')
-                .find('.dropdown-toggle')
-                .attr('aria-expanded', false);
-
-            // toggle the current dropdown
-            $(this)
-                .attr('aria-expanded', $(container).hasClass('expanded'))
-                .parent('.dropdown-container').toggleClass('expanded');
-
-            return false;
-        });
-
-    // Adds a global click handler that closes dropdowns when clicking on
-    // something that isn't a toggle.
-    $(window).click(() => {
-        $('.dropdown-container.expanded')
-            .removeClass('expanded')
-            .find('.dropdown-toggle')
-            .attr('aria-expanded', false);
-    });
+    $el.attr('aria-expanded', $el.hasClass('dropdown--expanded'));
 });
+
+$(document).on('click', '.dropdown__toggle', function (event) {
+    event.stopPropagation();
+
+    const container = $(this).parent('.dropdown');
+
+    // close all other dropdowns
+    $('.dropdown--expanded')
+        .not(container)
+        .removeClass('dropdown--expanded')
+        .find('> .dropdown__toggle')
+        .attr('aria-expanded', false);
+
+    // toggle the current dropdown
+    $(this)
+        .attr('aria-expanded', !$(container).hasClass('dropdown--expanded'))
+        .parent('.dropdown')
+        .toggleClass('dropdown--expanded');
+
+    if ($(this).hasClass('dropdown--expanded')) {
+        $(window).scrollTo();
+    }
+
+    return false;
+});
+
+// Adds a global click handler that closes dropdowns when clicking on
+// something that isn't a toggle.
+$(document).on('click', 'html', () =>
+    $('.dropdown--expanded')
+        .removeClass('dropdown--expanded')
+        .find('> .dropdown__toggle')
+        .attr('aria-expanded', false)
+);

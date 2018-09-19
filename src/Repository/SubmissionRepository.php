@@ -9,6 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SubmissionRepository extends ServiceEntityRepository {
     public const SORT_HOT = 'hot';
@@ -110,7 +111,7 @@ class SubmissionRepository extends ServiceEntityRepository {
             $qb->join('s', self::COMMENT_COUNT_JOIN, 'cc', 's.id = cc.submission_id');
             break;
         default:
-            throw new \InvalidArgumentException("Sort mode '$sortBy' not implemented");
+            throw new NotFoundHttpException("Sort mode '$sortBy' not implemented");
         }
 
         $pager = $request
@@ -164,9 +165,9 @@ class SubmissionRepository extends ServiceEntityRepository {
     }
 
     private static function filterQuery(QueryBuilder $qb, array $options): void {
-        if (!empty($options['forums'])) {
+        if (isset($options['forums'])) {
             /* @noinspection NotOptimalIfConditionsInspection */
-            if (!empty($options['excluded_forums'])) {
+            if (isset($options['excluded_forums'])) {
                 $options['forums'] = array_diff(
                     $options['forums'],
                     $options['excluded_forums']
@@ -175,14 +176,14 @@ class SubmissionRepository extends ServiceEntityRepository {
 
             $qb->andWhere('s.forum_id IN (:forum_ids)');
             $qb->setParameter('forum_ids', $options['forums']);
-        } elseif (!empty($options['excluded_forums'])) {
+        } elseif (isset($options['excluded_forums'])) {
             $qb->andWhere('s.forum_id NOT IN (:forum_ids)');
             $qb->setParameter('forum_ids', $options['excluded_forums']);
         }
 
-        if (!empty($options['users'])) {
+        if (isset($options['users'])) {
             /* @noinspection NotOptimalIfConditionsInspection */
-            if (!empty($options['excluded_users'])) {
+            if (isset($options['excluded_users'])) {
                 $options['users'] = array_diff(
                     $options['users'],
                     $options['excluded_users']
@@ -191,7 +192,7 @@ class SubmissionRepository extends ServiceEntityRepository {
 
             $qb->andWhere('s.user_id IN (:user_ids)');
             $qb->setParameter('user_ids', $options['users']);
-        } elseif (!empty($options['excluded_users'])) {
+        } elseif (isset($options['excluded_users'])) {
             $qb->andWhere('s.user_id NOT IN (:user_ids)');
             $qb->setParameter('user_ids', $options['excluded_users']);
         }

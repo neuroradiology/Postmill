@@ -34,7 +34,7 @@ class MessageControllerTest extends WebTestCase {
 
         $crawler = $client->request('GET', '/messages');
 
-        $this->assertContains('There are no messages to display.', $crawler->filter('.content-wrapper p')->text());
+        $this->assertContains('There are no messages to display.', $crawler->filter('main')->text());
     }
 
     public function testMustBeLoggedInToViewMessageList() {
@@ -61,7 +61,7 @@ class MessageControllerTest extends WebTestCase {
 
         $this->assertContains(
             'This is a message. There are many like it, but this one originates from a fixture.',
-            $crawler->filter('#mt1 .message-thread-inner .message-body p')->text()
+            $crawler->filter('#message_t1 .message__body p')->text()
         );
     }
 
@@ -99,7 +99,7 @@ class MessageControllerTest extends WebTestCase {
 
         $crawler = $client->submit($form);
 
-        $this->assertContains('aaa', $crawler->filter('.message-reply:last-child .message-body p')->text());
+        $this->assertContains('aaa', $crawler->filter('.message[id^="message_r"]:last-child .message__body')->text());
     }
 
     public function authProvider() {

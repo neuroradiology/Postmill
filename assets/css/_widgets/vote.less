@@ -1,0 +1,32 @@
+@import (reference) '../_utilities/unbuttonize';
+
+.vote {
+  text-align: center;
+  width: 6ch;
+
+  &__net-score {
+    font-weight: bold;
+  }
+
+  &--failed &__net-score {
+    color: var(--bad-fg);
+  }
+
+  &__button {
+    .unbuttonize();
+    color: var(--dimmed);
+    cursor: pointer;
+    line-height: 1;
+    white-space: nowrap;
+    width: 1em;
+    height: 1em;
+  }
+
+  &--user-upvoted &__button--up {
+    color: var(--vote-up);
+  }
+
+  &--user-downvoted &__button--down {
+    color: var(--vote-down);
+  }
+}

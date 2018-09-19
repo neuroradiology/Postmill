@@ -1,6 +1,10 @@
 # New keys should use the generic categories 'title', 'label', 'help', 'nav',
 # etc. Older keys are subject to renaming.
 
+'%formatted_count% comments': '{0} No comments|{1} %count% comment|]1,Inf[ %count% comments'
+'This submission is pinned': 'This submission is pinned'
+'This submission is locked': 'This submission is locked'
+
 action:
     mark_as_trusted: Mark user as trusted
     mark_as_untrusted: Mark user as untrusted
@@ -28,6 +32,10 @@ action:
     add: Add
     post: Post
     save: Save
+    ban_globally: Ban globally
+    ban_from_forum: Ban from forum
+    go: Go
+    clear_notification: Clear notification
 
 add_moderator:
     title: Add moderator to %forum%
@@ -62,7 +70,6 @@ comments:
     parent: Parent
     reply: Reply
     form_load_error: Error loading form. Please try again.
-    info: '%user% wrote %timestamp%'
     info_at_timestamp: at %timestamp%
     not_logged_in: You must %login_link% or %register_link% to comment.
     not_logged_in_login_link_label: log in
@@ -169,8 +176,8 @@ forum_moderators:
 
 front:
     subscribed_forums: Subscribed forums
-    no_subscriptions: You are not subscribed to any forum. Showing featured forums instead.
     featured_forums: Featured forums
+    please_subscribe: Things will appear here when you begin subscribing to forums.
     no_forums: There are no featured forums to display.
     all: All
     featured: Featured
@@ -180,8 +187,6 @@ heading:
     user_roles: User roles
     forums_you_moderate: Forums you moderate
     multi_forum_view: Multi-forum view
-    message_thread: "%sender% wrote to %receiver% %timestamp%"
-    message_reply: "%sender% replied %timestamp%"
     category: 'Category: %category%'
 
 help:
@@ -293,6 +298,8 @@ label:
     reason_for_banning: Reason for banning
     user_associated_with_ip: User associated with IP
     let_forums_override_preferred_theme: Let forums override preferred theme
+    lock: Lock
+    body: Body
 
 log:
     comment_deletion: '%user% deleted comment by %author% in "%submission%"'
@@ -310,7 +317,8 @@ login_form:
     reset_password: Reset password?
 
 markdown_type:
-    help: Syntax reference
+    markdown_enabled: Markdown enabled
+    help: Formatting help
 
 message_form:
     title: Title
@@ -359,6 +367,10 @@ nav:
     new_category: New category
     webhooks: Webhooks
     add_webhook: Add webhook
+    see_full_list: See full list
+    more: More
+    comments: Comments
+    submissions: Submissions
 
 placeholder:
     default: (default)
@@ -414,18 +426,18 @@ submission_form:
 submissions:
     comments: '{0} No comments|{1} %count% comment|[1,Inf[ %count% comments'
     edit: Edit
-    info_with_forum_name: Submitted by %submitter% %timestamp% in %forum%
-    info_without_forum_name: Submitted by %submitter% %timestamp%
-    info_at_timestamp: at %timestamp%
     sort_by_hot: Hot
     sort_by_new: New
     sort_by_top: Top
     sort_by_controversial: Controversial
     sort_by_most_commented: Most commented
+    view: 'View:'
+    sort_by: 'Sort by:'
     total_votes: '{1} %count% point|[0,Inf[ %count% points'
     vote_stats: (+%up%, −%down%)
     edit_info: (edited %edited_at%)
     moderator_info: (edited by a moderator %edited_at%)
+
 
 time:
     on_timestamp: on %timestamp%
@@ -487,8 +499,12 @@ user_flag:
     none_label: (none)
     admin: admin
     admin_label: Admin
+    short.admin: A
     moderator: moderator
+    short.moderator: M
     moderator_label: Moderator
+    op: Original poster
+    short.op: OP
 
 user_form:
     username: Username

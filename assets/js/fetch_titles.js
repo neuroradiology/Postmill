@@ -4,8 +4,8 @@ import $ from 'jquery';
 import Routing from 'fosjsrouting';
 
 $(function () {
-    $('.auto-fetch-submission-titles .fetch-title').blur(function () {
-        const $receiver = $('.receive-title');
+    $('.js-auto-fetch-submission-titles .js-fetch-title').blur(function () {
+        const $receiver = $('.js-receive-title');
         const url = $(this).val().trim();
 
         if ($receiver.val().trim() === '' && /^https?:\/\//.test(url)) {
@@ -16,7 +16,7 @@ $(function () {
                 data: { url: url },
             }).done(data => {
                 if ($receiver.val().trim() === '') {
-                    $('.receive-title').val(data.title);
+                    $receiver.val(data.title);
                 }
             }).fail(err => {
                 console && console.log(err);

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block sidebar_bottom_classes 'container vp vp--guttered' %}
+
+{% block sidebar_bottom %}
+  <section class="card pad vertical-pad">
+    <h4 class="no-margin">{{ page.path }}</h4>
+
+    <p><small class="dimmed">{{- 'wiki.last_edited'|trans({
+      '%username%': '<a href="%s" class="dimmed">%s</a>'|format(
+        path('user', {username: page.latestRevision.user.username})|escape,
+        page.latestRevision.user.username|escape
+      ),
+      '%timestamp%': block('_last_edited_time'),
+      })|raw -}}</small></p>
+
+    {% if page.locked %}
+      <p>{{ 'wiki.locked_notice'|trans }}</p>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+      <form action="{{ path(page.locked ? 'wiki_unlock' : 'wiki_lock', {path: page.path}) }}" method="post" class="button-row">
+        <input type="hidden" name="token" value="{{ csrf_token('wiki_lock') }}">
+        <button class="button">{{ (page.locked ? 'action.unlock' : 'action.lock')|trans }}</button>
+      </form>
+    {% endif %}
+  </section>
+
+  <section class="card">
+    <h4 class="no-margin pad vertical-pad">{{ 'label.toolbox'|trans }}</h4>
+
+    <ul class="unlistify" role="navigation">
+      {% if is_granted('write', page) %}
+        <li><a href="{{ path('wiki_edit', {path: page.path}) }}" class="menu-link">{{ 'wiki.edit_page'|trans }}</a></li>
+      {% endif %}
+      <li><a href="{{ path('wiki_history', {path: page.path}) }}" class="menu-link">{{ 'wiki.page_history'|trans }}</a></li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h4 class="no-margin pad vertical-pad">{{ 'wiki.navigation'|trans }}</h4>
+
+    <ul class="unlistify" role="navigation">
+      <li><a href="{{ path('wiki_all') }}" class="menu-link">{{ 'wiki.all_pages'|trans }}</a></li>
+      <li><a href="{{ path('wiki_recent_changes') }}" class="menu-link">{{ 'label.recent_changes'|trans }}</a></li>
+    </ul>
+  </section>
+{% endblock %}
+
+{% block _last_edited_time %}
+  {% with {time: page.latestRevision.timestamp|localizeddate('long', 'short')} %}
+    <time datetime="{{ page.latestRevision.timestamp|date('c') }}" title="{{ time }}" class="relative-time">
+      {{ 'time.on_timestamp'|trans({'%timestamp%': time}) }}
+    </time>
+  {% endwith %}
+{% endblock %}

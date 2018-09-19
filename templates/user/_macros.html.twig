@@ -2,28 +2,33 @@
  # - submitter (bool): If comment author is the submission author
  # - flag (int|string): one of App\Entity\UserFlags constants, or 'admin'/'moderator'
  # - class (string): Additional classes
+ # - full_label (bool): show non-shortened flag
  #}
 {%- macro user_link(user, options) -%}
-  {%- from _self import _class_by_flag -%}
+  {%- from _self import _class_by_flag, user_flag -%}
   <a href="{{ path('user', {username: user.username}) }}"
-     class="{{ (options.submitter ?? false) ? 'submitter' }} {{ _class_by_flag(options.flag ?? 0) }} {{ options.class ?? '' }}">
+     class="{{ (options.submitter ?? false) ? 'submitter' }} {{ options.class ?? '' }}">
     {{- (options.prefix ?? false) ? '/u/' -}}
     {{- user.username -}}
   </a>
-  {%- if options.flag ?? 0 is same as(0) -%}
-  {% elseif options.flag == constant('App\\Entity\\UserFlags::FLAG_ADMIN') or options.flag == 'admin' %}
-    <small class="user-flag user-flag-admin">{{ 'user_flag.admin'|trans }}</small>
-  {% elseif options.flag == constant('App\\Entity\\UserFlags::FLAG_MODERATOR') or options.flag == 'moderator' %}
-    <small class="user-flag user-flag-moderator">{{ 'user_flag.moderator'|trans }}</small>
-  {%- endif -%}
+  {{ (options.flag ?? false) ? user_flag(options.flag, {full_label: options.full_label ?? false}) -}}
 {%- endmacro -%}
 
-{%- macro _class_by_flag(flag) -%}
-  {%- if flag is same as(0) -%}
-    {#- early exit -#}
-  {%- elseif flag == constant('App\\Entity\\UserFlags::FLAG_ADMIN') or flag == 'admin' -%}
-    flag-admin
-  {%- elseif flag == constant('App\\Entity\\UserFlags::FLAG_MODERATOR') or flag == 'moderator' -%}
-    flag-moderator
+{%- macro user_flag(flag, options) -%}
+  {%- from '_macros/icon.html.twig' import icon -%}
+  {%- if flag == constant('App\\Entity\\UserFlags::FLAG_ADMIN') or flag is same as('admin') -%}
+    <small class="user-flag bad-fg no-wrap" title="{{ 'user_flag.admin'|trans }}">
+      {{ icon('hammer', 'user_flag.admin'|trans) }}
+      {{ ('user_flag.'~((not options.full_label ?? false) ? 'short.')~'admin')|trans }}
+    </small>
+  {%- elseif flag == constant('App\\Entity\\UserFlags::FLAG_MODERATOR') or flag is same as('moderator') -%}
+    <small class="user-flag good-fg no-wrap" title="{{ 'user_flag.moderator'|trans }}">
+      {{ icon('hammer', 'user_flag.moderator'|trans) }}
+      {{ ('user_flag.'~((not options.full_label ?? false) ? 'short.')~'moderator')|trans }}
+    </small>
+  {%- elseif flag is same as('op') -%}
+    <small class="user-flag user-flag--submitter">
+      {{ 'user_flag.short.op'|trans }}
+    </small>
   {%- endif -%}
 {%- endmacro -%}

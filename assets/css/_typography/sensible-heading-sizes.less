@@ -1,0 +1,11 @@
+.sensible-heading-sizes {
+  .headings(@level: 1) when (@level <= 6) {
+    h@{level} {
+      font-size: 1.5rem - (@level - 1) * 0.1;
+    }
+
+    .headings(@level + 1);
+  }
+
+  .headings();
+}

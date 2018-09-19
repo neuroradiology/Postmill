@@ -1,0 +1,30 @@
+.alert {
+  padding: 1rem 1rem 0;
+
+  &--animate {
+    animation: alert-fadein 1s;
+  }
+
+  &--bad {
+    background-color: var(--bad-bg);
+  }
+
+  &--notice {
+    background-color: var(--neutral-bg);
+  }
+
+  &--success {
+    background-color: var(--good-bg);
+  }
+
+  &::after {
+    // disable margin collapsing
+    content: '';
+    display: table;
+  }
+
+  @keyframes alert-fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}

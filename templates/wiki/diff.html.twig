@@ -1,14 +1,15 @@
 {% extends 'base.html.twig' %}
+{% use '_layouts/single_column.html.twig' %}
 
-{% block page_classes 'wiki-diff-page' %}
 {% block title 'title.wiki_diff'|trans({
   'from': from.id[0:8],
   'to': to.id[0:8],
 }) %}
 
+{% block main_classes 'container container--two-col-expand vertical-pad' %}
 {% block body %}
   {% from _self import time_ago, time_since %}
-  <h1 class="page-heading">
+  <h1 class="page-heading pad">
     {{ 'title.wiki_diff'|trans({
       '%from%': '<a href="%s">%s</a>'|format(
         path('wiki_revision', {id: from.id})|e,

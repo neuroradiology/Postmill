@@ -1,4 +1,5 @@
 {% extends 'forum/base.html.twig' %}
+{% block main_classes 'container vertical-pad pad' %}
 
 {% block head %}
   {{ include('_includes/meta_pagination.html.twig', {pager: logs}, with_context=false) }}

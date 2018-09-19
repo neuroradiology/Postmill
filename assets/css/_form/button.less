@@ -1,0 +1,56 @@
+@import (reference) '../_mixins/shade';
+@import (reference) '../_utilities/unbuttonize';
+
+.button {
+  .unbuttonize();
+  background-color: var(--accent);
+  cursor: pointer;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  white-space: nowrap;
+
+  &:not(&--secondary) {
+    color: var(--text-on-accent);
+
+    &:active {
+      color: var(--washed);
+    }
+  }
+
+  &:hover {
+    .shade();
+    text-decoration: none;
+  }
+
+  &:focus {
+    background-image: linear-gradient(to bottom, transparent, var(--general-shade));
+    outline: 0;
+  }
+
+  &[disabled] {
+    .shade();
+    color: var(--dimmed);
+    cursor: not-allowed;
+  }
+
+  &--inline {
+    font-size: 1rem;
+    display: inline;
+    padding: 0.25rem 0.5rem;
+  }
+
+  // inverted button
+  &--secondary {
+    background: var(--general-shade);
+    color: var(--main);
+
+    &:not([disabled]):hover {
+      background-image: linear-gradient(to bottom, var(--general-shade), var(--general-shade));
+    }
+
+    &:not([disabled]):active {
+      background-image: linear-gradient(to bottom, var(--general-shade), transparent);
+    }
+  }
+}

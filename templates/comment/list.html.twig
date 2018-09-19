@@ -1,20 +1,22 @@
 {% extends 'base.html.twig' %}
+{% use '_layouts/list_of_things.html.twig' %}
 {% from 'comment/_macros.html.twig' import comment %}
 
-{% block page_classes 'comment-list-page' %}
+{% set things = comments %}
 {% block title 'title.recent_comments'|trans %}
 
-{% block head %}
-  {{ include('_includes/meta_pagination.html.twig', {pager: comments}, with_context=false) }}
-{% endblock %}
+{% block page_header %}
+  <header class="nav nav--guttered nav--justify-space-between nav--align-end pad">
+    <h1 class="no-margin">{{ block('title') }}</h1>
+    <nav>
+      <ul class="nav nav--guttered unlistify" role="navigation">
+        <li><a href="{{ path('front') }}" class="tab">{{ 'nav.submissions'|trans }}</a></li>
+        <li><a href="{{ path('comment_list') }}" class="tab tab--active">{{ 'nav.comments'|trans }}</a></li>
+      </ul>
+    </nav>
+  </header>
+{% endblock page_header %}
 
-{% block body %}
-  <h1 class="page-heading">{{ block('title') }}</h1>
-
-  {% for comment in comments %}
-    {{ comment(comment, {show_context: true}) }}
-  {% endfor %}
-
-  {{ include('_includes/pagination.html.twig', {pager: comments}, with_context=false) }}
-{% endblock %}
-
+{% block render_thing %}
+  {{ comment(thing) }}
+{% endblock render_thing %}

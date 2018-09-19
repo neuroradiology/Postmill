@@ -1,19 +1,22 @@
 {% extends 'submission/base.html.twig' %}
 
 {% block title 'title.delete_submission'|trans %}
-{% block page_classes 'submission-delete-with-reason-page' %}
+
+{% block page_classes 'container vp vp--guttered vertical-pad' %}
 
 {% block body %}
   {% from 'submission/_macros.html.twig' import submission %}
 
-  <h1 class="page-heading">{{ block('title') }}</h1>
+  <h1 class="no-margin pad">{{ block('title') }}</h1>
 
-  {{ submission(submission) }}
+  <div class="card">
+    {{ submission(submission) }}
+  </div>
 
-  {{ form_start(form) }}
+  {{ form_start(form, {attr: {class: 'pad vp vp--guttered'}}) }}
     {{ form_row(form.reason) }}
 
-    <div class="form__button-row">
+    <div class="button-row">
       <button class="button">{{ 'action.delete'|trans }}</button>
     </div>
   {{ form_end(form) }}

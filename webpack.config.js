@@ -9,8 +9,10 @@ Encore
     .cleanupOutputBeforeBuild()
     .enableLessLoader()
     .enableSourceMaps(!Encore.isProduction())
-    .addStyleEntry('red', './assets/less/main.less')
-    .addStyleEntry('night', './assets/less/main-night.less')
+    .addStyleEntry('core', './assets/css/core.less')
+    .addStyleEntry('postmill', './assets/css/postmill.css')
+    .addStyleEntry('postmill-night', './assets/css/postmill-night.css')
+    .addStyleEntry('jst', './assets/css/jst.css')
     .createSharedEntry('vendor', [
         'babel-polyfill',
         'bazinga-translator',

@@ -1,0 +1,32 @@
+@import '../_mixins/_breakpoints';
+@import '../_settings';
+
+.two-col-collapsible {
+  justify-content: center;
+  display: grid;
+  grid-template-areas: 'c'
+                       'a'
+                       'b';
+  grid-template-columns: 100%;
+  grid-template-rows: auto 1fr;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+
+  .gt(@desktop-breakpoint, {
+    grid-template-columns: @main-column-width calc(@sidebar-width - 1rem);
+    grid-template-areas: 'a c'
+                         'a b';
+  });
+
+  &__top {
+    grid-area: c;
+  }
+
+  &__main {
+    grid-area: a;
+  }
+
+  &__bottom {
+    grid-area: b;
+  }
+}

@@ -1,0 +1,73 @@
+@import '../_mixins/_breakpoints';
+@import '../_settings';
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+
+  &--align-start {
+    align-items: flex-start;
+  }
+
+  &--align-end {
+    align-items: flex-end;
+  }
+
+  &--align-center {
+    align-items: center;
+  }
+
+  &--guttered&--no-wrap {
+    > :not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+
+  &--guttered:not(&--no-wrap) {
+    margin-left: -1rem;
+
+    > * {
+      margin-left: 1rem;
+    }
+  }
+
+  &--no-wrap {
+    flex-wrap: nowrap;
+  }
+
+  &--justify-space-between {
+    justify-content: space-between;
+  }
+
+  &--justify-start {
+    justify-content: flex-start;
+  }
+
+  &--justify-center {
+    justify-content: center;
+  }
+
+  &--justify-end {
+    justify-content: flex-end;
+  }
+
+  &__grow {
+    flex-grow: 1;
+  }
+
+  &__shrink {
+    flex-shrink: 1;
+  }
+
+  &--stack-on-mobile {
+    .lte(@mobile-breakpoint, {
+      flex-direction: column;
+    });
+  }
+
+  &--stack-on-tablet {
+    .lte(@tablet-breakpoint, {
+      flex-direction: column;
+    });
+  }
+}

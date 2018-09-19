@@ -1,79 +1,27 @@
-{% extends 'base.html.twig' %}
+{% extends 'wiki/base.html.twig' %}
+{% from '_macros/icon.html.twig' import icon %}
 
-{% block page_classes %}
-  wiki-page
-{% endblock %}
-
-{% block title %}
-  {{ page.latestRevision.title }}
-{% endblock %}
+{% block title page.latestRevision.title %}
+{% block main_classes 'container' %}
 
 {% block head %}
   <link rel="canonical" href="{{ url('wiki', {path: page.path}) }}">
 {% endblock %}
 
 {% block body %}
-  <article class="wiki-page">
-    <h1 class="wiki-page-title">{{ block('title') }}</h1>
+  <header class="nav nav--guttered nav--justify-space-between nav--align-end vertical-pad pad">
+    <h1 class="no-margin">{{ block('title') }}</h1>
 
-    <div class="wiki-page-body">
-      {{ page.latestRevision.body|cached_markdown(markdown_context())|raw }}
-    </div>
+    <nav>
+      <a href="{{ path('wiki_edit', {path: page.path}) }}" class="button button--secondary">
+        {{ icon('pencil') }}
+        {{ 'wiki.edit_page'|trans }}
+      </a>
+    </nav>
+  </header>
+
+  <article class="card pad vertical-pad">
+    {{ page.latestRevision.body|cached_markdown(markdown_context())|raw }}
   </article>
 {% endblock %}
 
-{% block sidebar %}
-  <section class="sidebar__section sidebar__section--wiki-info">
-    <h1 class="sidebar__title">{{ page.path }}</h1>
-      <p>
-        {{- 'wiki.last_edited'|trans({
-          '%username%': '<a href="%s">%s</a>'|format(
-            path('user', {username: page.latestRevision.user.username})|escape,
-            page.latestRevision.user.username|escape
-          ),
-          '%timestamp%': block('_last_edited_time'),
-        })|raw -}}
-      </p>
-
-    {% if page.locked %}
-      <p>{{ 'wiki.locked_notice'|trans }}</p>
-    {% endif %}
-
-    {% if is_granted('ROLE_ADMIN') %}
-      <form action="{{ path(page.locked ? 'wiki_unlock' : 'wiki_lock', {path: page.path}) }}" method="post">
-        <input type="hidden" name="token" value="{{ csrf_token('wiki_lock') }}">
-        <p>
-          <button class="button button--inline">{{ (page.locked ? 'action.unlock' : 'action.lock')|trans }}</button>
-        </p>
-      </form>
-    {% endif %}
-  </section>
-
-  <section class="sidebar__section sidebar__section--wiki-toolbox">
-    <h1 class="sidebar__title">{{ 'label.toolbox'|trans }}</h1>
-
-    <ul>
-      {% if is_granted('write', page) %}
-        <li><a href="{{ path('wiki_edit', {path: page.path}) }}">{{ 'wiki.edit_page'|trans }}</a></li>
-      {% endif %}
-      <li><a href="{{ path('wiki_history', {path: page.path}) }}">{{ 'wiki.page_history'|trans }}</a></li>
-    </ul>
-  </section>
-
-  <section class="sidebar__section sidebar__section--wiki-navigation">
-    <h1 class="sidebar__title">{{ 'wiki.navigation'|trans }}</h1>
-
-    <ul>
-      <li><a href="{{ path('wiki_all') }}">{{ 'wiki.all_pages'|trans }}</a></li>
-      <li><a href="{{ path('wiki_recent_changes') }}">{{ 'label.recent_changes'|trans }}</a></li>
-    </ul>
-  </section>
-{% endblock %}
-
-{% block _last_edited_time %}
-  {% with {time: page.latestRevision.timestamp|localizeddate('long', 'short')} %}
-    <time datetime="{{ page.latestRevision.timestamp|date('c') }}" title="{{ time }}" class="relative-time">
-      {{ 'time.on_timestamp'|trans({'%timestamp%': time}) }}
-    </time>
-  {% endwith %}
-{% endblock %}

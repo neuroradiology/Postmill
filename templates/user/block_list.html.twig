@@ -1,46 +1,51 @@
 {% extends 'base.html.twig' %}
+{% use '_layouts/single_column.html.twig' %}
 
-{% block page_classes 'user-block-list-page' %}
+{% block main_classes 'container container--two-col-expand vp vp--guttered vertical-pad' %}
 {% block title 'title.block_list'|trans %}
 
 {% from 'user/_macros.html.twig' import user_link %}
 
 {% block body %}
-  <h1 class="page-heading">{{ block('title') }}</h1>
+  <h1 class="pad no-margin">{{ block('title') }}</h1>
 
   <div class="alert alert--notice">
     <p>{{ 'help.block_users'|trans }}</p>
   </div>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>{{ 'label.username'|trans }}</th>
-        <th>{{ 'label.blocked'|trans }}</th>
-        <th>{{ 'label.comment'|trans }}</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for block in blocks %}
+  {% if blocks is not empty %}
+    <table class="table">
+      <thead>
         <tr>
-          <td>{{ user_link(block.blocked) }}</td>
-          <td>
-            {% with {date: block.timestamp|localizeddate('long', 'short')} %}
-            <time datetime="{{ block.timestamp|date('c') }}" title="{{ date }}" class="relative-time">
-              {{- date -}}
-            </time>
-            {% endwith %}
-          </td>
-          <td>{{ block.comment }}</td>
-          <td>
-            <form action="{{ path('unblock_user', {id: block.id}) }}" method="post">
-              <input type="hidden" name="token" value="{{ csrf_token('unblock') }}">
-              <button class="button button--inline">{{ 'action.unblock'|trans }}</button>
-            </form>
-          </td>
+          <th>{{ 'label.username'|trans }}</th>
+          <th>{{ 'label.blocked'|trans }}</th>
+          <th>{{ 'label.comment'|trans }}</th>
+          <th></th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for block in blocks %}
+          <tr>
+            <td>{{ user_link(block.blocked) }}</td>
+            <td>
+              {% with {date: block.timestamp|localizeddate('long', 'short')} %}
+              <time datetime="{{ block.timestamp|date('c') }}" title="{{ date }}" class="relative-time">
+                {{- date -}}
+              </time>
+              {% endwith %}
+            </td>
+            <td>{{ block.comment }}</td>
+            <td>
+              <form action="{{ path('unblock_user', {id: block.id}) }}" method="post">
+                <input type="hidden" name="token" value="{{ csrf_token('unblock') }}">
+                <button class="button button--inline">{{ 'action.unblock'|trans }}</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="pad"><small class="dimmed">{{ 'flash.no_entries_to_display'|trans }}</small></p>
+  {% endif %}
 {% endblock %}

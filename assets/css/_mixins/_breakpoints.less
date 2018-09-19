@@ -1,0 +1,14 @@
+@import '../_settings';
+
+.lte(@breakpoint, @rules) {
+  @media screen and (max-width: @breakpoint) {
+    @rules();
+  }
+}
+
+.gt(@breakpoint, @rules) {
+  @media not screen and (max-width: @breakpoint) {
+    @rules();
+  }
+}
+

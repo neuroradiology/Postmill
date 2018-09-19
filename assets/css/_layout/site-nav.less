@@ -1,0 +1,126 @@
+@import '../_mixins/_breakpoints';
+@import '../_mixins/shade';
+@import '../_settings';
+
+.site-nav {
+  background-color: var(--accent);
+  width: 100%;
+  z-index: 1;
+
+  &__link {
+    display: block;
+    color: var(--text-on-accent);
+    font-size: 1rem;
+    padding: 1rem;
+    text-decoration: none !important;
+    white-space: nowrap;
+
+    &--active {
+      @1px: var(--pixel, 1px);
+      @2px: calc(var(--pixel, 1px) * 2);
+      position: relative;
+
+      &::after {
+        content: '';
+        background-color: var(--text-on-accent);
+        position: absolute;
+        width: 100%;
+        height: @2px;
+        left: 0;
+        bottom: @1px;
+
+        // put border on left-hand side for inner elements
+        .lte(@tablet-breakpoint, {
+          .site-nav__inner & {
+            width: @2px;
+            height: 100%;
+            left: @2px;
+            bottom: 0;
+          }
+        });
+      }
+    }
+
+    &:hover,
+    &:focus {
+      .shade;
+      outline: 0;
+    }
+  }
+
+  .lte(@tablet-breakpoint, {
+    &__inner &__link {
+      padding: 0.5rem 1rem;
+    }
+  });
+
+  &__brand {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    svg {
+      height: 2rem;
+      width: 2rem;
+
+      #logo1 {
+        fill: var(--logo1);
+      }
+
+      #logo2 {
+        fill: var(--logo2);
+      }
+    }
+  }
+
+  &__site-name {
+    display: none;
+    margin-left: 0.5rem;
+  }
+
+  &__inner {
+    .shade;
+    background-color: var(--accent);
+    display: none;
+    position: absolute;
+    width: 100%;
+
+    &--mobile-visible {
+      display: block;
+    }
+  }
+
+  &__dropdown.dropdown--expanded,
+  .no-js &__dropdown:hover {
+    .shade;
+  }
+
+  &--has-notifications &__notification-highlight {
+    background-color: var(--notification);
+    color: var(--text-on-accent); // todo: wrong colour
+  }
+
+  .gt(@tablet-breakpoint, {
+    &__container {
+      display: flex;
+    }
+
+    &__inner {
+      background-image: unset;
+      display: flex;
+      justify-content: space-between;
+      position: static;
+      width: 100%;
+    }
+
+    &__mobile-menu {
+      display: none;
+    }
+
+    &__site-name {
+      display: unset;
+    }
+  });
+}

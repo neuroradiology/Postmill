@@ -1,0 +1,86 @@
+@import '../_mixins/_breakpoints';
+@import '../_settings';
+
+.submission {
+  display: grid;
+  grid-template-areas:
+    'a b'  // vote / header
+    'c c'; // body
+  grid-template-columns: auto 1fr;
+
+  &__vote {
+    align-items: center;
+    display: flex;
+    grid-area: a;
+    height: 70px;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    grid-area: b;
+    min-height: 70px;
+    padding-right: 1rem;
+    position: relative;
+  }
+
+  &--has-image &__header > * {
+    margin-left: calc(1rem + var(--pixel) * 70);
+  }
+
+  &__thumb {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  // hide thumb on mobile
+  .lte(@mobile-breakpoint, {
+    &__header {
+      position: static;
+    }
+
+    &--has-image &__header > * {
+      margin-left: 0;
+    }
+
+    &__thumb {
+      display: none;
+    }
+  });
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: normal;
+    // don't make giant new lines if only the tiny host text wraps
+    line-height: 0;
+    margin: 0;
+
+    > * {
+      // restore line-height for children
+      line-height: 1.25;
+    }
+  }
+
+  &__link {
+    font-weight: 500;
+  }
+
+  &__link:visited {
+    color: var(--visited-link);
+  }
+
+  &--sticky &__link {
+    color: var(--sticky);
+  }
+
+  &__host {
+    font-size: 0.75rem;
+  }
+
+  &__body {
+    grid-area: c;
+    padding-top: 0.5rem;
+  }
+}

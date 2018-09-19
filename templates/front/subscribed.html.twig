@@ -1,31 +1,24 @@
 {% extends 'front/base.html.twig' %}
 
-{% block page_classes 'subscribed-page' %}
-
 {% block front_alerts %}
-  {% if not has_subscriptions %}
-    <div class="alert alert--notice">
-      <p>{{ 'front.no_subscriptions'|trans }}</p>
-    </div>
-  {% endif %}
+  {%- if not has_subscriptions -%}
+    <p class="pad"><small class="dimmed">{{ 'front.please_subscribe'|trans }}</small></p>
+  {%- endif -%}
 {% endblock %}
 
-{% block sidebar %}
-  <section class="sidebar__section sidebar__section--front-forums">
-    {% if has_subscriptions %}
-      <h1 class="sidebar__title">{{ 'front.subscribed_forums'|trans }}</h1>
-    {% else %}
-      <h1 class="sidebar__title">{{ 'front.featured_forums'|trans }}</h1>
-    {% endif %}
+{% block sidebar_bottom_classes 'container' %}
+{% block sidebar_bottom %}
+  <section class="card">
+    <h4 class="no-margin pad vertical-pad">{{ 'front.subscribed_forums'|trans }}</h4>
 
     {% if forums|length > 0 %}
-      <ul>
+      <ul class="unlistify" role="navigation">
         {% for name in forums %}
-          <li><a href="{{ path('forum', {forum_name: name}) }}">{{ name }}</a></li>
+          <li><a href="{{ path('forum', {forum_name: name}) }}" class="menu-link">{{ name }}</a></li>
         {% endfor %}
       </ul>
     {% else %}
-      <p>{{ 'front.no_forums'|trans }}</p>
+      <p class="no-margin pad vertical-pad"><small class="dimmed">{{ 'front.no_forums'|trans }}</small></p>
     {% endif %}
   </section>
 {% endblock %}

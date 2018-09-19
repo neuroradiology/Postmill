@@ -1,39 +1,46 @@
 {% extends 'base.html.twig' %}
+{% use '_layouts/single_column.html.twig' %}
 
 {% block head %}
-  {% include '_includes/meta_pagination.html.twig' with {pager: notifications} %}
+  {{ include('_includes/meta_pagination.html.twig', {pager: notifications}, with_context=false) }}
 {% endblock %}
 
-{% block page_classes %}
-  inbox-page
-{% endblock %}
+{% block title 'inbox.title'|trans %}
 
-{% block title %}
-  {{ 'inbox.title'|trans }}
-{% endblock %}
+{% block main_classes 'container vertical-pad vp vp--guttered' %}
 
 {% block body %}
-  <h1 class="page-heading">{{ 'inbox.title'|trans }}</h1>
+  <div class="pad nav nav--guttered nav--justify-space-between">
+    <h1 class="no-margin">{{ 'inbox.title'|trans }}</h1>
 
-  {% if notifications|length > 0 %}
-    <form action="{{ path('clear_inbox', { max: notifications|first.id }) }}" method="POST" class="form">
-      <input type="hidden" name="token" value="{{ csrf_token('clear_inbox') }}">
-      <div class="form__row">
+    {% if notifications is not empty %}
+      <form action="{{ path('clear_inbox', { max: notifications|first.id }) }}" method="POST">
+        <input type="hidden" name="token" value="{{ csrf_token('clear_inbox') }}">
         <button type="submit" class="button">{{ 'inbox.clear_inbox'|trans }}</button>
+      </form>
+    {% endif %}
+  </div>
+
+  {% if notifications is not empty %}
+    {% for notification in notifications %}
+      <div>
+        <form action="{{ path('clear_notification', { id: notification.id }) }}" method="POST" class="pad nav nav--justify-end">
+          <input type="hidden" name="token" value="{{ csrf_token('clear_notification') }}">
+          <button class="button button--inline">{{ 'action.clear_notification'|trans }}</button>
+        </form>
+
+        <div class="card">
+          {{ block('notification_'~notification.type) }}
+        </div>
       </div>
-    </form>
+    {% endfor %}
+
+    <div class="pad">
+      {{ include('_includes/pagination.html.twig', {pager: notifications}, with_context=false) }}
+    </div>
   {% else %}
-    <p class="no-entries">
-      <small class="dimmed">{{ 'inbox.empty'|trans }}</small>
-    </p>
+    <p class="pad"><small class="dimmed">{{ 'inbox.empty'|trans }}</small></p>
   {% endif %}
-
-  {% for notification in notifications %}
-    {{ block('clear_notification_button') }}
-    {{ block('notification_'~notification.type) }}
-  {% endfor %}
-
-  {% include '_includes/pagination.html.twig' with {pager: notifications} %}
 {% endblock %}
 
 {% block notification_comment %}
@@ -43,34 +50,13 @@
 {% endblock %}
 
 {% block notification_message_thread %}
-  {% from 'message/_macros.html.twig' import message_thread %}
+  {% from 'message/_macros.html.twig' import message %}
 
-  <h1 class="notification-head">
-    <a href="{{ path('message', {id: notification.thread.id}) }}">
-      {{- notification.thread.title -}}
-    </a>
-  </h1>
-
-  {{ message_thread(notification.thread, {recursive: false}) }}
+  {{ message(notification.thread, {recursive: false}) }}
 {% endblock %}
 
 {% block notification_message_reply %}
-  {% from 'message/_macros.html.twig' import message_reply %}
+  {% from 'message/_macros.html.twig' import message %}
 
-  <h1 class="notification-head">
-    <a href="{{ path('message', {id: notification.reply.thread.id}) }}#mr{{ notification.reply.id }}">
-      {{ 'inbox.message_reply_head'|trans({'%title%': notification.reply.thread.title}) -}}
-    </a>
-  </h1>
-
-  {{ message_reply(notification.reply) }}
-{% endblock %}
-
-{% block clear_notification_button %}
-  <form action="{{ path('clear_notification', { id: notification.id }) }}" method="POST">
-    <input type="hidden" name="token" value="{{ csrf_token('clear_notification') }}">
-      <div>
-        <button type="submit" class="clear-notification-button">Clear notification</button>
-      </div>
-  </form>
+  {{ message(notification.reply) }}
 {% endblock %}

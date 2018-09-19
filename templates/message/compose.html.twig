@@ -1,8 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends 'user/base.html.twig' %}
 
-{% block page_classes %}
-  compose-message-page
-{% endblock %}
+{% set user = receiver %}
 
 {% block title %}
   {{ 'compose_message.title'|trans({'%username%': receiver.username}) }}
@@ -16,9 +14,5 @@
     )})|raw -}}
   </h1>
 
-  {{ form_start(form) }}
-    {{ form_row(form.title, {attr: {rows: 3}}) }}
-
-    {{ form_row(form.body, {attr: {rows: 8}}) }}
-  {{ form_end(form) }}
+  {{ include('message/_form.html.twig', {form: form}, with_context=false) }}
 {% endblock %}

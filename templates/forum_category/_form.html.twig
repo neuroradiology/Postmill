@@ -1,12 +1,5 @@
-{{ form_start(form) }}
-  <div class="form__row">
-    {{ form_label(form.name) }}
-    {{ form_errors(form.name) }}
-    {{ form_widget(form.name) }}
-    <div class="form__help">
-      <p>{{ 'help.will_appear_in_the_url'|trans }}</p>
-    </div>
-  </div>
+{{ form_start(form, {attr: {class: 'vp vp--guttered'}}) }}
+  {{ form_row(form.name, {help: 'help.will_appear_in_the_url'}) }}
 
   {{ form_row(form.title) }}
 
@@ -14,7 +7,7 @@
 
   {{ form_row(form.sidebar, { attr: { rows: 8 } }) }}
 
-  <div class="form__row form__button-row">
+  <div class="button-row">
     <button class="button">{{ (editing ? 'action.edit' : 'action.create')|trans }}</button>
   </div>
 {{ form_end(form) }}

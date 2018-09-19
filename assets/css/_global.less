@@ -1,0 +1,76 @@
+@import '_mixins/set-block-text-margins';
+
+html {
+  background-color: var(--washed);
+  box-sizing: border-box;
+  color: var(--main);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  height: 100%;
+  line-height: var(--line-height);
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  height: 100%;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.set-block-text-margins(1rem);
+
+.headings(@level: 1) when (@level <= 6) {
+  h@{level} {
+    font-size: 1.6rem - (@level - 1) * 0.1;
+  }
+  .headings(@level + 1);
+}
+
+.headings();
+
+hr {
+  border: none;
+  border-top: solid 0.0625rem var(--general-shade);
+}
+
+// opinionated blockquote styling - should be safe?
+blockquote {
+  background-color: var(--washed);
+  border-left: 0.125rem solid;
+  color: var(--muted);
+  margin: 0;
+  padding: 0 0.5rem;
+
+  a {
+    color: var(--main);
+  }
+}
+
+button,
+input,
+optgroup,
+option,
+select,
+textarea {
+  font: inherit;
+}
+
+pre {
+  overflow-x: auto;
+}
+
+.select2-container {
+  // Fix for select2 being bad on dark pages.
+  // It doesn't matter that the select box is bright, since regular select boxes
+  // wouldn't have their colours overridden anyway.
+}

@@ -1,0 +1,55 @@
+@import (reference) '../_mixins/shade';
+@import (reference) '../_utilities/unbuttonize';
+
+.subscribe-button {
+  .unbuttonize;
+
+  cursor: pointer;
+  display: inline-block;
+
+  &__inner {
+    display: flex;
+  }
+
+  &__label,
+  &__subscriber-count {
+    padding: 0.5rem 1rem;
+  }
+
+  &--subscribe &__label,
+  &--subscribe &__subscriber-count {
+    background-color: var(--good-bg);
+    color: var(--good-fg);
+  }
+
+  &--unsubscribe &__label,
+  &--unsubscribe &__subscriber-count {
+    background-color: var(--bad-bg);
+    color: var(--bad-fg);
+  }
+
+  &__subscriber-count {
+    margin-left: var(--pixel);
+  }
+
+  &:active &__label {
+    color: var(--dimmed);
+  }
+
+  &:hover &__label {
+    .shade();
+  }
+
+  // Make widget suitable when space is tight, e.g. in table cells.
+  &--inline {
+    vertical-align: top;
+    display: inline;
+  }
+
+  &__label,
+  &__subscriber-count {
+    .subscribe-button--inline & {
+      padding: 0.25rem 0.5rem;
+    }
+  }
+}

@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
+{% use '_layouts/single_column.html.twig' %}
 
-{% block page_classes 'user-list-page' %}
+{% form_theme form '_forms/aligned_form_theme.html.twig' %}
+
+{% block main_classes 'container container--two-col-expand vertical-pad vp vp--guttered' %}
+
 {% block title 'title.list_of_users'|trans({'%page%': page|localizednumber}) %}
 
 {% block head %}
@@ -8,15 +12,15 @@
 {% endblock %}
 
 {% block body %}
-  <h1 class="page-heading">{{ block('title') }}</h1>
+  <h1 class="page-heading pad">{{ block('title') }}</h1>
 
-  <details>
+  <details class="pad">
     <summary>{{ 'nav.filter_results'|trans }}</summary>
 
-    {{ form_start(form) }}
+    {{ form_start(form, {attr: {class: 'vp vp--guttered'}}) }}
       {{ form_rest(form) }}
 
-      <div class="form__row">
+      <div class="button-row button-row--form-aligned">
         <button class="button">{{ 'action.filter'|trans }}</button>
       </div>
     {{ form_end(form) }}
@@ -26,52 +30,52 @@
   <table class="table">
     <thead>
       <tr>
-        <th>{{ 'label.id'|trans }}</th>
+        <th class="table__shrink">{{ 'label.id'|trans }}</th>
         <th>{{ 'label.username'|trans }}</th>
-        <th>{{ 'label.registration_date'|trans }}</th>
-        <th>{{ 'label.role'|trans }}</th>
-        <th>{{ 'label.moderates'|trans }}</th>
-        <th><abbr title="{{ 'label.submissions'|trans }}">{{ 'label.submissions_short'|trans }}</abbr></th>
-        <th><abbr title="{{ 'label.comments'|trans }}">{{ 'label.comments_short'|trans }}</abbr></th>
-        <th><abbr title="{{ 'label.submission_votes'|trans }}">{{ 'label.submission_votes_short'|trans }}</abbr></th>
-        <th><abbr title="{{ 'label.comment_votes'|trans }}">{{ 'label.comment_votes_short'|trans }}</abbr></th>
+        <th class="table__shrink">{{ 'label.registration_date'|trans }}</th>
+        <th class="table__shrink">{{ 'label.role'|trans }}</th>
+        <th class="table__shrink">{{ 'label.moderates'|trans }}</th>
+        <th class="table__shrink"><abbr title="{{ 'label.submissions'|trans }}">{{ 'label.submissions_short'|trans }}</abbr></th>
+        <th class="table__shrink"><abbr title="{{ 'label.comments'|trans }}">{{ 'label.comments_short'|trans }}</abbr></th>
+        <th class="table__shrink"><abbr title="{{ 'label.submission_votes'|trans }}">{{ 'label.submission_votes_short'|trans }}</abbr></th>
+        <th class="table__shrink"><abbr title="{{ 'label.comment_votes'|trans }}">{{ 'label.comment_votes_short'|trans }}</abbr></th>
       </tr>
     </thead>
 
     <tbody>
       {% for user in users %}
         <tr>
-          <td>{{ user.id }}</td>
-          <td>{{ user_link(user) }}</td>
-          <td>
+          <td class="table__shrink">{{ user.id }}</td>
+          <td class="break-word">{{ user_link(user) }}</td>
+          <td class="table__shrink">
             {% with { date: user.created|localizeddate('long', 'short')} %}
               <time datetime="{{ user.created|date('c') }}" class="relative-time" title="{{ date }}">
                 {{- date -}}
               </time>
             {% endwith %}
           </td>
-          <td>{{ user.admin ? ('label.admin'|trans) : user.trusted ? ('label.trusted'|trans) : '-' }}</td>
-          <td>
+          <td class="table__shrink">{{ user.admin ? ('label.admin'|trans) : user.trusted ? ('label.trusted'|trans) : '-' }}</td>
+          <td class="table__shrink">
             {% with { count: user.moderatorTokens|length } %}
               {{ count > 0 ? 'label.forums_count'|transchoice(count) : '-' }}
             {% endwith %}
           </td>
-          <td>
+          <td class="table__shrink">
             {% with { count: user.submissions|length } %}
               {{ count > 0 ? count|localizednumber : '-' }}
             {% endwith %}
           </td>
-          <td>
+          <td class="table__shrink">
             {% with { count: user.comments|length } %}
               {{ count > 0 ? count|localizednumber : '-' }}
             {% endwith %}
           </td>
-          <td>
+          <td class="table__shrink">
             {% with { count: user.submissionVotes|length } %}
               {{ count > 0 ? count|localizednumber : '-' }}
             {% endwith %}
           </td>
-          <td>
+          <td class="table__shrink">
             {% with { count: user.commentVotes|length } %}
               {{ count > 0 ? count|localizednumber : '-' }}
             {% endwith %}

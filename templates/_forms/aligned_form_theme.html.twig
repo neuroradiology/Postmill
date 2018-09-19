@@ -1,0 +1,22 @@
+{% block form_row %}
+  <div>
+    {{ form_errors(form) }}
+    <div class="form-row form-row--single-line">
+      {{- form_label(form, null, {label_attr: {class: 'form-row__align'}}) -}}
+      {{- form_widget(form) -}}
+    </div>
+    {{ form_help(form) }}
+  </div>
+{% endblock form_row %}
+
+{% block checkbox_row %}
+  <div>
+    {{ form_errors(form) }}
+    <div class="form-row form-row--single-line">
+      <span class="form-row__align" role="presentation"></span>
+      {{ form_widget(form) }}
+      {{ form_label(form) }}
+    </div>
+    {{ form_help(form) }}
+  </div>
+{% endblock checkbox_row %}

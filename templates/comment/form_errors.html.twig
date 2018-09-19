@@ -1,4 +1,5 @@
 {% extends 'submission/base.html.twig' %}
+{% block main_classes 'container vertical-pad' %}
 
 {% from 'comment/_macros.html.twig' import comment %}
 
@@ -10,18 +11,20 @@
   {% endif %}
 {% endblock %}
 
-{% block page_classes %}
-  comment-form-error-page
-{% endblock %}
-
 {% block body %}
   {{ parent() }}
 
-  <h1 class="page-heading">{{ block('title') }}</h1>
+  <div class="vp vp--guttered">
+    <h1 class="container page-heading pad">{{ block('title') }}</h1>
 
-  {% if comment %}
-    {{ comment(comment) }}
-  {% endif %}
+    {% if comment %}
+    <div class="card">
+      {{ comment(comment, {edit_form: form}) }}
+    </div>
+    {% endif %}
 
-  {% include 'comment/_form.html.twig' with { form: form } only %}
+    <div class="card pad vertical-pad">
+      {{ include('comment/_form.html.twig', {form: form}, with_context=false) }}
+    </div>
+  </div>
 {% endblock %}

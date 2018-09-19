@@ -1,23 +1,19 @@
-{{ form_start(form, {attr: {class: (app.user.autoFetchSubmissionTitles ?? true) ? 'auto-fetch-submission-titles'}}) }}
+{{ form_start(form, {attr: {class: 'vp vp--guttered '~((app.user.autoFetchSubmissionTitles ?? true) ? 'js-auto-fetch-submission-titles')}}) }}
   {{ form_errors(form) }}
 
-  {{ form_row(form.url, {attr: {class: 'fetch-title'}}) }}
+  {{ form_row(form.url, {attr: {class: 'js-fetch-title'}}) }}
 
-  {{ form_row(form.title, {attr: {rows: 3, class: 'receive-title'}}) }}
+  {{ form_row(form.title, {attr: {rows: 3, class: 'js-receive-title'}}) }}
 
   {{ form_row(form.body, {attr: {rows: 10}}) }}
 
-  {% if form.forum is defined %}
-    {{ form_row(form.forum, {attr: {class: 'select2'}}) }}
-  {% endif %}
+  {{ form.forum is defined ? form_row(form.forum, {attr: {class: 'select2'}}) }}
 
-  {% if form.userFlag is defined %}
-    {{ form_row(form.userFlag) }}
-  {% endif %}
+  {{ form.userFlag is defined ? form_row(form.userFlag) }}
 
-  {% if form.sticky is defined %}
-    {{ form_row(form.sticky) }}
-  {% endif %}
+  {{ form.sticky is defined ? form_row(form.sticky) }}
+
+  {{ form.locked is defined ? form_row(form.locked) }}
 
   <div class="form__row form__button-row">
     {{ form_widget(form.submit) }}

@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
+{% use '_layouts/single_column.html.twig' %}
 
-{% block page_classes 'login-page' %}
+{% block main_classes 'container pad vertical-pad' %}
 {% block title 'title.log_in'|trans %}
 
 {% block body %}
   <h1 class="page-heading">{{ block('title') }}</h1>
 
-  <form action="{{ path('login_check') }}" method="POST" class="form form--login">
+  <form action="{{ path('login_check') }}" method="POST" class="form vp vp--guttered">
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
     {% if error %}
@@ -15,17 +16,17 @@
       </ul>
     {% endif %}
 
-    <div class="form__row">
-      <label class="form__label" for="login-username">{{ 'login_form.username'|trans }}</label>
-      <input autofocus type="text" name="_username" autocomplete="off" id="login-username" required>
+    <div class="form-row form-row--single-line">
+      <label class="form-row__align" for="login-username">{{ 'login_form.username'|trans }}</label>
+      <input autofocus type="text" name="_username" class="form-control" autocomplete="off" id="login-username" required>
     </div>
 
-    <div class="form__row">
-      <label class="form__label" for="login-password">{{ 'login_form.password'|trans }}</label>
-      <input type="password" name="_password" autocomplete="off" id="login-password" required>
+    <div class="form-row form-row--single-line">
+      <label class="form-row__align" for="login-password">{{ 'login_form.password'|trans }}</label>
+      <input type="password" name="_password" class="form-control" autocomplete="off" id="login-password" required>
     </div>
 
-    <div class="form__row form__button-row">
+    <div class="button-row button-row--form-aligned">
       <button type="submit" class="button">{{ 'login_form.log_in'|trans }}</button>
 
       {% if can_reset_password %}
@@ -36,4 +37,3 @@
     </div>
   </form>
 {% endblock %}
-

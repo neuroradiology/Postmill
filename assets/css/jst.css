@@ -1,0 +1,32 @@
+@import '~typeface-roboto';
+
+:root {
+  --font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+
+  --font-size: 16px;
+  --line-height: 1.25;
+  --pixel: 0.0625rem;
+
+  --main: #000;
+  --muted: #505050;
+  --dimmed: #888;
+  --washed: #f0f0f0;
+  --bleached: #fff;
+  --accent: #4ea7ff;
+  --text-on-accent: #fff;
+  --accent-shade: rgba(0, 0, 0, 0.0625);
+  --general-shade: var(--accent-shade);
+  --link-color: #00e;
+  --visited-link: #66e;
+  --sticky: var(--good-fg);
+  --bad-fg: #f00;
+  --bad-bg: #fdd;
+  --good-bg: #dfd;
+  --good-fg: #0a0;
+  --neutral-bg: #ddf;
+  --vote-up: orange;
+  --vote-down: #04f;
+  --notification: #00e;
+  --logo1: teal;
+  --logo2: skyblue;
+}

@@ -1,0 +1,53 @@
+@import '../_mixins/_breakpoints';
+@import '../_settings';
+
+.dropdown {
+  position: relative;
+
+  .lte(@mobile-breakpoint, {
+    position: static;
+  });
+
+  &__arrow::after {
+    border-left: 0.5ch solid transparent;
+    border-right: 0.5ch solid transparent;
+    border-top: 0.5ch solid;
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  // flip the arrow upon expanding the menu
+  &--expanded > &__toggle > &__arrow::after,
+  .no-js &:hover > &__toggle > &__arrow::after {
+    border-bottom: 0.5ch solid !important;
+    border-top: none !important;
+  }
+
+  &__menu {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: auto;
+    z-index: 100;
+
+    .dropdown--right > & {
+      left: unset;
+      right: 0;
+    }
+
+    .lte(@mobile-breakpoint, {
+      width: 100%;
+    });
+  }
+
+  // js toggle
+  &--expanded > &__menu {
+    display: block;
+  }
+
+  // toggle dropdown by hovering when JS isn't available
+  .no-js &:hover > &__menu {
+    display: block;
+  }
+}

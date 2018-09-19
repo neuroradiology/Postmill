@@ -1,0 +1,215 @@
+{%- block comment -%}
+  {%- from 'comment/_macros.html.twig' import comment_form -%}
+  {%- from '_macros/icon.html.twig' import icon -%}
+  {%- from 'vote/_macros.html.twig' import vote -%}
+  {%- from 'user/_macros.html.twig' import user_link -%}
+  <article class="comment
+                  comment--{{ level > 1 ? 'nested' : 'top-level' }}
+                  comment--{{ level is divisible by(2) ? 'even' : 'odd' }}
+                  {{ show_context ? 'comment--with-context' }}
+                  {{ comment.softDeleted ? 'comment--soft-deleted' }}"
+           id="comment_{{ comment.id }}"
+           data-level="{{ level }}">
+    <header class="comment__info">
+      <div class="nav nav--guttered nav--justify-space-between nav--no-wrap">
+        <ul class="nav nav__grow nav--guttered unlistify">
+          {{ block('comment_info') }}
+        </ul>
+
+        <ul class="nav nav--guttered nav--no-wrap unlistify">
+          {% if is_granted('ROLE_USER') and (not comment.submission.locked or is_granted('moderator', comment.submission.forum)) %}
+            <li>
+              <a href="{{ path('comment', {
+                forum_name: comment.submission.forum.name,
+                submission_id: comment.submission.id,
+                comment_id: comment.id
+              }) }}" data-form-url="{{ path('comment_form', {
+                forumName: comment.submission.forum.name,
+                submissionId: comment.submission.id,
+                commentId: comment.id
+              }) }}" class="comment__reply-link muted">
+                {{- 'comments.reply'|trans -}}
+              </a>
+            </li>
+          {% endif %}
+
+          <li class="dropdown dropdown--right">
+            <a href="#" class="muted dropdown__toggle no-wrap" title="{{ 'nav.more'|trans }}">
+              {{ icon('ellipsis-vert') -}}
+              <span class="dropdown__arrow" role="presentation"></span>
+            </a>
+            <ul class="dropdown__menu unlistify card">
+              {{ block('comment_dropdown_menu') }}
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      {% if show_context %}
+        <p class="dimmed no-margin"><small>
+          {{ icon('forward') }}
+          {{ ('comments.context.'~(comment.parent ? 'comment_reply' : 'top_level_reply'))|trans({
+            '%submission_title%': '<a href="%s" class="muted">%s</a>'|format(path('submission', {
+                forum_name: comment.submission.forum.name,
+                submission_id: comment.submission.id
+              })|e,
+              comment.submission.title|e
+            ),
+            '%submission_author%': user_link(comment.submission.user, {class: 'muted'}),
+            '%comment_author%': comment.parent.user is defined ? user_link(comment.parent.user, {class: 'muted'}) : null,
+          })|raw -}}
+        </small></p>
+      {% endif %}
+    </header>
+
+    <div class="comment__vote">
+      {{ vote(comment, 'comment_vote') }}
+    </div>
+
+    <div class="comment__body break-text">
+      {%- if comment.body is not empty -%}
+        {{ comment.body|cached_markdown(markdown_context())|raw }}
+      {%- elseif comment.softDeleted -%}
+        <p><small class="dimmed">{{ 'comments.author_deleted'|trans }}</small></p>
+      {%- endif -%}
+    </div>
+
+    <div class="comment__form-container hide-empty">
+      {%- if show_form and is_granted('ROLE_USER') -%}
+        {{ comment_form(comment.submission, comment) -}}
+      {%- endif -%}
+    </div>
+
+    <div class="comment__replies hide-empty">
+      {%- if recurse and comment.children|length > 0 -%}
+        {% for reply in comment.children %}
+          {% with {comment: reply, level: level + 1, edit: false, form: null} %}
+            {{ block('comment') }}
+          {% endwith %}
+        {% endfor %}
+      {%- endif -%}
+    </div>
+
+    {# follows replies so we can target it with replies:empty + gutter #}
+    <div class="comment__gutter">
+      <a href="#comment_{{ comment.id }}" class="comment__thread-marker" tabindex="-1"></a>
+    </div>
+  </article>
+{%- endblock comment -%}
+
+{% block comment_info %}
+  {% from 'user/_macros.html.twig' import user_flag %}
+  {% from '_macros/icon.html.twig' import icon %}
+  <li>
+    <a href="{{ path('user', {username: comment.user.username}) }}" class="no-wrap muted no-underline">
+      {{ icon('user') }}
+      <span class="no-underline__ignore">{{ comment.user.username }}</span>
+      {% if comment.user == comment.submission.user %}{{ user_flag('op') }}{% endif %}
+    </a>
+  </li>
+
+  <li>
+    {% with {submission: comment.submission} %}
+      <a href="{{ path('comment', {forum_name: submission.forum.name, submission_id: submission.id, comment_id: comment.id}) }}"
+         class="no-wrap muted no-underline">
+        {{ icon('clock') }}
+        {% with {date: comment.timestamp|localizeddate('medium', 'short')} %}
+          <time datetime="{{ comment.timestamp|date('c') }}" title="{{ date }}" class="relative-time no-underline__ignore">
+            {{- date -}}
+          </time>
+        {% endwith %}
+      </a>
+    {% endwith %}
+  </li>
+{% endblock comment_info %}
+
+{% block comment_dropdown_menu %}
+  {% from '_macros/icon.html.twig' import icon %}
+  <li>
+    <a href="{{ path('comment', {
+      forum_name: comment.submission.forum.name,
+      submission_id: comment.submission.id,
+      comment_id: comment.id
+    }) }}" class="menu-link no-wrap">
+      {{ icon('link') }}
+      {{ 'comments.permalink'|trans }}
+    </a>
+  </li>
+
+  {% if is_granted('edit', comment) %}
+    <li>
+      <a href="{{ path('edit_comment', {
+        forum_name: comment.submission.forum.name,
+        submission_id: comment.submission.id,
+        comment_id: comment.id,
+      }) }}" class="menu-link no-wrap">
+        {{ icon('pencil') }}
+        {{ 'comments.edit'|trans }}
+      </a>
+    </li>
+  {% endif %}
+
+  {% if comment.children|length > 0 and is_granted('delete_thread', comment) %}
+    {% set delete_thread_label = 'comments.delete_thread' %}
+    {{ block('comment_nav_delete_thread') }}
+    {{ block('comment_nav_delete_softdelete') }}
+  {% elseif is_granted('delete', comment) %}
+    {% set delete_thread_label = 'comments.delete' %}
+    {{ block('comment_nav_delete_thread') }}
+  {%- endif -%}
+
+  {% if is_granted('moderator', comment.submission.forum) %}
+    <li>
+      <a href="{{ path('forum_ban', {forum_name: comment.submission.forum.name, username: comment.user.username}) }}"
+         class="menu-link no-wrap">
+        {{ icon('user-times') }}
+        {{ 'action.ban'|trans }}
+      </a>
+    </li>
+  {% endif %}
+
+  {%- if is_granted('ROLE_ADMIN') %}
+    <li class="menu__item">
+      <a href="{{ path('ban_user', {'username': comment.user.username}) }}"
+         class="menu-link no-wrap">
+        {{ icon('user-times') }}
+        {{ 'action.global_ban'|trans }}
+      </a>
+    </li>
+  {%- endif -%}
+{% endblock comment_dropdown_menu %}
+
+{% block comment_nav_delete_softdelete %}
+  {% from '_macros/icon.html.twig' import icon %}
+  <li>
+    <form action="{{ path('softdelete_comment', {
+      forum_name: comment.submission.forum.name,
+      submission_id: comment.submission.id,
+      comment_id: comment.id,
+    }) }}" method="POST" class="inline">
+      <input type="hidden" name="token" value="{{ csrf_token('softdelete_comment') }}">
+      <button type="submit"
+              class="js-confirm-comment-delete unbuttonize unbuttonize--as-link menu-link no-wrap">
+        {{ icon('trash') }}
+        {{ 'comments.delete'|trans }}
+      </button>
+    </form>
+  </li>
+{% endblock comment_nav_delete_softdelete %}
+
+{% block comment_nav_delete_thread %}
+  {% from '_macros/icon.html.twig' import icon %}
+  <li>
+    <form action="{{ path('delete_comment', {
+      forum_name: comment.submission.forum.name,
+      submission_id: comment.submission.id,
+      comment_id: comment.id,
+    }) }}" method="POST" class="inline">
+      <input type="hidden" name="token" value="{{ csrf_token('delete_comment') }}">
+      <button type="submit" class="js-confirm-comment-delete unbuttonize unbuttonize--as-link menu-link no-wrap">
+        {{ icon('trash') }}
+        {{ delete_thread_label|trans }}
+      </button>
+    </form>
+  </li>
+{% endblock comment_nav_delete_thread %}

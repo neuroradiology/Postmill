@@ -1,0 +1,30 @@
+@import '../_mixins/_breakpoints';
+@import '../_settings';
+
+.form-row {
+  display: flex;
+
+  // keep stacked by default
+  align-items: flex-start;
+  flex-direction: column;
+
+  // single-line stuff doesn't apply on mobile
+  .gt(@mobile-breakpoint, {
+    // keep form control on separate row
+    &--single-line {
+      align-items: center; // prevent stretching of checkboxes, etc
+      flex-direction: row;
+    }
+
+    &--single-line > :not(:first-child) {
+      margin-left: 1rem;
+    }
+
+    &__align {
+      display: inline-block;
+      flex-shrink: 0;
+      text-align: right;
+      width: 10rem;
+    }
+  });
+}

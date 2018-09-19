@@ -10,6 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @covers \App\Controller\ForumController
  */
 class ForumControllerTest extends WebTestCase {
+    public static function setUpBeforeClass() {
+        date_default_timezone_set('UTC');
+    }
+
     public function testCanSubscribeToForumFromForumView() {
         $client = $this->createClient([], [
             'PHP_AUTH_USER' => 'emma',
@@ -65,7 +69,7 @@ class ForumControllerTest extends WebTestCase {
 
         $client->followRedirects();
 
-        $crawler = $client->submit($form)->filter('.body tbody tr')->children();
+        $crawler = $client->submit($form)->filter('main tbody tr')->children();
 
         $this->assertContains('emma', $crawler->eq(0)->text());
         $this->assertContains('troll', $crawler->eq(1)->text());

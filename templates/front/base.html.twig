@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% use '_layouts/list_of_things.html.twig' %}
+{% set things = submissions %}
 
 {% from 'submission/_macros.html.twig' import submission, submission_sort %}
 {% from _self import submission_filter %}
@@ -14,58 +16,64 @@
 
   <link rel="alternate" type="application/atom+xml" href="{{ path('featured_feed') }}" title="{{ 'title.submissions_in_featured_forums'|trans }}">
 
-  {% include '_includes/meta_pagination.html.twig' with {pager: submissions} %}
-{% endblock %}
+  {{ parent() }}
+{% endblock head %}
 
-{% block body %}
-  <nav class="tabs submission-sort">
-    <ul class="tabs__bar">{{ submission_sort(sort_by) }}</ul>
-    <ul class="tabs__bar">{{ submission_filter(listing, sort_by) }}</ul>
+{% block page_header %}
+  <nav class="nav nav--guttered nav--justify-space-between pad">
+    <div>
+      <div class="nav nav--guttered">
+        {{ submission_filter(listing, sort_by) }}
+        {{ submission_sort(sort_by) }}
+      </div>
+    </div>
+
+    <div>
+      <ul class="nav nav--guttered unlistify">
+        <li><a href="{{ path('front') }}" class="tab tab--active">{{ 'nav.submissions'|trans }}</a></li>
+        <li><a href="{{ path('comment_list') }}" class="tab">{{ 'nav.comments'|trans }}</a>
+      </ul>
+    </div>
   </nav>
 
-  {% block front_alerts '' %}
+  {% block front_alerts %}{% endblock front_alerts %}
+{% endblock page_header %}
 
-  {% for submission in submissions %}
-    {{ submission(submission) }}
-  {% endfor %}
-
-  {% include '_includes/pagination.html.twig' with {pager: submissions} %}
+{% block render_thing %}
+  {{ submission(thing) }}
 {% endblock %}
 
-{%- macro submission_filter(choice, sort_by) -%}
-  {% with { active: choice == 'featured' } %}
-    <li class="tabs__tab {{ active ? 'tabs__tab--active active' }}">
-      <a href="{{ path('featured', {sortBy: sort_by}) }}" class="tabs__link {{ active ? 'tabs__link--active' }}">
-        {{- 'front.featured'|trans -}}
-      </a>
-    </li>
-  {% endwith %}
+{% macro submission_filter(listing, sort_by) %}
+  {% set labels = {
+    'subscribed': 'front.subscribed'|trans,
+    'featured': 'front.featured'|trans,
+    'all': 'front.all'|trans,
+    'moderated': 'nav.moderated'|trans,
+  } %}
+  {% set items = [
+    { route: 'featured' },
+    { route: 'subscribed', condition: is_granted('ROLE_USER') },
+    { route: 'moderated', condition: is_granted('ROLE_USER') and app.user.moderatorTokens|length > 0 },
+    { route: 'all' },
+  ] %}
+  <span class="form-row form-row--single-line">
+    <label class="form-row__label dimmed" for="submission-filter">{{ 'submissions.view'|trans }}</label>
 
-  {% if is_granted('ROLE_USER') %}
-    {% with { active: choice == 'subscribed' } %}
-      <li class="tabs__tab {{ active ? 'tabs__tab--active active' }}">
-        <a href="{{ path('subscribed', {sortBy: sort_by}) }}" class="tabs__link {{ active ? 'tabs__link--active' }}">
-          {{- 'front.subscribed'|trans -}}
-        </a>
-      </li>
-    {% endwith %}
-  {% endif %}
+    <span class="dropdown">
+      <button class="button button--secondary dropdown__toggle" id="submission-filter">
+        {{ labels[listing] }}
+        <span class="dropdown__arrow" role="presentation"></span>
+      </button>
 
-  {% with { active: choice == 'all' } %}
-    <li class="tabs__tab {{ active ? 'tabs__tab--active active' }}">
-      <a href="{{ path('all', {sortBy: sort_by}) }}" class="tabs__link {{ active ? 'tabs__link--active' }}">
-        {{- 'front.all'|trans -}}
-      </a>
-    </li>
-  {% endwith %}
-
-  {% if choice == 'moderated' or app.user and app.user.moderatorTokens|length > 0 %}
-    {% with { active: choice == 'moderated' } %}
-      <li class="tabs__tab {{ active ? 'tabs__tab--active active' }}">
-        <a href="{{ path('moderated', {sortBy: sort_by}) }}" class="tabs__link {{ active ? 'tabs__link--active' }}">
-          {{- 'nav.moderated'|trans -}}
-        </a>
-      </li>
-    {% endwith %}
-  {% endif %}
-{%- endmacro -%}
+      <ul class="dropdown__menu card unlistify">
+        {% for item in items if listing == item.route or item.condition ?? true %}
+          <li>
+            <a href="{{ path(item.route, {sortBy: sort_by}) }}" class="menu-link {{ listing == item.route ? 'menu-link--active' }}">
+              {{- labels[item.route] -}}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </span>
+  </span>
+{% endmacro %}

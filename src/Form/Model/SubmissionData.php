@@ -54,6 +54,8 @@ class SubmissionData {
 
     private $sticky = false;
 
+    private $locked = false;
+
     public function __construct(Forum $forum = null) {
         $this->forum = $forum;
     }
@@ -67,12 +69,13 @@ class SubmissionData {
         $self->userFlag = $submission->getUserFlag();
         $self->forum = $submission->getForum();
         $self->sticky = $submission->isSticky();
+        $self->locked = $submission->isSticky();
 
         return $self;
     }
 
     public function toSubmission(User $user, $ip): Submission {
-        return new Submission(
+        $submission = new Submission(
             $this->title,
             $this->url,
             $this->body,
@@ -82,6 +85,10 @@ class SubmissionData {
             $this->sticky,
             $this->userFlag
         );
+
+        $submission->setLocked($this->locked);
+
+        return $submission;
     }
 
     public function updateSubmission(Submission $submission, User $editingUser) {
@@ -102,6 +109,7 @@ class SubmissionData {
 
         $submission->setUserFlag($this->userFlag);
         $submission->setSticky($this->sticky);
+        $submission->setLocked($this->locked);
     }
 
     public function getEntityId() {
@@ -154,5 +162,13 @@ class SubmissionData {
 
     public function setSticky(bool $sticky) {
         $this->sticky = $sticky;
+    }
+
+    public function isLocked(): bool {
+        return $this->locked;
+    }
+
+    public function setLocked(bool $locked): void {
+        $this->locked = $locked;
     }
 }

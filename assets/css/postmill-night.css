@@ -1,0 +1,32 @@
+@import '~typeface-roboto';
+
+:root {
+  --font-family: Roboto, sans-serif;
+  --font-size: 16px;
+  --line-height: 1.25;
+  --pixel: 0.0625rem;
+  --main: #ccc;
+  --muted: #909090;
+  --dimmed: #777;
+  --washed: #1a1a1a;
+  --bleached: #000;
+  --accent: #c00;
+  --text-on-accent: #fff;
+  --accent-shade: rgba(0, 0, 0, 0.1);
+  --general-shade: rgba(255, 255, 255, 0.1);
+  --link-color: #fff;
+  --visited-link: darkgrey;
+  --sticky: var(--good-fg);
+  --good-fg: #8f8;
+  --good-bg: #3d8f3d;
+  --bad-bg: #8f3d3d;
+  --bad-fg: #ff9999;
+  --neutral-bg: #3d3d8f;
+  --vote-up: #f84;
+  --vote-down: #0af;
+  --notification: #f60;
+  --moderator-color: var(--good-fg);
+  --admin-color: var(--bad-fg);
+  --logo1: maroon;
+  --logo2: silver;
+}

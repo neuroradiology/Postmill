@@ -1,12 +1,16 @@
-<nav class="tabs">
-  <ul class="tabs__bar">
-    <li class="tabs__tab {{ page == 'user_bans' ? 'tabs__tab--active' }}">
-      <a href="{{ path('user_bans') }}" class="tabs__link {{ page == 'user_bans' ? 'tabs__link--active' }}">
+<nav>
+  <ul class="nav nav--guttered unlistify" role="navigation">
+    <li>
+      <a href="{{ path('user_bans') }}"
+         class="tab {{ page == 'user_bans' ? 'tab--active' }}"
+         {{ page == 'user_bans' ? 'aria-current="page"' }}>
         {{- 'nav.user_bans'|trans -}}
       </a>
     </li>
-    <li class="tabs__tab {{ page == 'ip_bans' ? 'tabs__tab--active' }}">
-      <a href="{{ path('ip_bans') }}" class="tabs__link {{ page == 'ip_bans' ? 'tabs__link--active' }}">
+    <li>
+      <a href="{{ path('ip_bans') }}"
+        class="tab {{ page == 'ip_bans' ? 'tab--active' }}"
+        {{ page == 'ip_bans' ? 'aria-current="page"' }}>
         {{- 'nav.ip_bans'|trans -}}
       </a>
     </li>

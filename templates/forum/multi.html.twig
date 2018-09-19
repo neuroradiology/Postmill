@@ -1,33 +1,38 @@
 {% extends 'base.html.twig' %}
 {% from 'submission/_macros.html.twig' import submission, submission_sort %}
 
-{% block page_classes 'multi-forum-page' %}
-
 {% block head %}
   {{ include('_includes/meta_pagination.html.twig', {pager: submissions}, with_context=false) }}
 {% endblock %}
 
 {% block title '/f/'~forums|join(', /f/') %}
 
+{% block main_classes 'container vp vp--guttered vertical-pad' %}
+
 {% block body %}
-  <nav class="tabs submission-sort">
-    <ul class="tabs__bar">{{ submission_sort(sort_by) }}</ul>
-  </nav>
+  <nav class="pad">{{ submission_sort(sort_by) }}</nav>
 
-  {% for submission in submissions %}
-    {{ submission(submission) }}
-  {% endfor %}
+  {% if submissions|length > 0 %}
+    {% for submission in submissions %}
+      {{ submission(submission) }}
+    {% endfor %}
 
-  {{ include('_includes/pagination.html.twig', {pager: submissions}, with_context=false) }}
+    <div class="pad">
+      {{ include('_includes/pagination.html.twig', {pager: submissions}, with_context=false) }}
+    </div>
+  {% else %}
+    <p class="pad"><small class="dimmed">{{ 'flash.no_entries_to_display'|trans }}</small></p>
+  {% endif %}
 {% endblock %}
 
-{% block sidebar %}
-  <section class="sidebar__section">
-    <h1 class="sidebar__title">{{ 'heading.multi_forum_view'|trans }}</h1>
+{% block sidebar_bottom_classes 'container' %}
+{% block sidebar_bottom %}
+  <section class="card">
+    <h4 class="no-margin pad vertical-pad">{{ 'heading.multi_forum_view'|trans }}</h4>
 
-    <ul>
+    <ul class="unlistify">
       {% for forum in forums %}
-        <li><a href="{{ path('forum', {forum_name: forum}) }}">{{ forum }}</a></li>
+        <li><a href="{{ path('forum', {forum_name: forum}) }}" class="menu-link">{{ forum }}</a></li>
       {% endfor %}
     </ul>
   </section>

@@ -1,0 +1,7 @@
+@colors: main, muted, dimmed, bad-fg, good-fg, neutral-fg;
+
+each(@colors, {
+  .@{value} {
+    color: ~'var(--@{value})' !important;
+  }
+});

@@ -1,15 +1,21 @@
 {% extends 'base.html.twig' %}
-{% from 'message/_macros.html.twig' import message_thread %}
+{% from 'message/_macros.html.twig' import message %}
 
-{% block page_classes 'message-page' %}
 {% block title thread.title %}
 
+{% block main_classes 'container vp vp--guttered' %}
 {% block body %}
-  <h1 class="page-heading">{{ thread.title }}</h1>
+  <div class="card vp vp--bordered">
+    {{ message(thread) }}
 
-  {{ message_thread(thread) }}
+    {% for reply in thread.replies %}
+      {{ message(reply) }}
+    {% endfor %}
+  </div>
 
   {% if is_granted('reply', thread) %}
-    {{ render(controller('App\\Controller\\MessageController::replyForm', {threadId: thread.id})) }}
+    <div class="pad">
+      {{ render(controller('App\\Controller\\MessageController::replyForm', {threadId: thread.id})) }}
+    </div>
   {% endif %}
 {% endblock %}

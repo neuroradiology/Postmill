@@ -1,62 +1,36 @@
-{% macro message_thread(message, options) %}
-  {% set recursive = options.recursive ?? true %}
-  {{ block('message_thread') }}
-{% endmacro %}
+{%- macro message(message) -%}
+  {{- block('message') -}}
+{%- endmacro -%}
 
-{% macro message_reply(message) %}
-  {{ block('message_reply') }}
-{% endmacro %}
+{%- block message -%}
+  {%- from '_macros/icon.html.twig' import icon -%}
+  {%- from 'user/_macros.html.twig' import user_link -%}
+  <article class="message pad vertical-pad" id="message_{{ message.title is defined ? 't' : 'r' }}{{ message.id }}">
+    <header>
+      {% if message.title is defined %}
+        <h1>{{ message.title }}</h1>
+      {% endif %}
 
-{% block message_thread %}
-  {% from _self import message_user %}
-  <article class="message-thread" id="mt{{ message.id }}">
-    <div class="message-thread-inner">
-      <h1 class="message-head">
-        {{ 'heading.message_thread'|trans({
-          '%sender%': message_user(message),
-          '%receiver%': message_user(message, false),
-          '%timestamp%': block('message_date'),
-        })|raw }}
-      </h1>
-      {{ block('message_body') }}
+      <ul class="nav nav--guttered unlistify">
+        <li>
+          <a href="{{ path('user', {username: message.sender.username}) }}" class="no-wrap muted no-underline">
+            {{ icon('user') }}
+            <span class="no-underline__ignore">{{ message.sender.username }}</span>
+          </a>
+        </li>
+        <li class="no-wrap muted">
+          {{ icon('clock') }}
+          {% with {date: message.timestamp|localizeddate('medium', 'short')} %}
+            <time datetime="{{ message.timestamp|date('c') }}" class="relative-time" title="{{ date }}">
+              {{- date -}}
+            </time>
+          {% endwith %}
+        </li>
+      </ul>
+    </header>
+
+    <div class="message__body">
+      {{- message.body|cached_markdown(markdown_context())|raw -}}
     </div>
-
-    {% if recursive %}
-      {% for message in message.replies %}
-        {{ block('message_reply') }}
-      {% endfor %}
-    {% endif %}
   </article>
-{% endblock %}
-
-{% block message_reply %}
-  {% from _self import message_user %}
-  <article class="message-reply" id="mr{{ message.id }}">
-    <h1 class="message-head">
-      {{ 'heading.message_reply'|trans({
-        '%sender%': message_user(message),
-        '%timestamp%': block('message_date'),
-      })|raw }}
-    </h1>
-    {{ block('message_body') }}
-  </article>
-{% endblock %}
-
-{% macro message_user(message, sender=true) %}
-  {%- set user = sender ? message.sender : message.receiver -%}
-  <a href="{{ path('user', {username: user.username}) }}" class="message-{{ sender ? 'sender' : 'receiver' }} {{ user == app.user ? 'message-self' }}">
-    {{- user.username -}}
-  </a>
-{% endmacro %}
-
-{% block message_date %}
-  {% with {date: message.timestamp|localizeddate()} %}
-    <time datetime="{{ message.timestamp|date('c') }}" title="{{ date }}" class="relative-time">
-      {{- 'time.on_timestamp'|trans({'%timestamp%': date}) -}}
-    </time>
-  {% endwith %}
-{% endblock %}
-
-{% block message_body %}
-  <div class="message-body">{{ message.body|cached_markdown(markdown_context())|raw }}</div>
 {% endblock %}

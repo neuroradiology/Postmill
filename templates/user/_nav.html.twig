@@ -1,16 +1,17 @@
-<nav class="tabs user-nav">
-  <ul class="tabs__bar">
+<header class="nav nav--guttered nav--justify-space-between nav--align-end pad">
+  <h1 class="no-margin">{{ title }}</h1>
+
+  <ul class="nav unlistify" role="navigation">
     {% for tab in [
       { path: 'user', label: 'label.overview' },
       { path: 'user_submissions', label: 'user.submissions' },
       { path: 'user_comments', label: 'user.comments' },
     ] %}
-      <li class="tabs__tab {{ tab.path == current ? 'tabs__tab--active' }}">
-        <a href="{{ path(tab.path, {username: user.username}) }}"
-           class="tabs__link {{ tab.path == current ? 'tabs__link--active' }}">
+      <li>
+        <a href="{{ path(tab.path, {username: user.username}) }}" class="tab {{ current == tab.path ? 'tab--active' }}">
           {{- tab.label|trans -}}
         </a>
       </li>
     {% endfor %}
   </ul>
-</nav>
+</header>

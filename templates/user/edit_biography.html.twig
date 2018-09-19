@@ -9,7 +9,7 @@
     })|raw }}
   </h1>
 
-  {{ form_start(form) }}
+  {{ form_start(form, {attr: {class: 'vp vp--guttered'}}) }}
     {{ form_row(form.biography, {attr: {rows: 5}}) }}
 
     {{ form_row(form.save) }}

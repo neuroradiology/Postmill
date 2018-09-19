@@ -101,6 +101,13 @@ class User implements UserInterface, EquatableInterface {
     private $admin = false;
 
     /**
+     * @ORM\OneToMany(targetEntity="ForumSubscription", mappedBy="user", fetch="EXTRA_LAZY")
+     *
+     * @var ForumSubscription[]|Collection
+     */
+    private $subscriptions;
+
+    /**
      * @ORM\OneToMany(targetEntity="Moderator", mappedBy="user")
      *
      * @var Moderator[]|Collection
@@ -227,6 +234,7 @@ class User implements UserInterface, EquatableInterface {
         $this->password = $password;
         $this->created = $created ?: new \DateTime('@'.time());
         $this->notifications = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
         $this->submissions = new ArrayCollection();
         $this->submissionVotes = new ArrayCollection();
         $this->comments = new ArrayCollection();
@@ -300,6 +308,10 @@ class User implements UserInterface, EquatableInterface {
 
     public function setAdmin(bool $admin) {
         $this->admin = $admin;
+    }
+
+    public function getSubscriptions(): Collection {
+        return $this->subscriptions;
     }
 
     /**

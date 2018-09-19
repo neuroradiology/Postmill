@@ -1,0 +1,11 @@
+.generate-alignment-classes() {
+  @alignments: left, center, right, justify;
+
+  each(@alignments, {
+    .text-align-@{value} {
+      text-align: @value;
+    }
+  });
+}
+
+.generate-alignment-classes;

@@ -1,8 +1,6 @@
 {% extends 'front/base.html.twig' %}
 
-{% block page_classes 'moderated-page' %}
-
-{% block body %}
+{% block front_alerts %}
   {% if forums is empty %}
     <div class="alert alert--notice">
       <p>{{ 'flash.no_moderated_forums'|trans }}</p>
@@ -12,13 +10,13 @@
   {{ parent() }}
 {% endblock %}
 
-{% block sidebar %}
+{% block sidebar_bottom %}
   {%- if forums|length > 0 -%}
-    <section class="sidebar__section">
-      <h1 class="sidebar__title">{{ 'heading.forums_you_moderate'|trans }}</h1>
-      <ul>
+    <section class="card">
+      <h4 class="no-margin pad vertical-pad">{{ 'heading.forums_you_moderate'|trans }}</h4>
+      <ul class="unlistify">
         {% for forum in forums %}
-          <li><a href="{{ path('forum', {forum_name: forum}) }}">{{ forum }}</a></li>
+          <li><a href="{{ path('forum', {forum_name: forum}) }}" class="menu-link">{{ forum }}</a></li>
         {% endfor %}
       </ul>
     </section>

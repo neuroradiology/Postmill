@@ -4,7 +4,6 @@
 
 * **Reference**
 
-    * [Deprecated CSS classes](deprecated-css-classes.md)
     * [Webhooks](webhooks.md)
 
 * **Configuration & administration**

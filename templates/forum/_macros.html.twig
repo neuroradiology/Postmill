@@ -10,7 +10,7 @@
 
 {% macro _subscribe_button_inner(subscribed, subscriber_count) %}
   <span class="subscribe-button__inner">
-    <span class="subscribe-button__label">
+    <span class="subscribe-button__label no-wrap">
       {{- (subscribed ? 'forum.unsubscribe' : 'forum.subscribe')|trans -}}
     </span>
 

@@ -1,60 +1,105 @@
 {% use 'form_div_layout.html.twig' %}
 
+{% block form -%}
+  {{ form_start(form, {attr: {class: 'vp vp--guttered'}}) }}
+  {{ form_widget(form) }}
+  {{ form_end(form) }}
+{%- endblock form %}
+
 {%- block form_start -%}
-  {%- set attr = attr|merge({'class': (attr.class is defined and attr.class|length > 0) ? attr.class~' form' : 'form'}) -%}
+  {%- set attr = attr|merge({'class': ((attr.class ?? '')~' form')|trim}) -%}
   {{- parent() -}}
-{%- endblock -%}
+{%- endblock form_start -%}
+
+{% block form_help %}
+  {%- if help is not empty -%}
+    <aside class="vp vp--guttered dimmed">
+      <p>
+        {{- (translation_domain is same as(false)
+          ? help
+          : (help|trans([], translation_domain))
+        )|replace({'\r': '', '\n\n': '</p><p>', '\n': '<br>'}) -}}
+      </p>
+    </aside>
+  {%- endif -%}
+{% endblock form_help %}
+
+{# make the for/id pair point to the date component #}
+{%- block datetime_label -%}
+  {%- if widget == 'single_text' -%}
+    {{- form_label(form) -}}
+  {%- else -%}
+    {{- form_label(form.date, label) -}}
+  {%- endif -%}
+{%- endblock datetime_label -%}
+
+{%- block datetime_widget -%}
+  {% if widget == 'single_text' %}
+    {{- block('form_widget_simple') -}}
+  {%- else -%}
+    <span class="compound-form-widget">
+      {{- form_widget(form.date) -}}
+      {{- form_widget(form.time) -}}
+    </span>
+  {%- endif -%}
+{%- endblock datetime_widget -%}
+
+{# remove surrounding <div> that breaks flexbox #}
+{% block form_widget_compound %}
+  {%- if form is rootform -%}
+    {{- form_errors(form) -}}
+  {%- endif -%}
+  {{- block('form_rows') -}}
+  {{- form_rest(form) -}}
+{% endblock form_widget_compound %}
 
 {%- block form_errors -%}
   {%- if errors|length > 0 -%}
-    <ul class="form__errors">
+    <ul class="inside-list no-margin">
       {%- for error in errors -%}
-        <li class="form__error">{{ error.message }}</li>
+        <li class="bad-fg">{{ error.message }}</li>
       {%- endfor -%}
     </ul>
   {%- endif -%}
-{%- endblock -%}
+{%- endblock form_errors -%}
 
 {%- block form_row -%}
-  <div class="form__row">
-    {{- form_label(form) -}}
-    {{- form_errors(form) -}}
-    {{- form_widget(form) -}}
+  <div>
+    <div class="form-row">
+      {{- form_label(form) -}}
+      {{- form_errors(form) -}}
+      {{- form_widget(form) -}}
+    </div>
+    {{- form_help(form) -}}
   </div>
-{%- endblock -%}
+{%- endblock form_row -%}
+
+{%- block checkbox_row -%}
+  <div>
+    {{- form_errors(form) -}}
+    <span class="form-row form-row--single-line">
+      {{- form_widget(form) -}}
+      {{- form_label(form) -}}
+    </span>
+  </div>
+{%- endblock checkbox_row -%}
 
 {%- block button_row -%}
-  <div class="form__row form__button-row">
+  <div class="button-row">
     {{- form_widget(form) -}}
   </div>
-{%- endblock -%}
+{%- endblock button_row -%}
 
 {%- block button_widget -%}
   {%- set attr = attr|merge({'class': (attr.class ?? '')~' button'}) -%}
   {{- parent() -}}
 {%- endblock -%}
 
-{%- block form_label -%}
-  {%- set label_attr = label_attr|merge({class: (label_attr.class ?? '')~' form__label'}) -%}
-  {%- if required -%}
-    {%- set label_attr = label_attr|merge({class: label_attr.class~' form__label--required'}) -%}
-  {%- endif -%}
-  {{- parent() -}}
-{%- endblock -%}
-
-{%- block markdown_row -%}
-  {%- set attr = attr|merge({'class': (attr.class ?? '')~' markdown-input__input'}) -%}
-  <div class="form__row form__row--markdown markdown-input">
-    {{- form_label(form) -}}
-    {{- form_errors(form) -}}
-    {{- block('textarea_widget') -}}
-    <p class="form__markdown-help">
-      {#- TODO: don't link to an external site -#}
-      <a href="http://commonmark.org/help/" target="_blank">
-        {{- 'markdown_type.help'|trans -}}
-      </a>
-    </p>
-    <div class="markdown-input__preview-container"></div>
+{%- block markdown_label -%}
+  {% from '_macros/icon.html.twig' import icon %}
+  <div class="nav nav--guttered nav--justify-space-between">
+    {{ block('form_label') }}
+    {{ icon('markdown') }}
   </div>
 {%- endblock -%}
 
@@ -89,3 +134,18 @@
   {%- set attr = attr|merge({'style': 'display: none'}) -%}
   {{- block('form_widget') -}}
 {% endblock %}
+
+{%- block choice_widget  -%}
+  {%- set attr = attr|merge({class: ((attr.class ?? '')~' form-control')|trim}) -%}
+  {{- parent() -}}
+{%- endblock -%}
+
+{%- block form_widget_simple -%}
+  {%- set attr = attr|merge({class: ((attr.class ?? '')~' form-control')|trim}) -%}
+  {{- parent() -}}
+{%- endblock -%}
+
+{%- block textarea_widget -%}
+  {%- set attr = attr|merge({class: ((attr.class ?? '')~' form-control')|trim}) -%}
+  {{- parent() -}}
+{%- endblock -%}

@@ -1,16 +1,13 @@
 {% extends 'base.html.twig' %}
+{% use '_layouts/single_column.html.twig' %}
 {% from 'forum/list_by_category.html.twig' import forum_view_selector %}
 
-{% block page_classes %}
-  forum-list-page
-{% endblock %}
-
-{% block title %}
-  {{- 'forum_list.page_title'|trans -}}
-{% endblock %}
+{% block main_classes 'container container--two-col-expand vertical-pad vp vp--guttered' %}
+{% block title 'forum_list.page_title'|trans %}
 
 {% block head %}
   <link rel="canonical" href="{{ url('forum_list') }}">
+
   {% include '_includes/meta_pagination.html.twig' with {pager: forums} %}
 {% endblock %}
 
@@ -20,25 +17,25 @@
 {% block body %}
   {{ forum_list_header() }}
 
-  <table class="table table--fixed-columns forum-list">
+  <table class="table forum-list">
     <thead>
       <tr>
-        <th>{{ th('forum_list.name'|trans, 'by_name', sortBy) }}</th>
-        <th>{{ th('forum_list.title'|trans, 'by_title', sortBy) }}</th>
-        <th>{{ th('forum_list.submission_count'|trans, 'by_submissions', sortBy) }}</th>
-        <th>{{ th('forum_list.subscribers'|trans, 'by_subscribers', sortBy) }}</th>
+        <th class="table__shrink text-align-left">{{ th('forum_list.name'|trans, 'by_name', sortBy) }}</th>
+        <th class="text-align-left">{{ th('forum_list.title'|trans, 'by_title', sortBy) }}</th>
+        <th class="table__shrink text-align-right">{{ th('forum_list.submission_count'|trans, 'by_submissions', sortBy) }}</th>
+        <th class="table__shrink text-align-center">{{ th('forum_list.subscribers'|trans, 'by_subscribers', sortBy) }}</th>
       </tr>
     </thead>
     <tbody>
       {% for forum in forums %}
         <tr>
-          <td><a href="{{ path('forum', {forum_name: forum.name}) }}"><strong>{{ forum.name }}</strong></a></td>
+          <td class="table__shrink"><a href="{{ path('forum', {forum_name: forum.name}) }}"><strong>{{ forum.name }}</strong></a></td>
           <td>{{ forum.title }}</td>
-          <td>{{ forum.submissions|length|localizednumber }}</td>
-          {% if is_granted('ROLE_USER') %}
-            {% from 'forum/_macros.html.twig' import subscribe_button %}
-            {% set subscribed = forum.subscribed(app.user) %}
-            <td>
+          <td class="table__shrink text-align-right">{{ forum.submissions|length|localizednumber }}</td>
+          <td class="table__shrink">
+            {%- if is_granted('ROLE_USER') -%}
+              {% from 'forum/_macros.html.twig' import subscribe_button %}
+              {% set subscribed = forum.subscribed(app.user) %}
               <form action="{{ path(subscribed ? 'unsubscribe' : 'subscribe', {forum_name: forum.name}) }}"
                     method="POST"
                     class="subscribe-form"
@@ -46,16 +43,18 @@
                 <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
                 {{ subscribe_button(forum, subscribed, true) }}
               </form>
-            </td>
-          {% else %}
-            <td>{{ forum.subscriptions|length|localizednumber }}</td>
-          {% endif %}
+            {%- else -%}
+              {{- forum.subscriptions|length|localizednumber -}}
+            {%- endif -%}
+          </td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
 
-  {% include '_includes/pagination.html.twig' with {pager: forums} %}
+  <div class="pad">
+    {{ include('_includes/pagination.html.twig', {pager: forums}, with_context=false) }}
+  </div>
 {% endblock %}
 
 {% macro table_head(label, newSortBy, currentSortBy) %}

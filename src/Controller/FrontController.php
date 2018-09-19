@@ -46,13 +46,14 @@ final class FrontController extends AbstractController {
 
     public function front(string $sortBy, Request $request): Response {
         $user = $this->getUser();
+        $listing = User::FRONT_FEATURED;
 
-        if (!$user instanceof User) {
-            $listing = User::FRONT_FEATURED;
-        } elseif ($user->getFrontPage() === 'default') {
+        if (
+            $user instanceof User &&
+            $user->getFrontPage() === 'default' &&
+            count($user->getSubscriptions()) > 0
+        ) {
             $listing = User::FRONT_SUBSCRIBED;
-        } else {
-            $listing = $user->getFrontPage();
         }
 
         switch ($listing) {
@@ -89,10 +90,6 @@ final class FrontController extends AbstractController {
 
         $forums = $this->forums->findSubscribedForumNames($this->getUser());
         $hasSubscriptions = \count($forums) > 0;
-
-        if (!$hasSubscriptions) {
-            $forums = $this->forums->findFeaturedForumNames();
-        }
 
         $submissions = $this->submissions->findSubmissions($sortBy, [
             'forums' => array_keys($forums),

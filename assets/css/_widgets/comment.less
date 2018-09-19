@@ -1,0 +1,109 @@
+@import '../_mixins/_breakpoints';
+@import '../_settings';
+
+.comment {
+  @reply-marker-visible-width: 0.25rem;
+  @reply-marker-actual-width: 1rem;
+  @gutter-width: 6ch;
+
+  display: grid;
+  grid-template-areas:
+    'a a b' // vote / body
+    'a a c' // vote / footer
+    'd d d' // reply form
+    'g e e'; // gutter / replies
+  grid-template-columns: auto auto 1fr;
+
+  &__info {
+    grid-area: b;
+    padding: 0.5rem 1rem 0.5rem 0;
+  }
+
+  &__vote {
+    grid-area: a;
+    margin-bottom: -0.5rem; // keep in line with body
+    padding: 0.5rem 0 1rem;
+  }
+
+  &__body {
+    grid-area: c;
+    margin-bottom: -0.5rem; // cut into bottom margin of block text
+    padding-right: 1rem;
+  }
+
+  &__replies {
+    grid-area: e;
+  }
+
+  &__form-container {
+    @spacing: calc(@gutter-width / 2 - @reply-marker-visible-width / 2);
+
+    border-left: dotted @reply-marker-visible-width var(--general-shade);
+    margin: 0.5rem 0 0.5rem @spacing;
+    grid-area: d;
+    padding: 0 1rem 0 @spacing;
+  }
+
+  &__replies:empty ~ &__gutter {
+    // gutter is always present in HTML, so hide it when there are no replies
+    display: none;
+  }
+
+  &__gutter {
+    grid-area: g;
+    margin-top: 0.5rem;
+  }
+
+  &__thread-marker {
+    height: calc(100% - 0.5rem);
+    margin-left: calc(@gutter-width / 2 - @reply-marker-actual-width + @reply-marker-visible-width / 2);
+    width: @reply-marker-actual-width;
+
+    // prevent issue where viewport height would come into play
+    display: flex;
+
+    &::after {
+      background-color: var(--general-shade);
+      content: '';
+      display: block;
+      margin-left: auto;
+      height: 100%;
+      width: @reply-marker-visible-width;
+    }
+
+    .lte(@tablet-breakpoint, {
+        margin-left: 0;
+    });
+
+    .compress-markers(@breakpoint, @level) {
+      .lte(@breakpoint, {
+        .comment[data-level="@{level}"] & {
+          margin-left: var(--pixel, 1px);
+          width: @reply-marker-visible-width;
+        }
+      });
+    }
+
+    .compress-markers(@desktop-breakpoint, 15);
+    .compress-markers(@tablet-breakpoint, 10);
+    .compress-markers(@mobile-breakpoint, 5);
+
+    &:hover::after {
+      background-color: var(--dimmed);
+    }
+  }
+
+  &__vote,
+  &__info,
+  &__body {
+    .comment:target > & {
+      animation: comment-target 1s linear;
+    }
+  }
+}
+
+@keyframes comment-target {
+  from {
+    background-color: var(--neutral-bg);
+  }
+}

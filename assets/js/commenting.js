@@ -3,38 +3,35 @@
 import $ from 'jquery';
 import Translator from 'bazinga-translator';
 
-// load comment forms via ajax
+// hide open forms (they're initially visible for non-js users)
+$('.comment__form-container').hide();
 
-$(function () {
-    // hide open forms (they're initially visible for non-js users)
-    $('.comment .comment-form').hide();
+$(document).on('click', '.comment__reply-link', function (event) {
+    event.preventDefault();
 
-    $('.comment__reply-link').click(function (event) {
-        event.preventDefault();
+    const $comment = $(this).closest('.comment');
+    const $formContainer = $comment.find('> .comment__form-container');
+    const $existingForm = $formContainer.find('.comment-form');
 
-        const $parent = $(this).closest('.comment__main');
-        const $existingForm = $parent.find('> .comment-form');
+    // remove existing error messages
+    $formContainer.find('.comment__form-error-alert').remove();
 
-        // remove existing error messages
-        $parent.find('> .comment-error').remove();
+    if ($existingForm.length > 0) {
+        // the form already exists, so just hide/unhide it as necessary
+        $formContainer.toggle();
+    } else {
+        const url = $(this).data('form-url');
 
-        if ($existingForm.length > 0) {
-            // the form already exists, so just hide/unhide it as necessary
-            $existingForm.toggle();
-        } else {
-            const url = $(this).data('form-url');
+        // opacity indicates loading
+        $(this).css('opacity', '0.5');
 
-            // opacity indicates loading
-            $(this).css('opacity', '0.5');
-
-            $.ajax({url: url, dataType: 'html'}).done(data => {
-                $parent.append(data);
-            }).fail(() => {
-                const error = Translator.trans('comments.form_load_error');
-                $parent.append(`<p class="comment-error">${error}</p>`);
-            }).always(() => {
-                $(this).css('opacity', 'unset');
-            });
-        }
-    });
+        $.ajax({url: url, dataType: 'html'}).done(formHtml => {
+            $formContainer.prepend(formHtml);
+        }).fail(() => $(() => {
+            const error = Translator.trans('comments.form_load_error');
+            $formContainer.prepend(`<div class="alert alert--bad comment__form-error-alert"><p>${error}</p></div>`);
+        })).always(() => {
+            $(this).css('opacity', 'unset');
+        });
+    }
 });

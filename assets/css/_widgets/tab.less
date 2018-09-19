@@ -1,0 +1,22 @@
+.tab {
+  // leave these expanded - ms edge doesn't like the short-hand syntax for
+  // whatever reason
+  border-bottom-style: solid;
+  border-bottom-width: 0.125rem;
+  border-bottom-color: var(--general-shade);
+
+  color: var(--dimmed);
+  display: block;
+  padding: 0.5rem;
+  padding-bottom: calc(0.5rem - 0.125rem);
+
+  &:hover {
+    border-bottom-color: var(--main);
+    text-decoration: none;
+  }
+
+  &--active {
+    color: var(--main);
+    border-bottom-color: var(--accent);
+  }
+}

@@ -3,25 +3,30 @@
   get: app.request.query.all,
   hasPrev: pager.hasPreviousPage ?? false,
   hasNext: pager.hasNextPage,
+  bidirectional: pager.getNbPages is defined,
 } %}
-  {% if hasPrev or hasNext %}
-    <nav class="pagination">
-      <ul>
-        {% if hasPrev %}
-          <li class="previous">
-            <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? {})|merge(get)|merge({page: pager.previousPage})) }}">
-              {{ 'nav.previous'|trans }}
-            </a>
-          </li>
-        {% endif %}
-        {% if hasNext %}
-          <li class="next">
-            <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? {})|merge(get)|merge(pager.nextPageParams ?? {page: pager.nextPage})) }}">
-              {{ 'nav.next'|trans }}
-            </a>
-          </li>
-        {% endif %}
-      </ul>
-    </nav>
-  {% endif %}
+  <nav class="nav nav--guttered">
+    {% if hasPrev %}
+      <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? {})|merge(get)|merge({page: pager.previousPage})) }}"
+         class="button button--secondary">
+        {{- 'nav.previous'|trans -}}
+      </a>
+    {% elseif bidirectional %}
+      <button class="button button--secondary" disabled>{{ 'nav.previous'|trans }}</button>
+    {% endif %}
+
+    <span class="nav__grow" role="presentation"></span>
+
+    {% if hasNext %}
+      <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? {})|merge(get)|merge(pager.nextPageParams ?? {page: pager.nextPage})) }}"
+         class="button button--secondary"
+         rel="next">
+        {{- (bidirectional ? 'nav.next' : 'nav.more')|trans -}}
+      </a>
+    {% else %}
+      <button class="button button--secondary" disabled>
+        {{- (bidirectional ? 'nav.next' : 'nav.more')|trans -}}
+      </button>
+    {% endif %}
+  </nav>
 {% endwith %}

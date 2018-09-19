@@ -1,5 +1,8 @@
+<link rel="stylesheet" href="{{ preload(asset('build/core.css')) }}">
+
 {% if not night_mode %}
-  <link rel="stylesheet" href="{{ preload(asset('build/red.css')) }}">
+  <link rel="stylesheet" href="{{ preload(asset('build/postmill.css')) }}" title="Postmill">
+  <link rel="alternate stylesheet" href="{{ preload(asset('build/jst.css')) }}" title="jst">
 {% else %}
-  <link rel="stylesheet" href="{{ preload(asset('build/night.css')) }}">
+  <link rel="stylesheet" href="{{ preload(asset('build/postmill-night.css')) }}">
 {% endif %}

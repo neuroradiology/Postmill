@@ -2,7 +2,6 @@
 
 {% from 'submission/_macros.html.twig' import submission, submission_sort %}
 
-{% block page_classes 'forum-category-page' %}
 {% block title 'heading.category'|trans({'%category%': category.title}) %}
 
 {% block head %}
@@ -10,15 +9,18 @@
   <meta name="description" content="{{ category.description }}">
 {% endblock %}
 
-{% block sidebar %}
-  <section class="sidebar__section">
-    <h2 class="sidebar__title">/c/{{ category.name }}</h2>
+{% block sidebar_top_classes 'card' %}
+{% block sidebar_top %}
+  <section class="container pad vertical-pad">
+    <h4>/c/{{ category.name }}</h4>
 
-    {{ category.sidebar|cached_markdown|raw }}
+    <div class="break-text">
+      {{ category.sidebar|cached_markdown|raw }}
+    </div>
 
     {% if is_granted('ROLE_ADMIN') %}
       <nav>
-        <p>
+        <p class="no-margin">
           <a href="{{ path('edit_forum_category', {name: category.name}) }}"
              class="button button--inline">
             {{- 'action.edit'|trans -}}
@@ -27,30 +29,38 @@
       </nav>
     {% endif %}
   </section>
+{% endblock sidebar_top %}
 
-  <section class="sidebar__section">
-    <h2 class="sidebar__title">{{ 'label.forums_in_this_category'|trans }}</h2>
+{% block sidebar_bottom_classes 'container' %}
+{% block sidebar_bottom %}
+  <section class="card">
+    <h4 class="no-margin pad vertical-pad">{{ 'label.forums_in_this_category'|trans }}</h2>
 
-    <ul>
+    <ul class="unlistify">
       {% for forum in forums %}
-        <li><a href="{{ path('forum', {forum_name: forum}) }}">{{ forum }}</a></li>
+        <li><a href="{{ path('forum', {forum_name: forum}) }}" class="menu-link">{{ forum }}</a></li>
       {% endfor %}
     </ul>
   </section>
-{% endblock %}
+{% endblock sidebar_bottom %}
 
+{% block main_classes 'container vp vp--guttered vertical-pad' %}
 {% block body %}
-  <h1 class="page-heading">{{ 'heading.category'|trans({'%category%': category.title}) }}</h1>
+  <header class="nav nav--guttered pad">
+    <h1 class="no-margin">{{ 'heading.category'|trans({'%category%': category.title}) }}</h1>
+    <nav>{{- submission_sort(sort_by) -}}</nav>
+  </header>
 
-  <nav class="tabs submission-sort">
-    <ul class="tabs__bar">
-      {{- submission_sort(sort_by) -}}
-    </ul>
-  </nav>
+  {% if submissions|length > 0 %}
+    <div class="vp vp--guttered card">
+      {% for submission in submissions %}
+        {{ submission(submission) }}
+      {% endfor %}
+    </div>
 
-  {% for submission in submissions %}
-    {{ submission(submission) }}
-  {% endfor %}
+    {{ include('_includes/pagination.html.twig', {pager: submissions}, with_context=false) }}
+  {% else %}
+    <p class="pad"><small class="dimmed">{{ 'flash.no_entries_to_display'|trans }}</small></p>
+  {% endif %}
 
-  {% include '_includes/pagination.html.twig' with {pager: submissions} %}
-{% endblock %}
+{% endblock body %}

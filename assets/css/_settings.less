@@ -1,0 +1,16 @@
+// Stuff that cannot be CSS variables.
+
+@main-column-width: 768px;
+@sidebar-width: 316px;
+@full-column-width: @main-column-width + @sidebar-width;
+
+// breakpoints for media queries
+@desktop-breakpoint: @full-column-width + @scrollbar-width;
+@tablet-breakpoint: @main-column-width;
+@mobile-breakpoint: 480px;
+
+// This is used for calculating breakpoints that set fixed element widths.
+// W3C made the awful, awful decision to include the vertical scrollbars as
+// part of the viewport width. As there's no way to calculate its true width,
+// let's just make an assumption that's good in most cases...
+@scrollbar-width: 18px;

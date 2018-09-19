@@ -1,0 +1,13 @@
+.set-block-text-margins(@bottom-margin) {
+  h1, h2, h3, h4, h5, h6, p, dl, ol, ul, blockquote {
+    margin-top: 0;
+    margin-bottom: @bottom-margin;
+  }
+
+  ol ol,
+  ol ul,
+  ul ol,
+  ul ul {
+    margin-bottom: 0;
+  }
+}

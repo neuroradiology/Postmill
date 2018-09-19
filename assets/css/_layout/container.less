@@ -1,0 +1,15 @@
+@import '../_mixins/_breakpoints';
+@import '../_settings';
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: @main-column-width;
+  width: 100%;
+
+  &--two-col-expand {
+    .gt(@desktop-breakpoint, {
+      max-width: @full-column-width;
+    });
+  }
+}

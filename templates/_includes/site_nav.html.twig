@@ -1,79 +1,96 @@
 {% from '_macros/icon.html.twig' import icon %}
-{% spaceless %}
-  {%- set notification_count = is_granted('ROLE_USER') ? app.user.notifications|length : 0 -%}
+{% from _self import site_nav_link, dropdown_link %}
+{% set notification_count = (app.user.notifications ?? [])|length %}
+{% set route = app.request.attributes.get('_route') %}
+<div class="site-nav {{ notification_count > 0 ? 'site-nav--has-notifications' }} nav nav--no-wrap nav--justify-center">
+  <div class="container container--two-col-expand site-nav__container">
+    <header class="nav nav--no-wrap nav--justify-space-between">
+      <h1 class="no-margin">
+        {{ site_nav_link(
+          '%s<span class="site-nav__site-name">%s</span>'|format(source('_includes/logo.svg')|trim('right'), site_name()|e),
+          path('front'),
+          route == 'front',
+          'site-nav__brand '
+        ) }}
+      </h1>
 
-  <nav class="site-nav">
-    <div class="site-nav__header">
-      <a href="{{ path('front') }}" class="site-nav__logo">{{ site_name() }}</a>
-      {# todo: accessibility #}
-      <a href="#" class="site-nav__mobile-toggle {{ notification_count > 0 ? 'site-nav__mobile-toggle--has-notifications' }}" onclick="$(this).parents('.site-nav').find('.site-nav__inner').toggleClass('site-nav__inner--mobile-visible'); return false">{{ icon('menu') }}</a>
-    </div>
+      {# mobile buttons #}
+      <ul class="nav unlistify site-nav__mobile-menu" role="navigation" hidden>
+        <li>{{ site_nav_link(icon('plus', 'nav.submit'|trans), path('submit', {forum_name: forum.name ?? null}), route == 'submit') }}</li>
 
-    <div class="site-nav__inner">
+        {# todo - accessibility #}
+        <li>{{ site_nav_link(icon('menu', 'Menu'), "javascript:$('.site-nav__inner').toggleClass('site-nav__inner--mobile-visible');void 0", false, 'site-nav__notification-highlight') }}</li>
+      </ul>
+    </header>
+
+    <nav class="site-nav__inner">
       {# left portion of site nav #}
-      <ul class="site-nav__menu">
-        <li class="site-nav__item">
-          <a href="{{ path('forum_list') }}" class="site-nav__link">{{ 'nav.forums'|trans }}</a>
-        </li>
-
-        <li class="site-nav__item">
-          <a href="{{ path('wiki') }}" class="site-nav__link">{{ 'nav.wiki'|trans }}</a>
-        </li>
+      <ul class="nav nav--stack-on-tablet unlistify">
+        <li>{{ site_nav_link('nav.forums'|trans, path('forum_list'), route in ['forum_list', 'forums_by_category']) }}</li>
+        <li>{{ site_nav_link('nav.wiki'|trans, path('wiki'), route starts with 'wiki') }}</li>
 
         {% if is_granted('ROLE_ADMIN') %}
-          <li class="site-nav__item dropdown-container">
-            <a href="#" class="site-nav__link dropdown-toggle">{{ 'label.admin'|trans }}</a>
-            <ul class="dropdown-menu">
-              <li><a href="{{ path('user_bans') }}">{{ icon('hammer') }} {{ 'label.bans'|trans }}</a></li>
-              <li><a href="{{ path('manage_forum_categories') }}">{{ icon('sitemap') }} {{ 'nav.forum_categories'|trans }}</a></li>
-              <li><a href="{{ path('users') }}">{{ icon('user') }} {{ 'nav.users'|trans }}</a></li>
+          <li class="site-nav__dropdown dropdown">
+            {{ site_nav_link('label.admin'|trans, '#', false, 'dropdown__toggle', true) }}
+
+            <ul class="dropdown__menu unlistify card">
+              <li>{{ dropdown_link('label.bans'|trans, path('user_bans'), 'hammer') }}</li>
+              <li>{{ dropdown_link('nav.forum_categories'|trans, path('manage_forum_categories'), 'sitemap') }}</li>
+              <li>{{ dropdown_link('nav.users'|trans, path('users'), 'user') }}</li>
             </ul>
           </li>
         {% endif %}
       </ul>
 
       {# right portion of site nav #}
-      <ul class="site-nav__menu right-nav">
+      <ul class="nav nav--stack-on-tablet unlistify">
         {% if not is_granted('ROLE_USER') %}
-          <li class="site-nav__item">
-            <a href="{{ path('login') }}" class="site-nav__link">{{ 'nav.log_in'|trans }}</a>
-          </li>
-
-          <li class="site-nav__item">
-            <a href="{{ path('registration') }}" class="site-nav__link">{{ 'nav.register'|trans }}</a>
-          </li>
+          <li>{{ site_nav_link('nav.log_in'|trans, path('login'), route == 'login') }}</li>
+          <li>{{ site_nav_link('nav.register'|trans, path('registration'), route == 'registration') }}</li>
         {% else %}
           {# notifications #}
           {% if notification_count > 0 %}
-            <li class="site-nav__item site-nav__item--has-notifications">
-              <a href="{{ path('inbox') }}" class="site-nav__link">
-                {{- 'nav.inbox_count'|trans({'%count%': '<strong>%s</strong>'|format(notification_count|localizednumber)})|raw -}}
-              </a>
-            </li>
+            <li>{{ site_nav_link(
+              'nav.inbox_count'|trans({'%count%': '<strong>%s</strong>'|format(notification_count|localizednumber)}),
+              path('inbox'),
+              route == 'inbox',
+              'site-nav__notification-highlight'
+            ) }}</li>
           {% endif %}
 
-          {# submit button #}
-          <li class="site-nav__item">
-            <a href="{{ path('submit', {forum_name: forum.name ?? null}) }}" class="site-nav__link">
-              {{- 'nav.submit'|trans -}}
-            </a>
-          </li>
+          <li>{{ site_nav_link('nav.submit'|trans, path('submit', {forum_name: forum.name ?? null}), route == 'submit') }}</li>
 
           {# user menu #}
-          <li class="site-nav__item dropdown-container">
-            <a href="#" class="site-nav__link dropdown-toggle"><strong>{{ app.user.username }}</strong></a>
-            <ul class="dropdown-menu">
-              <li><a href="{{ path('user', {username: app.user.username}) }}">{{ icon('user') }} {{ 'nav.profile'|trans }}</a></li>
-              <li><a href="{{ path('message_list') }}">{{ icon('mail') }} {{ 'nav.messages'|trans }}</a></li>
-              <li><a href="{{ path('edit_user', {username: app.user.username}) }}">{{ icon('lock') }} {{ 'nav.my_account'|trans }}</a></li>
-              <li><a href="{{ path('user_settings', {username: app.user.username}) }}">{{ icon('settings') }} {{ 'nav.user_settings'|trans }}</a></li>
-              <li><a href="{{ path('user_block_list') }}">{{ icon('block') }} {{ 'nav.block_list'|trans }}</a></li>
-              <li><a href="{{ logout_path() }}">{{ icon('logout') }} {{ 'nav.log_out'|trans }}</a></li>
+          <li class="site-nav__dropdown dropdown dropdown--right">
+            {{ site_nav_link('<b>%s</b>'|format(app.user.username|e), '#', false, 'dropdown__toggle', true) }}
+
+            <ul class="dropdown__menu unlistify card">
+              <li>{{ dropdown_link('nav.profile'|trans, path('user', {username: app.user.username}), 'user') }}</li>
+              <li>{{ dropdown_link('nav.messages'|trans, path('message_list'), 'mail') }}</li>
+              <li>{{ dropdown_link('nav.my_account'|trans, path('edit_user', {username: app.user.username}), 'lock') }}</li>
+              <li>{{ dropdown_link('nav.user_settings'|trans, path('user_settings', {username: app.user.username}), 'settings') }}</li>
+              <li>{{ dropdown_link('nav.block_list'|trans, path('user_block_list'), 'block') }}</li>
+              <li>{{ dropdown_link('nav.log_out'|trans, logout_path(), 'logout') }}</li>
             </ul>
           </li>
-
         {% endif %}
       </ul>
-    </div>
-  </nav>
-{% endspaceless %}
+    </nav>
+  </div>
+</div>
+
+{% macro site_nav_link(label, path, current=false, extra_classes=false, dropdown_arrow=false) -%}
+  <a href="{{ path }}" class="site-nav__link {{ current ? 'site-nav__link--active' }} {{ extra_classes }}" {{ current ? 'aria-current="page"' }}>
+    {{- label|raw -}}
+    {{ dropdown_arrow ? ' <span class="dropdown__arrow" role="presentation"></span>' }}
+  </a>
+{%- endmacro %}
+
+{% macro dropdown_link(label, path, icon) %}
+  {%- from '_macros/icon.html.twig' import icon -%}
+  {%- set active = path == (app.request.basePath ~ app.request.pathInfo) -%}
+  <a href="{{ path }}" class="no-wrap menu-link {{ active ? 'menu-link--active' }}">
+    {{ icon(icon) }}
+    {{ label|raw }}
+  </a>
+{%- endmacro %}

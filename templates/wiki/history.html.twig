@@ -1,4 +1,4 @@
-{% extends 'wiki/page.html.twig' %}
+{% extends 'wiki/base.html.twig' %}
 
 {% block title %}
   {{ 'wiki.history_title'|trans({'%path%': page.path}) }}
@@ -8,29 +8,31 @@
   {% include '_includes/meta_pagination.html.twig' with {pager: revisions} only %}
 {% endblock %}
 
+{% block main_classes 'container vertical-pad vp vp--guttered' %}
+
 {% block body %}
-  <h1 class="page-heading">{{ 'wiki.history_title'|trans({
+  <h1 class="pad">{{ 'wiki.history_title'|trans({
     '%path%': '<a href="%s">%s</a>'|format(path('wiki', {path: page.path})|escape, page.path|escape)
   })|raw }}</h1>
 
-  <form action="{{ path('wiki_diff') }}">
+  <form action="{{ path('wiki_diff') }}" class="vp vp--guttered">
     <table class="table">
       <thead>
         <tr>
-          <th colspan="2">{{ 'label.compare'|trans }}</th>
+          <th class="table__shrink" colspan="2">{{ 'label.compare'|trans }}</th>
           <th>{{ 'wiki.id_label'|trans }}</th>
           <th>{{ 'wiki.revision_time'|trans }}</th>
-          <th>{{ 'wiki.user'|trans }}</th>
+          <th class="table__shrink">{{ 'wiki.user'|trans }}</th>
         </tr>
       </thead>
       <tbody>
         {% for revision in revisions %}
           <tr>
-            <td><input type="radio"
+            <td class="table__shrink"><input type="radio"
                        name="from"
                        value="{{ revision.id }}"
                        {{ loop.index == 2 ? 'checked' }}></td>
-            <td><input type="radio"
+            <td class="table__shrink"><input type="radio"
                        name="to"
                        value="{{ revision.id }}"
                        {{ loop.index == 1 ? 'checked' }}></td>
@@ -44,16 +46,18 @@
                 </time>
               {% endwith %}
             </td>
-            <td><a href="{{ path('user', {username: revision.user.username}) }}">{{ revision.user.username }}</a></td>
+            <td class="table__shrink"><a href="{{ path('user', {username: revision.user.username}) }}">{{ revision.user.username }}</a></td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
 
-    <div class="form__row form__button-row">
+    <div class="button-row pad">
       <button class="button">{{ 'action.compare'|trans }}</button>
     </div>
   </form>
 
-  {% include '_includes/pagination.html.twig' with {pager: revisions} only %}
+  <div class="pad">
+    {{ include('_includes/pagination.html.twig', {pager: revisions}, with_context=false) }}
+  </div>
 {% endblock %}

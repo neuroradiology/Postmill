@@ -1,0 +1,24 @@
+@import '../_mixins/_breakpoints';
+@import '../_settings';
+
+// Add horizontal padding to stuff.
+// For tables, widgets, and other things with internal padding, the
+// *-collpasible classes can be used to remove the padding when screen real
+// estate is sparse.
+.pad {
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  .no-pad() {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &--mobile-collapsible {
+    .lte(@mobile-breakpoint, { .no-pad() });
+  }
+
+  &--tablet-collapsible {
+    .lte(@tablet-breakpoint, { .no-pad() });
+  }
+}

@@ -14,10 +14,10 @@
     {% endblock %}
   </h1>
 
-  {{ form_start(form) }}
+  {{ form_start(form, {attr: {class: 'vp vp--guttered'}}) }}
     {{ form_rest(form) }}
 
-    <div class="form__row form__button-row">
+    <div class="button-row">
       <button class="button">{{ 'action.unban'|trans }}</button>
     </div>
   {{ form_end(form) }}
