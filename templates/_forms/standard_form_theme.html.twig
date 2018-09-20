@@ -104,13 +104,15 @@
 {%- endblock -%}
 
 {%- block captcha_widget -%}
-  {%- spaceless -%}
-    <div>
-      {%- if not reload -%}
-        <img src="{{ captcha_code }}" alt="" title="captcha" width="{{ captcha_width }}" height="{{ captcha_height }}">
-      {%- else -%}
-        <a class="captcha_reload" href="javascript:reload_{{ image_id }}();">
-          <img src="{{ captcha_code }}" alt="" id="{{ image_id }}" title="{{ 'Renew'|trans({}, 'gregwar_captcha') }}" width="{{ captcha_width }}" height="{{ captcha_height }}">
+  <div>
+    <div class="nav nav--guttered nav--align-center">
+      {%- if reload -%}
+        <a href="javascript:reload_{{ image_id }}();">
+      {%- endif -%}
+
+      <img src="{{ captcha_code }}" alt="" id="{{ image_id }}" title="{{ 'Renew'|trans({}, 'gregwar_captcha') }}" width="{{ captcha_width }}" height="{{ captcha_height }}" class="block">
+
+      {%- if reload -%}
         </a>
         <script type="text/javascript">
           function reload_{{ image_id }}() {
@@ -119,9 +121,10 @@
           }
         </script>
       {%- endif -%}
+
+      <span>{{ form_widget(form, {attr: {size: 8}}) }}</span>
     </div>
-    {{- form_widget(form) -}}
-  {%- endspaceless -%}
+  </div>
 {%- endblock -%}
 
 {%- block honeypot_row -%}

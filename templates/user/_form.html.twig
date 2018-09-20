@@ -10,16 +10,12 @@
   {{ form_row(form.email, {help: 'user.email_optional'}) }}
 
   {% if form.verification is defined %}
-    <div>
-      {% if not app.request.hasPreviousSession %}
-        <div class="alert alert--notice">
-          <p>{{ 'flash.no_cookies_verification'|trans }}</p>
-        </div>
-      {% endif %}
-      {{ form_label(form.verification) }}
-      {{ form_errors(form.verification) }}
-      {{ form_widget(form.verification) }}
-    </div>
+    {% if not app.request.hasPreviousSession %}
+      <div class="alert alert--notice">
+        <p>{{ 'flash.no_cookies_verification'|trans }}</p>
+      </div>
+    {% endif %}
+    {{ form_row(form.verification) }}
   {% endif %}
 
   {{ form_row(form.submit) }}
