@@ -7,7 +7,7 @@
 
   {{ form_row(form.body, {attr: {rows: 10}}) }}
 
-  {{ form.forum is defined ? form_row(form.forum, {attr: {class: 'select2'}}) }}
+  {{ form.forum is defined ? form_row(form.forum, {attr: {class: 'select2'}, show_required_indicator: true}) }}
 
   {{ form.userFlag is defined ? form_row(form.userFlag) }}
 

@@ -43,8 +43,6 @@ add_moderator:
 ban_add:
     title: Ban an IP address
 
-'Expires at (YYYY-MM-DD hh:mm)': Expires at (YYYY-MM-DD hh:mm)
-
 ban_list:
     ip: IP address
     timestamp: Time
@@ -198,6 +196,7 @@ help:
     parent_theme_input: Enter the <username>/<theme> of the theme you wish to extend. Alternatively, you can enter a UUID to extend a particular revision.
     append_to_default_style_inheritance_warning: Setting this has no effect when extending an existing theme.
     will_appear_in_the_url: Will appear in the URL.
+    required_field: This is a required field
 
 inbox:
     title: Inbox

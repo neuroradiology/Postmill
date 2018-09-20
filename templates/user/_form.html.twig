@@ -1,3 +1,5 @@
+{% form_theme form '_forms/aligned_form_theme.html.twig' %}
+
 {{ form_start(form, {attr: {class: 'vp vp--guttered'}}) }}
   {{ form_row(form.username, {help: 'user.username_rules'}) }}
 
