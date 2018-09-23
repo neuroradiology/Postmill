@@ -2,7 +2,7 @@ manage_forum_categories:
     controller: App\Controller\ForumCategoryController::manage
     defaults: { page: 1 }
     methods: [GET]
-    path: /manage_forum_categories/{page}
+    path: /forums/manage_categories/{page}
 
 forum_category:
     controller: App\Controller\ForumCategoryController::category
@@ -14,9 +14,9 @@ forum_category:
 create_forum_category:
     controller: App\Controller\ForumCategoryController::create
     methods: [GET, POST]
-    path: /create_forum_category
+    path: /forums/create_category
 
 edit_forum_category:
     controller: App\Controller\ForumCategoryController::edit
     methods: [GET, POST]
-    path: /edit_forum_category/{name}
+    path: /c/{name}/edit

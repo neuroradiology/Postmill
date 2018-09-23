@@ -9,3 +9,4 @@ login_check:
 
 log_out:
     path: /log_out
+    methods: [POST]

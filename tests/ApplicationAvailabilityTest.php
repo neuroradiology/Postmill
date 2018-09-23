@@ -93,19 +93,19 @@ class ApplicationAvailabilityTest extends WebTestCase {
         yield ['/featured/top.atom'];
         yield ['/featured/controversial.atom'];
         yield ['/featured/most_commented.atom'];
-        yield ['/f/news/hot'];
-        yield ['/f/news/new'];
-        yield ['/f/news/top'];
-        yield ['/f/news/controversial'];
-        yield ['/f/news/most_commented'];
-        yield ['/f/news/hot.atom'];
-        yield ['/f/news/new.atom'];
-        yield ['/f/news/top.atom'];
-        yield ['/f/news/controversial.atom'];
-        yield ['/f/news/most_commented.atom'];
-        yield ['/f/news/1/comment/1'];
-        yield ['/f/news/bans'];
-        yield ['/f/news/moderation_log'];
+        yield ['/news/hot'];
+        yield ['/news/new'];
+        yield ['/news/top'];
+        yield ['/news/controversial'];
+        yield ['/news/most_commented'];
+        yield ['/news/hot.atom'];
+        yield ['/news/new.atom'];
+        yield ['/news/top.atom'];
+        yield ['/news/controversial.atom'];
+        yield ['/news/most_commented.atom'];
+        yield ['/news/1/comment/1'];
+        yield ['/news/bans'];
+        yield ['/news/moderation_log'];
         yield ['/forums'];
         yield ['/forums/by_name'];
         yield ['/forums/by_title'];
@@ -116,21 +116,21 @@ class ApplicationAvailabilityTest extends WebTestCase {
         yield ['/forums/by_subscribers/1'];
         yield ['/forums/by_submissions/1'];
         yield ['/login'];
+        yield ['/login/reset_password'];
         yield ['/registration'];
         yield ['/user/emma'];
-        yield ['/reset_password'];
     }
 
     public function redirectUrlProvider() {
-        yield ['/f/cats', '/f/cats/'];
-        yield ['/f/news', '/f/NeWs/hot'];
-        yield ['/f/news/new', '/f/NeWs/new'];
-        yield ['/f/news/top', '/f/NeWs/top'];
-        yield ['/f/news/controversial', '/f/NeWs/controversial'];
-        yield ['/f/news/most_commented', '/f/NeWs/most_commented'];
-        yield ['/f/news/1/comment/1', '/f/NeWs/1/comment/1'];
-        yield ['/f/news/hot.atom', '/f/news/hot/1.atom'];
-        yield ['/f/news/new.atom', '/f/news/new/1.atom'];
+        yield ['/cats', '/f/cats/'];
+        yield ['/news', '/f/NeWs/hot'];
+        yield ['/news/new', '/f/NeWs/new'];
+        yield ['/news/top', '/f/NeWs/top'];
+        yield ['/news/controversial', '/f/NeWs/controversial'];
+        yield ['/news/most_commented', '/f/NeWs/most_commented'];
+        yield ['/news/1/comment/1', '/f/NeWs/1/comment/1'];
+        yield ['/news/hot.atom', '/f/news/hot/1.atom'];
+        yield ['/news/new.atom', '/f/news/new/1.atom'];
     }
 
     /**
@@ -147,13 +147,13 @@ class ApplicationAvailabilityTest extends WebTestCase {
         yield ['/moderated/top'];
         yield ['/moderated/controversial'];
         yield ['/moderated/most_commented'];
-        yield ['/create_forum'];
-        yield ['/f/news/edit'];
-        yield ['/f/news/add_moderator'];
-        yield ['/f/news/delete'];
+        yield ['/forums/create'];
+        yield ['/news/edit'];
+        yield ['/news/add_moderator'];
+        yield ['/news/delete'];
         yield ['/inbox'];
         yield ['/submit'];
         yield ['/submit/news'];
-        yield ['/block_list'];
+        yield ['/user/emma/block_list'];
     }
 }

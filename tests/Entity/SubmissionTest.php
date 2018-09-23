@@ -35,7 +35,7 @@ class SubmissionTest extends TestCase {
 
     public function testBannedUserCannotCreateSubmission() {
         $user = new User('u', 'p');
-        $forum = new Forum('a', 'a', 'a', 'a');
+        $forum = new Forum('aaa', 'a', 'a', 'a');
         $forum->addBan(new ForumBan($forum, $user, 'a', true, new User('u', 'p')));
 
         $this->expectException(BannedFromForumException::class);
@@ -45,7 +45,7 @@ class SubmissionTest extends TestCase {
 
     public function testBannedUserCannotVote() {
         $user = new User('u', 'p');
-        $forum = new Forum('a', 'a', 'a', 'a');
+        $forum = new Forum('aaa', 'a', 'a', 'a');
         $forum->addBan(new ForumBan($forum, $user, 'a', true, new User('u', 'p')));
 
         $submission = new Submission('a', null, 'a', $forum, new User('u', 'p'), null);

@@ -246,13 +246,13 @@ final class UserController extends AbstractController {
     }
 
     /**
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit_user", subject="user")
      *
      * @param int $page
      *
      * @return Response
      */
-    public function blockList(int $page) {
+    public function blockList(User $user, int $page) {
         /* @var User $user */
         $user = $this->getUser();
 
@@ -263,19 +263,18 @@ final class UserController extends AbstractController {
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Entity("blockee", expr="repository.findOneOrRedirectToCanonical(username, 'username')")
      *
-     * @param User          $blockee
+     * @param User          $user
      * @param Request       $request
      * @param EntityManager $em
      *
      * @return Response
      */
-    public function block(User $blockee, Request $request, EntityManager $em) {
+    public function block(User $user, Request $request, EntityManager $em) {
         /* @var User $blocker */
         $blocker = $this->getUser();
 
-        if ($blocker->isBlocking($blockee)) {
+        if ($blocker->isBlocking($user)) {
             throw $this->createNotFoundException('The user is already blocked');
         }
 
@@ -285,40 +284,47 @@ final class UserController extends AbstractController {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $block = $data->toBlock($blocker, $blockee);
+            $block = $data->toBlock($blocker, $user);
 
-            $em->persist($block);
+            $blocker->addBlock($block);
             $em->flush();
 
             $this->addFlash('success', 'flash.user_blocked');
 
-            return $this->redirectToRoute('user_block_list');
+            return $this->redirectToRoute('user_block_list', [
+                'username' => $this->getUser()->getUsername(),
+            ]);
         }
 
         return $this->render('user/block.html.twig', [
-            'blockee' => $blockee,
             'form' => $form->createView(),
+            'user' => $user,
         ]);
     }
 
     /**
-     * @Security("is_granted('ROLE_USER') and user === block.getBlocker()")
+     * @IsGranted("ROLE_USER")
      *
-     * @param UserBlock     $block
+     * @param Userk         $block
      * @param EntityManager $em
      * @param Request       $request
      *
      * @return Response
      */
-    public function unblock(UserBlock $block, EntityManager $em, Request $request) {
+    public function unblock(User $user, EntityManager $em, Request $request) {
         $this->validateCsrf('unblock', $request->request->get('token'));
 
-        $em->remove($block);
+        /* @var User $blocker */
+        $blocker = $this->getUser();
+
+        $blocker->unblock($user);
         $em->flush();
 
         $this->addFlash('success', 'flash.user_unblocked');
 
-        return $this->redirectToRoute('user_block_list');
+        return $this->redirectToRoute('user_block_list', [
+            'username' => $this->getUser()->getUsername(),
+        ]);
     }
 
     /**

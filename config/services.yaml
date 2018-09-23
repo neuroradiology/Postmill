@@ -8,6 +8,7 @@ parameters:
     env(APP_ENABLE_WEBHOOKS): false
     submission_listing_modes: featured|subscribed|all|moderated
     submission_sort_modes: hot|new|top|controversial|most_commented
+    forum_regex: !php/const App\Entity\Forum::NAME_REGEX
 
 services:
     _defaults:

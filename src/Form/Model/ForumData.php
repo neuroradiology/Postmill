@@ -22,6 +22,14 @@ class ForumData {
      *     message="The name must contain only contain letters, numbers, and underscores.",
      *     groups={"create", "edit"}
      * )
+     * @Assert\Regex("/^_/", message="The name cannot start with an underscore.", match=false, groups={"create", "edit"})
+     * @Assert\Regex("/^[0-9]+$/", message="The name cannot consist entirely of numbers.", match=false, groups={"create", "edit"})
+     * @Assert\Regex(
+     *     Forum::RESERVED_NAMES_FULL_REGEX,
+     *     message="{{ value }} is a reserved name that cannot be given to forums.",
+     *     match=false,
+     *     groups={"create", "edit"}
+     * )
      */
     private $name;
 

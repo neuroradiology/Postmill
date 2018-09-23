@@ -1,20 +1,22 @@
 message_list:
     controller: App\Controller\MessageController::list
     defaults: { page: 1 }
-    path: /messages/{page}
+    path: /inbox/messages/{page}
     methods: [GET]
+    requirements: { page: \d+ }
 
 message:
     controller: App\Controller\MessageController::message
     path: /message/{id}
     methods: [GET]
+    requirements: { id: \d+ }
 
 compose_message:
     controller: App\Controller\MessageController::compose
-    path: /compose_message/{username}
+    path: /user/{username}/compose_message
     methods: [GET, POST]
 
 reply_to_message:
     controller: App\Controller\MessageController::reply
-    path: /message_reply/{id}
+    path: /message/reply_to/{id}
     methods: [POST]

@@ -21,7 +21,7 @@ class ResetPasswordControllerTest extends WebTestCase {
 
     public function testCanSendResetEmails() {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/reset_password');
+        $crawler = $client->request('GET', '/login/reset_password');
 
         $form = $crawler->selectButton('Submit')->form([
             'request_password_reset[email]' => 'emma@example.com',

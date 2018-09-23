@@ -69,8 +69,15 @@
               <li>{{ dropdown_link('nav.messages'|trans, path('message_list'), 'mail') }}</li>
               <li>{{ dropdown_link('nav.my_account'|trans, path('edit_user', {username: app.user.username}), 'lock') }}</li>
               <li>{{ dropdown_link('nav.user_settings'|trans, path('user_settings', {username: app.user.username}), 'settings') }}</li>
-              <li>{{ dropdown_link('nav.block_list'|trans, path('user_block_list'), 'block') }}</li>
-              <li>{{ dropdown_link('nav.log_out'|trans, logout_path(), 'logout') }}</li>
+              <li>{{ dropdown_link('nav.block_list'|trans, path('user_block_list', {username: app.user.username}), 'block') }}</li>
+              <li>
+                <form action="{{ logout_path() }}" method="post">
+                  <button class="menu-link unbuttonize">
+                    {{ icon('logout') }}
+                    {{ 'nav.log_out'|trans }}
+                  </button>
+                </form>
+              </li>
             </ul>
           </li>
         {% endif %}

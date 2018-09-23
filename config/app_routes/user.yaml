@@ -26,40 +26,40 @@ user_comments:
 users:
     controller: App\Controller\UserController::list
     defaults: { page: 1 }
-    path: /users/{page}
+    path: /_users/{page}
     methods: [GET]
     requirements: { page: \d+ }
 
 edit_user:
     controller: App\Controller\UserController::editUser
-    path: /edit_user/{username}
+    path: /user/{username}/account
     methods: [GET, POST]
 
 edit_biography:
     controller: App\Controller\UserController::editBiography
-    path: /edit_biography/{username}
+    path: /user/{username}/edit_biography
     methods: [GET, POST]
 
 user_settings:
     controller: App\Controller\UserController::userSettings
-    path: /user_settings/{username}
+    path: /user/{username}/preferences
     methods: [GET, POST]
 
 user_block_list:
     controller: App\Controller\UserController::blockList
     defaults: { page: 1 }
-    path: /block_list/{page}
+    path: /user/{username}/block_list/{page}
     methods: [GET, POST]
     requirements: { page: \d+ }
 
 block_user:
     controller: App\Controller\UserController::block
-    path: /block/{username}
+    path: /user/{username}/block
     methods: [GET, POST]
 
 unblock_user:
     controller: App\Controller\UserController::unblock
-    path: /unblock/{id}
+    path: /user/{username}/unblock
     methods: [POST]
     requirements: { id: "%uuid_regex%" }
 
@@ -81,19 +81,19 @@ inbox:
     methods: [GET]
     requirements: { page: \d+ }
 
-clear_inbox:
-    controller: App\Controller\UserController::clearInbox
-    defaults: { _format: html }
-    path: /clear_inbox.{_format}
-    methods: [POST]
-    requirements: { _format: html|json }
-
 user_forum_bans:
     controller: App\Controller\UserController::listForumBans
     defaults: { page: 1 }
     path: /user/{username}/forum_bans/{page}
     methods: [GET]
     requirements: { username: \w+, page: \d+ }
+
+clear_inbox:
+    controller: App\Controller\UserController::clearInbox
+    defaults: { _format: html }
+    path: /clear_inbox.{_format}
+    methods: [POST]
+    requirements: { _format: html|json }
 
 clear_notification:
     controller: App\Controller\UserController::clearNotification

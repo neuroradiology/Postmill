@@ -21,3 +21,6 @@
 'The CIDR mask is not valid.': 'The CIDR mask is not valid.'
 'Missing CIDR mask.': 'Missing CIDR mask.'
 'You have been banned from this forum.': 'You have been banned from this forum.'
+'The name cannot start with an underscore.': 'The name cannot start with an underscore.'
+'The name cannot consist entirely of numbers.': 'The name cannot consist entirely of numbers.'
+'{{ value }} is a reserved name that cannot be given to forums.': '{{ value }} is a reserved name that cannot be given to forums.'

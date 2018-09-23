@@ -20,7 +20,7 @@ class MessageControllerTest extends WebTestCase {
             'PHP_AUTH_PW' => $password,
         ]);
 
-        $crawler = $client->request('GET', '/messages');
+        $crawler = $client->request('GET', '/inbox/messages');
 
         $this->assertContains('Example message.', $crawler->filter('tbody tr td:nth-child(1)')->text());
         $this->assertEquals('1', trim($crawler->filter('tbody tr td:nth-child(3)')->text()));
@@ -32,14 +32,14 @@ class MessageControllerTest extends WebTestCase {
             'PHP_AUTH_PW' => 'example3',
         ]);
 
-        $crawler = $client->request('GET', '/messages');
+        $crawler = $client->request('GET', '/inbox/messages');
 
         $this->assertContains('There are no messages to display.', $crawler->filter('main')->text());
     }
 
     public function testMustBeLoggedInToViewMessageList() {
         $client = $this->createClient();
-        $client->request('GET', '/messages');
+        $client->request('GET', '/inbox/messages');
 
         $this->assertTrue($client->getResponse()->isRedirect());
         $this->assertStringEndsWith('/login', $client->getResponse()->headers->get('Location'));

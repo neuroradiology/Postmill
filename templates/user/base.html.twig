@@ -26,20 +26,33 @@
       </div>
     {% endif %}
 
-    {% if user is same as(app.user) or is_granted('ROLE_ADMIN') %}
-      <p class="no-margin">
+    <div class="nav nav--guttered hide-empty">
+      {%- if user is same as(app.user) or is_granted('ROLE_ADMIN') -%}
         <a href="{{ path('edit_biography', {username: user.username}) }}"
-           class="button button--inline button--secondary">
+           class="button button--inline button--secondary block">
           {{- 'nav.edit_biography'|trans -}}
         </a>
-      </p>
-    {% endif %}
+      {%- endif -%}
+
+      {%- if is_granted('ROLE_USER') and user is not same as(app.user) -%}
+        {% if not app.user.isBlocking(user) %}
+          <a href="{{ path('block_user', {username: user.username}) }}"
+             class="button button--inline button--secondary block">
+            {{ 'nav.block_user'|trans }}
+          </a>
+        {% else %}
+          <form action="{{ path('unblock_user', {username: user.username}) }}" method="POST">
+            <input type="hidden" name="token" value="{{ csrf_token('unblock') }}">
+            <button class="button button--inline block">{{ 'action.unblock'|trans }}</button>
+          </form>
+        {% endif %}
+      {%- endif -%}
+    </div>
   </section>
 {% endblock sidebar_top %}
 
 {% set toolbox_items = {
   ('user.message'|trans): { route: 'compose_message', params: {username: user.username}, condition: is_granted('ROLE_USER') and is_granted('message', user) },
-  ('nav.block_user'|trans): { route: 'block_user', params: {username: user.username}, condition: is_granted('ROLE_USER') and app.user.isBlocking(user) },
   ('action.ban'|trans): { route: 'ban_user', params: {username: user.username}, condition: is_granted('ROLE_ADMIN') and not user.banned },
   ('action.unban'|trans): { route: 'unban_user', params: {username: user.username}, condition: is_granted('ROLE_ADMIN') and user.banned },
   ('nav.forum_bans'|trans): { route: 'user_forum_bans', params: {username: user.username}, condition: is_granted('ROLE_ADMIN') },

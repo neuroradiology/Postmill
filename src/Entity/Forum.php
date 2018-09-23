@@ -21,6 +21,13 @@ use Pagerfanta\Pagerfanta;
  * })
  */
 class Forum {
+    public const RESERVED_NAMES = 'hot|new|top|controversial|most_commented|'.
+        'featured|subscribed|moderated|all|bans|inbox|message|wiki|user|login|'.
+        'registration|moderation_log|submit|forums';
+    public const RESERVED_NAMES_FULL_REGEX = '/^(?:'.self::RESERVED_NAMES.')/i';
+    public const NAME_REGEX = '(?i)(?!(?:'.self::RESERVED_NAMES.')(?:$|\/))(?:[a-z]\w{2,24}|[0-9]\w{1,23}[a-z_])';
+    public const NAME_FULL_REGEX = '/^'.self::NAME_REGEX.'$/';
+
     /**
      * @ORM\Column(type="bigint")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -165,6 +172,10 @@ class Forum {
     }
 
     public function setName(string $name) {
+        if (!preg_match(self::NAME_FULL_REGEX, $name)) {
+            throw new \InvalidArgumentException('Bad forum name "'.$name.'"');
+        }
+
         $this->name = $name;
         $this->normalizedName = self::normalizeName($name);
     }

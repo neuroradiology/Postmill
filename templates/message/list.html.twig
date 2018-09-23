@@ -9,7 +9,10 @@
 {% block main_classes 'container container--two-col-expand vertical-pad vp vp--guttered' %}
 
 {% block body %}
-  <h1 class="pad">{{ block('title') }}</h1>
+  <header class="nav nav--guttered nav--justify-space-between pad">
+    <h1 class="no-margin">{{ block('title') }}</h1>
+    {{ include('_includes/inbox_nav.html.twig', {current: 'message_list'}, with_context=false) }}
+  </header>
 
   {% if messages|length > 0 %}
     <table class="table">

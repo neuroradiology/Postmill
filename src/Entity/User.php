@@ -187,7 +187,7 @@ class User implements UserInterface, EquatableInterface {
     private $trusted = false;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserBlock", mappedBy="blocker")
+     * @ORM\OneToMany(targetEntity="UserBlock", mappedBy="blocker", orphanRemoval=true, cascade={"persist", "remove"})
      * @ORM\OrderBy({"timestamp": "DESC"})
      *
      * @var UserBlock[]|Collection|Selectable
@@ -508,6 +508,18 @@ class User implements UserInterface, EquatableInterface {
     public function addBlock(UserBlock $block) {
         if (!$this->blocks->contains($block)) {
             $this->blocks->add($block);
+        }
+    }
+
+    public function unblock(User $user) {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('blocked', $user))
+            ->setMaxResults(1);
+
+        $block = $this->blocks->matching($criteria)->first();
+
+        if ($block) {
+            $this->blocks->removeElement($block);
         }
     }
 

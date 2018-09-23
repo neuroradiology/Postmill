@@ -10,15 +10,17 @@
 {% block main_classes 'container vertical-pad vp vp--guttered' %}
 
 {% block body %}
-  <div class="pad nav nav--guttered nav--justify-space-between">
+  <div class="pad nav nav--guttered {{ notifications is empty ? 'nav--justify-space-between' }}">
     <h1 class="no-margin">{{ 'inbox.title'|trans }}</h1>
 
     {% if notifications is not empty %}
-      <form action="{{ path('clear_inbox', { max: notifications|first.id }) }}" method="POST">
+      <form action="{{ path('clear_inbox', { max: notifications|first.id }) }}" method="POST" class="nav__grow">
         <input type="hidden" name="token" value="{{ csrf_token('clear_inbox') }}">
-        <button type="submit" class="button">{{ 'inbox.clear_inbox'|trans }}</button>
+        <button class="button">{{ 'inbox.clear_inbox'|trans }}</button>
       </form>
     {% endif %}
+
+    {{ include('_includes/inbox_nav.html.twig', {current: 'inbox'}, with_context=false) }}
   </div>
 
   {% if notifications is not empty %}

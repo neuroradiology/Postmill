@@ -31,7 +31,7 @@ class UserControllerTest extends WebTestCase {
 
     public function testCanReceiveSubmissionNotifications() {
         $client = $this->createEmmaClient();
-        $crawler = $client->request('GET', '/f/cats/3');
+        $crawler = $client->request('GET', '/cats/3');
 
         $form = $crawler->selectButton('comment[submit]')->form([
             'comment[comment]' => 'You will be notified about this comment.',
@@ -50,7 +50,7 @@ class UserControllerTest extends WebTestCase {
 
     public function testCanReceiveCommentNotifications() {
         $client = $this->createEmmaClient();
-        $crawler = $client->request('GET', '/f/cats/3/comment/3/');
+        $crawler = $client->request('GET', '/cats/3/comment/3/');
 
         $form = $crawler->selectButton('comment[submit]')->form([
             'comment[comment]' => 'You will be notified about this comment.',

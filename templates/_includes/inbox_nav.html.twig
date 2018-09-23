@@ -1,0 +1,17 @@
+<nav>
+  <ul class="nav nav--guttered unlistify">
+    <li>
+      <a href="{{ path('message_list') }}"
+         class="tab {{ current == 'message_list' ? 'tab--active' }}" {{ current == 'message_list' ? 'aria-current="page"' }}>
+        {{- 'nav.messages'|trans -}}
+      </a>
+    </li>
+
+    <li>
+      <a href="{{ path('inbox') }}"
+         class="tab {{ current == 'inbox' ? 'tab--active' }}">
+        {{- 'nav.notifications'|trans -}}
+      </a>
+    </li>
+  </ul>
+</nav>

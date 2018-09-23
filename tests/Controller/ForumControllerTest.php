@@ -21,7 +21,7 @@ class ForumControllerTest extends WebTestCase {
         ]);
         $client->followRedirects();
 
-        $crawler = $client->request('GET', '/f/news');
+        $crawler = $client->request('GET', '/news');
 
         $form = $crawler->filter('.subscribe-button--subscribe')->form();
         $crawler = $client->submit($form);
@@ -58,8 +58,8 @@ class ForumControllerTest extends WebTestCase {
             'PHP_AUTH_PW' => 'example2',
         ]);
 
-        $crawler = $client->request('GET', '/f/news')->filter('.submission');
-        $crawler = $client->click($crawler->filter('a[href*="/ban/"]')->link());
+        $crawler = $client->request('GET', '/news')->filter('.submission');
+        $crawler = $client->click($crawler->filter('a[href*="/news/ban/"]')->link());
 
         $form = $crawler->selectButton('Ban')->form([
             'forum_ban[reason]' => 'troll',

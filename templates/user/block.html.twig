@@ -1,14 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'user/base.html.twig' %}
 {% from 'user/_macros.html.twig' import user_link %}
 
-{% block title 'title.blocking_user'|trans({'%user%': '/u/'~blockee.username}) %}
+{% block title 'title.blocking_user'|trans({'%user%': '/u/'~user.username}) %}
+
+{% block main_classes 'container vp vp--guttered vertical-pad' %}
 
 {% block body %}
-  <h1 class="page-heading">
-    {{ 'title.blocking_user'|trans({
-      '%user%': user_link(blockee, {prefix: true}),
-    })|raw }}
-  </h1>
+  <h1 class="no-margin">{{ 'title.blocking_user'|trans({
+    '%user%': user_link(user, {prefix: true}),
+  })|raw }}</h1>
 
   <div class="alert alert--notice">
     <p>{{ 'help.block_users'|trans }}</p>
