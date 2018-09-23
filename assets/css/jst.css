@@ -1,12 +1,13 @@
 @import '~typeface-roboto';
+@import '~typeface-roboto-mono';
 
 :root {
-  --font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
-
+  --font-family: Roboto, sans-serif;
   --font-size: 16px;
+  --mono-font-family: 'Roboto Mono', monospace;
+  --mono-font-size: 14px;
   --line-height: 1.25;
   --pixel: 0.0625rem;
-
   --main: #000;
   --muted: #505050;
   --dimmed: #888;
