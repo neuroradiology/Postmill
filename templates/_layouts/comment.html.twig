@@ -158,25 +158,25 @@
     {{ block('comment_nav_delete_thread') }}
   {%- endif -%}
 
-  {% if is_granted('moderator', comment.submission.forum) %}
-    <li>
-      <a href="{{ path('forum_ban', {forum_name: comment.submission.forum.name, username: comment.user.username}) }}"
-         class="menu-link no-wrap">
-        {{ icon('user-times') }}
-        {{ 'action.ban'|trans }}
-      </a>
-    </li>
-  {% endif %}
-
   {%- if is_granted('ROLE_ADMIN') %}
     <li class="menu__item">
       <a href="{{ path('ban_user', {'username': comment.user.username}) }}"
          class="menu-link no-wrap">
         {{ icon('user-times') }}
-        {{ 'action.global_ban'|trans }}
+        {{ 'action.ban_globally'|trans }}
       </a>
     </li>
   {%- endif -%}
+
+  {% if is_granted('moderator', comment.submission.forum) %}
+    <li>
+      <a href="{{ path('forum_ban', {forum_name: comment.submission.forum.name, username: comment.user.username}) }}"
+         class="menu-link no-wrap">
+        {{ icon('user-times') }}
+        {{ 'action.ban_from_forum'|trans }}
+      </a>
+    </li>
+  {% endif %}
 {% endblock comment_dropdown_menu %}
 
 {% block comment_nav_delete_softdelete %}
