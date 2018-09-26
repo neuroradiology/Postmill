@@ -18,30 +18,34 @@
     </nav>
   </header>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th class="table__shrink">{{ 'label.name'|trans }}</th>
-        <th>{{ 'label.title'|trans }}</th>
-        <th class="table__shrink"></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for category in categories %}
+  {% if categories is not empty %}
+    <table class="table">
+      <thead>
         <tr>
-          <td class="table__shrink"><a href="{{ path('forum_category', {name: category.name}) }}">{{ category.name }}</a></td>
-          <td>{{ category.title }}</td>
-          <td class="table__shrink">
-            <a href="{{ path('edit_forum_category', {name: category.name}) }}" class="button button--inline button--secondary">
-              {{- 'action.edit'|trans -}}
-            </a>
-          </td>
+          <th class="table__shrink">{{ 'label.name'|trans }}</th>
+          <th>{{ 'label.title'|trans }}</th>
+          <th class="table__shrink"></th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for category in categories %}
+          <tr>
+            <td class="table__shrink"><a href="{{ path('forum_category', {name: category.name}) }}">{{ category.name }}</a></td>
+            <td>{{ category.title }}</td>
+            <td class="table__shrink">
+              <a href="{{ path('edit_forum_category', {name: category.name}) }}" class="button button--inline button--secondary">
+                {{- 'action.edit'|trans -}}
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
-  <div class="pad">
-    {{ include('_includes/pagination.html.twig', {pager: categories}, with_context=false) }}
-  </div>
+    <div class="pad">
+      {{ include('_includes/pagination.html.twig', {pager: categories}, with_context=false) }}
+    </div>
+  {% else %}
+    <p class="pad"><small class="dimmed">{{ 'flash.no_entries_to_display'|trans }}</small></p>
+  {% endif %}
 {% endblock %}

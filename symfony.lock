@@ -236,6 +236,9 @@
     "sabberworm/php-css-parser": {
         "version": "8.1.0"
     },
+    "sebastian/diff": {
+        "version": "3.0.1"
+    },
     "sensio/framework-extra-bundle": {
         "version": "4.0",
         "recipe": {

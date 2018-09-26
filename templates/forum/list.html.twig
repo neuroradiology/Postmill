@@ -17,40 +17,44 @@
 {% block body %}
   {{ forum_list_header() }}
 
-  <table class="table forum-list">
-    <thead>
-      <tr>
-        <th class="table__shrink text-align-left">{{ th('forum_list.name'|trans, 'by_name', sortBy) }}</th>
-        <th class="text-align-left">{{ th('forum_list.title'|trans, 'by_title', sortBy) }}</th>
-        <th class="table__shrink text-align-right">{{ th('forum_list.submission_count'|trans, 'by_submissions', sortBy) }}</th>
-        <th class="table__shrink text-align-center">{{ th('forum_list.subscribers'|trans, 'by_subscribers', sortBy) }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for forum in forums %}
+  {% if forums|length > 0 %}
+    <table class="table forum-list">
+      <thead>
         <tr>
-          <td class="table__shrink"><a href="{{ path('forum', {forum_name: forum.name}) }}"><strong>{{ forum.name }}</strong></a></td>
-          <td>{{ forum.title }}</td>
-          <td class="table__shrink text-align-right">{{ forum.submissions|length|localizednumber }}</td>
-          <td class="table__shrink">
-            {%- if is_granted('ROLE_USER') -%}
-              {% from 'forum/_macros.html.twig' import subscribe_button %}
-              {% set subscribed = forum.subscribed(app.user) %}
-              <form action="{{ path(subscribed ? 'unsubscribe' : 'subscribe', {forum_name: forum.name}) }}"
-                    method="POST"
-                    class="subscribe-form"
-                    data-forum="{{ forum.name }}">
-                <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
-                {{ subscribe_button(forum, subscribed, true) }}
-              </form>
-            {%- else -%}
-              {{- forum.subscriptions|length|localizednumber -}}
-            {%- endif -%}
-          </td>
+          <th class="table__shrink text-align-left">{{ th('forum_list.name'|trans, 'by_name', sortBy) }}</th>
+          <th class="text-align-left">{{ th('forum_list.title'|trans, 'by_title', sortBy) }}</th>
+          <th class="table__shrink text-align-right">{{ th('forum_list.submission_count'|trans, 'by_submissions', sortBy) }}</th>
+          <th class="table__shrink text-align-center">{{ th('forum_list.subscribers'|trans, 'by_subscribers', sortBy) }}</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for forum in forums %}
+          <tr>
+            <td class="table__shrink"><a href="{{ path('forum', {forum_name: forum.name}) }}"><strong>{{ forum.name }}</strong></a></td>
+            <td>{{ forum.title }}</td>
+            <td class="table__shrink text-align-right">{{ forum.submissions|length|localizednumber }}</td>
+            <td class="table__shrink">
+              {%- if is_granted('ROLE_USER') -%}
+                {% from 'forum/_macros.html.twig' import subscribe_button %}
+                {% set subscribed = forum.subscribed(app.user) %}
+                <form action="{{ path(subscribed ? 'unsubscribe' : 'subscribe', {forum_name: forum.name}) }}"
+                      method="POST"
+                      class="subscribe-form"
+                      data-forum="{{ forum.name }}">
+                  <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
+                  {{ subscribe_button(forum, subscribed, true) }}
+                </form>
+              {%- else -%}
+                {{- forum.subscriptions|length|localizednumber -}}
+              {%- endif -%}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="pad"><small class="dimmed">{{ 'flash.no_entries_to_display'|trans }}</small></p>
+  {% endif %}
 
   <div class="pad">
     {{ include('_includes/pagination.html.twig', {pager: forums}, with_context=false) }}
