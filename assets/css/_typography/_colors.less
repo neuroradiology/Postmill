@@ -1,7 +1,14 @@
-@colors: main, muted, dimmed, bad-fg, good-fg, neutral-fg;
+@fg: main, muted, dimmed, bad-fg, good-fg, neutral-fg;
+@bg: bad-bg, good-bg, neutral-bg;
 
-each(@colors, {
+each(@fg, {
   .@{value} {
     color: ~'var(--@{value})' !important;
+  }
+});
+
+each(@bg, {
+  .@{value} {
+    background-color: ~'var(--@{value})' !important;
   }
 });

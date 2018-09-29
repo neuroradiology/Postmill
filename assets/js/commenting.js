@@ -4,7 +4,7 @@ import $ from 'jquery';
 import Translator from 'bazinga-translator';
 
 // hide open forms (they're initially visible for non-js users)
-$('.comment__form-container').hide();
+$('.comment__form-container:not(:empty)').hide();
 
 $(document).on('click', '.comment__reply-link', function (event) {
     event.preventDefault();
@@ -29,7 +29,7 @@ $(document).on('click', '.comment__reply-link', function (event) {
             $formContainer.prepend(formHtml);
         }).fail(() => $(() => {
             const error = Translator.trans('comments.form_load_error');
-            $formContainer.prepend(`<div class="alert alert--bad comment__form-error-alert"><p>${error}</p></div>`);
+            $formContainer.prepend(`<p class="bad-bg pad vertical-pad comment__form-error-alert">${error}</p>`);
         })).always(() => {
             $(this).css('opacity', 'unset');
         });

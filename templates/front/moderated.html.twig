@@ -1,10 +1,8 @@
 {% extends 'front/base.html.twig' %}
 
 {% block front_alerts %}
-  {% if forums is empty %}
-    <div class="alert alert--notice">
-      <p>{{ 'flash.no_moderated_forums'|trans }}</p>
-    </div>
+  {% if forums|length == 0 %}
+    <p class="bad-bg no-margin pad vertical-pad">{{ 'flash.no_moderated_forums'|trans }}</p>
   {% endif %}
 
   {{ parent() }}

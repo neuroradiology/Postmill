@@ -10,9 +10,7 @@
     '%user%': user_link(user, {prefix: true}),
   })|raw }}</h1>
 
-  <div class="alert alert--notice">
-    <p>{{ 'help.block_users'|trans }}</p>
-  </div>
+  <p class="neutral-bg no-margin pad vertical-pad">{{ 'help.block_users'|trans }}</p>
 
   {{ form(form) }}
 {% endblock %}
