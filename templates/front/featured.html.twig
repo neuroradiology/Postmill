@@ -3,8 +3,8 @@
 {% block sidebar_bottom_classes 'container' %}
 
 {% block sidebar_bottom %}
-  <section class="card">
-    <h4 class="no-margin pad vertical-pad">{{ 'front.featured_forums'|trans }}</h4>
+  <section class="card vp vp--guttered vertical-pad">
+    <h4 class="no-margin pad">{{ 'front.featured_forums'|trans }}</h4>
 
     {% if forums|length > 0 %}
       <ul class="unlistify">
@@ -13,7 +13,7 @@
         {% endfor %}
       </ul>
     {% else %}
-      <p>{{ 'front.no_forums'|trans }}</p>
+      <p class="pad">{{ 'front.no_forums'|trans }}</p>
     {% endif %}
   </section>
 {% endblock sidebar_bottom %}

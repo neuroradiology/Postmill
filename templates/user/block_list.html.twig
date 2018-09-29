@@ -9,9 +9,7 @@
 {% block body %}
   <h1 class="pad no-margin">{{ block('title') }}</h1>
 
-  <div class="alert alert--notice">
-    <p>{{ 'help.block_users'|trans }}</p>
-  </div>
+  <p class="pad vertical-pad neutral-bg no-margin">{{ 'help.block_users'|trans }}</p>
 
   {% if blocks is not empty %}
     <table class="table">

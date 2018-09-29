@@ -14,9 +14,9 @@
 
 {% macro comment_form(submission, parent) %}
   {% if submission.locked and not is_granted('ROLE_ADMIN') %}
-    <div class="alert alert--notice submission-locked-notice">
-      <p>{{ 'flash.submission_is_locked'|trans }}</p>
-    </div>
+    <p class="no-margin neutral-bg pad vertical-pad submission-locked-notice">
+      {{- 'flash.submission_is_locked'|trans -}}
+    </p>
   {% elseif is_granted('ROLE_USER') %}
     {{ render(controller('App\\Controller\\CommentController::commentForm', {
       forumName: submission.forum.name,
@@ -24,17 +24,15 @@
       commentId: parent.id ?? null
     })) }}
   {% else %}
-    <div class="alert alert--notice">
-      <p>{{ 'comments.not_logged_in'|trans({
-        '%login_link%': '<a href="%s">%s</a>'|format(
-          path('login'),
-          'comments.not_logged_in_login_link_label'|trans
-        ),
-        '%register_link%': '<a href="%s">%s</a>'|format(
-          path('registration'),
-          'comments.not_logged_in_register_link_label'|trans
-        ),
-      })|raw }}</p>
-    </div>
+    <p class="neutral-bg pad vertical-pad no-margin">{{ 'comments.not_logged_in'|trans({
+      '%login_link%': '<a href="%s">%s</a>'|format(
+        path('login'),
+        'comments.not_logged_in_login_link_label'|trans
+      ),
+      '%register_link%': '<a href="%s">%s</a>'|format(
+        path('registration'),
+        'comments.not_logged_in_register_link_label'|trans
+      ),
+    })|raw }}</p>
   {% endif %}
 {% endmacro %}

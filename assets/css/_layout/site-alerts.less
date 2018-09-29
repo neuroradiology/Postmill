@@ -1,0 +1,20 @@
+.site-alerts {
+  position: fixed;
+  z-index: 1234012;
+  left: 0;
+  bottom: 0;
+
+  .no-js & {
+    // TODO: figure out a nice way of doing alerts with javascript disabled
+    display: none;
+  }
+
+  &__alert {
+    animation: site-alerts__slide 0.5s ease-in;
+  }
+
+  @keyframes site-alerts__slide {
+    from { transform: translateX(calc(-100% - 1rem)); }
+    to { transform: translateX(0%); }
+  }
+}

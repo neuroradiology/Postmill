@@ -11,9 +11,7 @@
 
   {% if form.verification is defined %}
     {% if not app.request.hasPreviousSession %}
-      <div class="alert alert--notice">
-        <p>{{ 'flash.no_cookies_verification'|trans }}</p>
-      </div>
+      <p class="pad vertical-pad bad-bg no-margin">{{ 'flash.no_cookies_verification'|trans }}</p>
     {% endif %}
     {{ form_row(form.verification) }}
   {% endif %}

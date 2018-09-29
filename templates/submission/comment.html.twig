@@ -11,14 +11,12 @@
   </div>
 
   <div class="card">
-    <div class="alert alert--notice single-comment-alert">
-      <p>
-        {{ 'comments.viewing_thread'|trans }}
-        <a href="{{ path('submission', {forum_name: forum.name, submission_id: submission.id, slug: submission.title|slugify}) }}">
-          {{- 'comments.thread_return'|trans -}}
-        </a>
-      </p>
-    </div>
+    <p class="no-margin pad vertical-pad neutral-bg">
+      {{ 'comments.viewing_thread'|trans }}
+      <a href="{{ path('submission', {forum_name: forum.name, submission_id: submission.id, slug: submission.title|slugify}) }}">
+        {{- 'comments.thread_return'|trans -}}
+      </a>
+    </p>
 
     {{ comment(comment, {recurse: true, show_form: true}) }}
   </div>

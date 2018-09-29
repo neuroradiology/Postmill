@@ -19,22 +19,30 @@
   <body class="{{ app.user ? 'user-logged-in' : 'user-anonymous' }}
       {{ (app.user.nightMode ?? false) ? 'night-mode' }}
       {{ (app.user.enablePostPreviews ?? true) ? 'js-enable-post-previews' }}">
+    {% block site_alerts %}
+      {% set i = 1 %}
+      <div class="site-alerts hide-empty pad vertical-pad vp vp--guttered">
+        {%- for type, notices in app.flashes -%}
+          {%- for notice in notices -%}
+            {%- set i = i + 1 -%}
+            <div class="{{ type == 'notice' ? 'neutral-bg' : type == 'success' ? 'good-bg' }} site-alerts__alert card nav"
+                 role="alert"
+                 id="sa{{ i }}">
+              <p class="no-margin pad vertical-pad">{{ notice|trans }}</p>
+              <button type="button pad vertical-pad"
+                      class="js-dismiss-alert unbuttonize unbuttonize--as-link pad vertical-pad
+                             {{ type == 'notice' ? 'neutral-fg' : type == 'success' ? 'good-fg' }}"
+                      data-target="sa{{ i }}">&times;</button>
+            </div>
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+    {% endblock %}
+
     <div class="site-content">
       {% block site_content %}
         {% block site_nav %}
           {{ include('_includes/site_nav.html.twig', {forum: forum ?? null}, with_context=false) }}
-        {% endblock %}
-
-        {% block site_alerts %}
-          <div class="site-alerts">
-            {%- for type, notices in app.flashes -%}
-              {%- for notice in notices -%}
-                <div class="alert alert--{{ type }} alert--animate alert--dismissable card" role="alert">
-                  <p>{{ notice|trans }}</p>
-                </div>
-              {%- endfor -%}
-            {%- endfor -%}
-          </div>
         {% endblock %}
 
         {% block site_main %}
@@ -55,8 +63,8 @@
 
         {% block site_footer %}
           <footer class="site-content__footer">
-            <p>
-              <span class="site-content__footer-text">
+            <p class="no-margin text-align-center pad vertical-pad">
+              <span class="footer-text">
                 {{- 'site_footer.version'|trans({
                   '%branch%': app_branch(),
                   '%version%': app_version(),
