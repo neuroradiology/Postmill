@@ -335,6 +335,7 @@ nav:
     my_account: My account
     user_settings: User settings
     forums: Forums
+    comments: Recent comments
     inbox_count: Inbox (%count%)
     messages: Messages
     wiki: Wiki
