@@ -70,7 +70,7 @@ comments:
     return_to_forum: ← Reveni al %forum%
     edit_info: (redaktita je %edited_at%)
     moderator_info: (kontrolanto redaktis je %edited_at%)
-    context.top_level_reply: Respondi al %submission_title% de %submission_author%
+    context.top_level_reply: Respondita al %submission_title% de %submission_author%
     context.comment_reply: Respondi komenton de %comment_author% en %submission_title% de %submission_author%
 
 comment_form:
