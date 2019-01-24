@@ -44,9 +44,15 @@ final class ForumController extends AbstractController {
      */
     private $enableWebhooks;
 
-    public function __construct(SubmissionRepository $submissions, bool $enableWebhooks) {
+    /**
+     * @var bool
+     */
+    private $enableExternalSearch;
+
+    public function __construct(SubmissionRepository $submissions, bool $enableWebhooks, bool $enableExternalSearch) {
         $this->submissions = $submissions;
         $this->enableWebhooks = $enableWebhooks;
+        $this->enableExternalSearch = $enableExternalSearch;
     }
 
     /**

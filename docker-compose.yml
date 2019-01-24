@@ -25,6 +25,7 @@ services:
         user: "${UID}:${GID}"
         environment:
             - APP_ENABLE_WEBHOOKS=1
+            - APP_ENABLE_EXTERNAL_SEARCH=1
             - APP_ENV=dev
             - APP_SECRET=very secret, wow!
             - COMPOSER_HOME=/.composer

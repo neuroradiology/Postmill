@@ -32,6 +32,14 @@
   {% include '_includes/pagination.html.twig' with {pager: submissions} %}
 {% endblock %}
 
+{% block sidebar %}
+  {% if app_external_search_enabled() %}
+    {% include '_includes/search.html.twig' with {
+      site_url: url('front')
+    } %}
+  {% endif %}
+{% endblock %}
+
 {%- macro submission_filter(choice, sort_by) -%}
   {% with { active: choice == 'featured' } %}
     <li class="tabs__tab {{ active ? 'tabs__tab--active active' }}">

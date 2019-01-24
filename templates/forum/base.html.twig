@@ -39,6 +39,13 @@
     {% endif %}
   </section>
 
+  {% if app_external_search_enabled() %}
+    {% include '_includes/search.html.twig' with {
+      site_url: url('front'),
+      forum_path: path('forum', {forum_name: forum.name})
+    } %}
+  {% endif %}
+
   <section class="sidebar__section sidebar__section--forum-manage forum-manage">
     <h1 class="sidebar__title">{{ 'label.toolbox'|trans }}</h1>
 

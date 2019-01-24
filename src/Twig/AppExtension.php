@@ -30,11 +30,17 @@ final class AppExtension extends AbstractExtension {
      */
     private $enableWebhooks;
 
-    public function __construct(string $siteName, ?string $branch, ?string $version, bool $enableWebhooks) {
+    /**
+     * @var bool
+     */
+    private $enableExternalSearch;
+
+    public function __construct(string $siteName, ?string $branch, ?string $version, bool $enableWebhooks, bool $enableExternalSearch) {
         $this->siteName = $siteName;
         $this->branch = $branch;
         $this->version = $version;
         $this->enableWebhooks = $enableWebhooks;
+        $this->enableExternalSearch = $enableExternalSearch;
     }
 
     public function getFunctions(): array {
@@ -50,6 +56,9 @@ final class AppExtension extends AbstractExtension {
             }),
             new TwigFunction('app_webhooks_enabled', function () {
                 return $this->enableWebhooks;
+            }),
+            new TwigFunction('app_external_search_enabled', function () {
+                return $this->enableExternalSearch;
             }),
         ];
     }

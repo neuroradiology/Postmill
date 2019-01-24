@@ -1,0 +1,32 @@
+<section class="sidebar__section">
+  <h1 class="sidebar__title">
+    {% if forum_path is defined %}
+      {{ 'title.search_forum'|trans }}
+    {% else %}
+      {{ 'title.search_site'|trans }}
+    {% endif %}
+  </h1>
+
+  <form class="sidebar__search form">
+    <input class="sidebar__search-site" type="hidden" value="{{ site_url }}" />
+    {% if forum_path is defined %}
+      <input class="sidebar__search-forum" type="hidden" value="{{ forum_path }}" />
+    {% endif %}
+
+    <div class="form__row">
+      <input class="sidebar__search-query" type="text" placeholder="{{ 'label.search'|trans }}" />
+    </div>
+    
+    <div class="form__help">
+      <p>
+        <strong>{{ 'help.search_external_prefix'|trans }}</strong>
+        {{ 'help.search_external_message'|trans }}
+        <noscript>{{ 'help.search_external_warning'|trans }}</noscript>
+      </p>
+    </div>
+
+    <div class="form__row form__button-row">
+      <button class="button" type="submit">{{ 'action.search'|trans }}</button>
+    </div>
+  </form>
+</section>

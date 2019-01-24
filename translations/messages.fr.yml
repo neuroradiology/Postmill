@@ -28,6 +28,7 @@ action:
     add: Ajouter
     post: Poster
     save: Sauvegarder
+    search: Rechercher
 
 add_moderator:
     title: Ajouter à la modération de %forum%
@@ -193,6 +194,9 @@ help:
     parent_theme_input: Veuillez saisir l'<utilisateur>/<thème> du thème que vous voulez étendre. Vous pouvez également saisir un UUID pour étendre une modification particulière.
     append_to_default_style_inheritance_warning: Régler cela n'aura pas d'effet si un thème existant est étendu.
     will_appear_in_the_url: Apparaîtra dans l'URL.
+    search_external_prefix: Veuillez noter:
+    search_external_message: Votre requête sera redirigée vers DuckDuckGo.
+    search_external_warning: La recherche nécessite d'avoir activé JavaScript.
 
 inbox:
     title: Boîte de réception
@@ -292,6 +296,16 @@ label:
     reason_for_banning: Raison de bannir
     user_associated_with_ip: Utilisateur associé à l'IP
     let_forums_override_preferred_theme: Laisser les forums outrepasser votre thème préféré
+    search: Chercher un post...
+
+log:
+    comment_deletion: '%user% a supprimé un commentaire par %author% dans "%submission%"'
+    submission_deletion: '%user% a supprimé le post "%title%" par %author%'
+    submission_deletion_with_reason: '%user% a supprimé "%title%" par %author%. Raison: "%reason%"'
+    submission_lock: '%user% a verrouillé le post "%title%" par %author%'
+    submission_unlock: '%user% a déverrouillé le post "%title%" par %author%'
+    ban: '%user% a banni %banned% (expire: %expires%). Raison: "%reason%"'
+    unban: '%user% a retiré le ban de %banned%. Raison: "%reason%"'
 
 login_form:
     log_in: Connexion
@@ -417,7 +431,6 @@ submissions:
     sort_by_most_commented: Plus commentés
     total_votes: '{1} %count% point|[0,Inf[ %count% points'
     vote_stats: (+%up%, −%down%)
-    ip_ban: Bannir IP
     edit_info: (modifié %edited_at%)
     moderator_info: (modifié par la modération %edited_at%)
 
@@ -466,6 +479,8 @@ title:
     add_forum_webhook: Ajout de webhook pour %forum%
     editing_forum_webhook: Modification du webhook pour %forum%
     forum_webhooks: Webhooks de %forum%
+    search_site: Chercher sur le site
+    search_forum: Chercher dans ce forum
 
 user:
     submissions: Posts
