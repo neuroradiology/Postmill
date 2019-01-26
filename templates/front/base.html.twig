@@ -34,9 +34,7 @@
 
 {% block sidebar %}
   {% if app_external_search_enabled() %}
-    {% include '_includes/search.html.twig' with {
-      site_url: url('front')
-    } %}
+    {% include '_includes/search.html.twig' %}
   {% endif %}
 {% endblock %}
 

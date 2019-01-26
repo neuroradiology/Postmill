@@ -22,6 +22,9 @@ _message:
 _reset_password:
     resource: app_routes/reset_password.yaml
 
+_search:
+    resource: app_routes/search.yaml
+
 _security:
     resource: app_routes/security.yaml
 

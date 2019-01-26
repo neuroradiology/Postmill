@@ -41,7 +41,6 @@
 
   {% if app_external_search_enabled() %}
     {% include '_includes/search.html.twig' with {
-      site_url: url('front'),
       forum_path: path('forum', {forum_name: forum.name})
     } %}
   {% endif %}

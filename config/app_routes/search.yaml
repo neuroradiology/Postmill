@@ -1,0 +1,4 @@
+external_search:
+    controller: App\Controller\SearchController::external
+    path: /external_search
+    methods: [POST]

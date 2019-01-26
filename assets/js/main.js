@@ -13,7 +13,6 @@ import './fetch_titles';
 import './forms';
 import './markdown';
 import './relative-time';
-import './search';
 import './select2';
 import './subscribe';
 import './syntax';

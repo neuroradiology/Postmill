@@ -48,6 +48,10 @@ services:
             $enableWebhooks: "%env(bool:APP_ENABLE_WEBHOOKS)%"
             $enableExternalSearch: "%env(bool:APP_ENABLE_EXTERNAL_SEARCH)%"
 
+    App\Controller\SearchController:
+        arguments:
+            $enableExternalSearch: "%env(bool:APP_ENABLE_EXTERNAL_SEARCH)%"
+
     App\Controller\UserController:
         arguments:
             $defaultLocale: "%env(APP_LOCALE)%"

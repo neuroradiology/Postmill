@@ -7,14 +7,13 @@
     {% endif %}
   </h1>
 
-  <form class="sidebar__search form">
-    <input class="sidebar__search-site" type="hidden" value="{{ site_url }}" />
+  <form action="{{ url('external_search') }}" method="POST" target="_blank" class="sidebar__search form">
     {% if forum_path is defined %}
-      <input class="sidebar__search-forum" type="hidden" value="{{ forum_path }}" />
+      <input type="hidden" name="forum" value="{{ forum_path }}" />
     {% endif %}
 
     <div class="form__row">
-      <input class="sidebar__search-query" type="text" placeholder="{{ 'label.search'|trans }}" />
+      <input type="text" name="query" placeholder="{{ 'label.search'|trans }}" />
     </div>
     
     <div class="form__help">
@@ -26,7 +25,9 @@
     </div>
 
     <div class="form__row form__button-row">
-      <button class="button" type="submit">{{ 'action.search'|trans }}</button>
+      <button class="button" type="submit">
+        {{ 'action.search'|trans }}
+      </button>
     </div>
   </form>
 </section>
