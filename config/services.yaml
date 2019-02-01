@@ -46,7 +46,6 @@ services:
     App\Controller\ForumController:
         arguments:
             $enableWebhooks: "%env(bool:APP_ENABLE_WEBHOOKS)%"
-            $enableExternalSearch: "%env(bool:APP_ENABLE_EXTERNAL_SEARCH)%"
 
     App\Controller\SearchController:
         arguments:

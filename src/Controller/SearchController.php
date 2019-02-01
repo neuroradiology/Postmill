@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 final class SearchController extends AbstractController {
     /**
@@ -17,10 +16,10 @@ final class SearchController extends AbstractController {
 
     public function external(Request $request) {
         if (!$this->enableExternalSearch) {
-            return new Response();
+            throw $this->createNotFoundException('Search is not enabled');
         }
 
-        $host = $request-> getHttpHost();
+        $host = $request->getHttpHost();
 
         $userQuery = $request->request->get('query');
         $forum = $request->request->get('forum');
@@ -28,12 +27,12 @@ final class SearchController extends AbstractController {
         $site = "site:$host";
 
         if (isset($forum)) {
-          $site .= $forum;
+            $site .= $forum;
         }
 
         $finalQuery = urlencode("$site $userQuery");
 
-        $url = "http://duckduckgo.com/?q=" . $finalQuery;
+        $url = "https://duckduckgo.com/?q=".$finalQuery;
 
         return $this->redirect($url);
     }
