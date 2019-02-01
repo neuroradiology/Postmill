@@ -3,6 +3,8 @@
 {% block page_classes 'featured-page' %}
 
 {% block sidebar %}
+  {{ parent() }}
+
   <section class="sidebar__section sidebar__section--featured-forums">
     <h1 class="sidebar__title">{{ 'front.featured_forums'|trans }}</h1>
 

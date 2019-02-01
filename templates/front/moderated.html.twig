@@ -13,6 +13,8 @@
 {% endblock %}
 
 {% block sidebar %}
+  {{ parent() }}
+
   {%- if forums|length > 0 -%}
     <section class="sidebar__section">
       <h1 class="sidebar__title">{{ 'heading.forums_you_moderate'|trans }}</h1>
