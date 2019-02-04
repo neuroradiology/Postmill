@@ -39,13 +39,28 @@
       <p>{{ 'wiki.locked_notice'|trans }}</p>
     {% endif %}
 
-    {% if is_granted('ROLE_ADMIN') %}
-      <form action="{{ path(page.locked ? 'wiki_unlock' : 'wiki_lock', {path: page.path}) }}" method="post">
-        <input type="hidden" name="token" value="{{ csrf_token('wiki_lock') }}">
-        <p>
-          <button class="button button--inline">{{ (page.locked ? 'action.unlock' : 'action.lock')|trans }}</button>
-        </p>
-      </form>
+    {% if is_granted('lock', page) or is_granted('delete', page) %}
+      <nav class="horizontal-nav">
+        <ul>
+          {% if is_granted('lock', page) %}
+            <li>
+              <form action="{{ path(page.locked ? 'wiki_unlock' : 'wiki_lock', {path: page.path}) }}" method="post">
+                <input type="hidden" name="token" value="{{ csrf_token('wiki_lock') }}">
+                <button class="button button--inline">{{ (page.locked ? 'action.unlock' : 'action.lock')|trans }}</button>
+              </form>
+            </li>
+          {% endif %}
+
+          {% if is_granted('delete', page) %}
+            <li>
+              <form action="{{ path('wiki_delete', { path: page.path }) }}" method="post">
+                <input type="hidden" name="token" value="{{ csrf_token('wiki_delete') }}">
+                <button class="button button--inline confirm-wiki-delete">{{ 'action.delete'|trans }}</button>
+              </form>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
     {% endif %}
   </section>
 
