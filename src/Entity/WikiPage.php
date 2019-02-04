@@ -41,7 +41,7 @@ class WikiPage {
     private $normalizedPath;
 
     /**
-     * @ORM\OneToMany(targetEntity="WikiRevision", mappedBy="page", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="WikiRevision", mappedBy="page", cascade={"persist", "remove"})
      *
      * @var WikiRevision[]|Collection
      */

@@ -75,6 +75,27 @@ final class WikiController extends AbstractController {
     }
 
     /**
+     * @Entity("page", expr="repository.findOneCaseInsensitively(path)")
+     * @IsGranted("delete", subject="page")
+     *
+     * @param Request       $request
+     * @param WikiPage      $page
+     * @param EntityManager $em
+     *
+     * @return Response
+     */
+    public function delete(Request $request, WikiPage $page, EntityManager $em) {
+        $this->validateCsrf('wiki_delete', $request->request->get('token'));
+
+        $em->remove($page);
+        $em->flush();
+
+        $this->addFlash('success', 'flash.wiki_page_deleted');
+
+        return $this->redirectToRoute('wiki');
+    }
+
+    /**
      * Edits a wiki page.
      *
      * @Entity("page", expr="repository.findOneCaseInsensitively(path)")
@@ -110,7 +131,7 @@ final class WikiController extends AbstractController {
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("lock", subject="page")
      *
      * @param Request       $request
      * @param WikiPage      $page

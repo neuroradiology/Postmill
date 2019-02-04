@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 final class WikiVoter extends Voter {
-    const ATTRIBUTES = ['write'];
+    const ATTRIBUTES = ['write', 'delete', 'lock'];
 
     /**
      * @var AccessDecisionManagerInterface
@@ -38,6 +38,10 @@ final class WikiVoter extends Voter {
         switch ($attribute) {
         case 'write':
             return $this->canWrite($subject, $token);
+        case 'delete':
+        case 'lock':
+            // todo: make this configurable
+            return $this->decisionManager->decide($token, ['ROLE_ADMIN']);
         default:
             throw new \LogicException("Unknown attribute '$attribute'");
         }

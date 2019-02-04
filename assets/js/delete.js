@@ -11,4 +11,8 @@ $(function () {
     $('.confirm-submission-delete').click(function () {
         return confirm(Translator.trans('prompt.confirm_submission_delete'));
     });
+
+    $('.confirm-wiki-delete').click(function () {
+        return confirm(Translator.trans('prompt.confirm_wiki_delete'));
+    });
 });
