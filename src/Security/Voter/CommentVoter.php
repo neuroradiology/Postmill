@@ -120,6 +120,10 @@ final class CommentVoter extends Voter {
      * @return bool
      */
     private function canEdit(Comment $comment, TokenInterface $token) {
+        if ($comment->isSoftDeleted()) {
+            return false;
+        }
+
         $forum = $comment->getSubmission()->getForum();
 
         if ($forum->userIsModerator($token->getUser())) {
