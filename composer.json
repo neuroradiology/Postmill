@@ -15,8 +15,9 @@
     },
     "require": {
         "php": "^7.1.3",
-        "ext-apcu": "*",
         "ext-iconv": "*",
+        "ext-intl": "*",
+        "ext-json": "*",
         "ext-pdo_pgsql": "*",
         "doctrine/doctrine-migrations-bundle": "^1.2",
         "eightpoints/guzzle-bundle": "^7.3",
@@ -77,14 +78,11 @@
         "symfony/polyfill-php70": "*",
         "symfony/polyfill-php56": "*"
     },
-    "suggest": {
-        "ext-intl": "Faster grapheme_* functions, localised timestamps"
-    },
     "scripts": {
         "auto-scripts": {
             "requirements-checker": "script",
             "cache:clear": "symfony-cmd",
-            "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "fos:js-routing:dump --target=public/js/routing.js": "symfony-cmd",
             "bazinga:js-translation:dump public/js --merge-domains --format=js": "symfony-cmd",
             "security-checker security:check": "script"
