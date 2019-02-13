@@ -7,9 +7,12 @@ themes, we may deprecate classes/IDs/particular HTML elements, but still keep
 them in the code for some time longer while we wait for authors to update their
 themes. This document describes the CSS classes that are on the chopping block.
 
-## To be removed in September 2018
+## Were to be removed in September 2018
 
-Comment classes have finally being updated to follow BEM conventions:
+As frontend development on the 1.0 (master) branch has pretty much halted in
+favour of the redesigned frontend in the 2.0 branch, these class names are
+unlikely to be removed. Still, it is preferred not to use the deprecated class
+names.
 
 * `.comment-top-level` -- use `.comment--top-level` instead
 * `.comment-level-*` classes were deprecated in favour of the `data-level`
