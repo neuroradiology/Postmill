@@ -8,7 +8,7 @@
   <section class="sidebar__section submission-meta">
     <p class="submission-meta__score">
       <strong class="submission-meta__vote-total">
-        {{- 'submissions.total_votes'|transchoice(submission.votes|length) -}}
+        {{- 'submissions.total_votes'|trans({'%count%': submission.votes|length}) -}}
       </strong>
 
       <span class="submission-meta__vote-stats">

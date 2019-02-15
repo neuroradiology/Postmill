@@ -2,14 +2,14 @@
 
 namespace DoctrineMigrations;
 
-use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 class Version20170910220650 extends AbstractMigration {
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema) {
+    public function up(Schema $schema): void {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE TABLE theme_revisions (id UUID NOT NULL, theme_id UUID NOT NULL, common_css TEXT DEFAULT NULL, day_css TEXT DEFAULT NULL, night_css TEXT DEFAULT NULL, comment TEXT DEFAULT NULL, modified TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
@@ -28,7 +28,7 @@ class Version20170910220650 extends AbstractMigration {
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema) {
+    public function down(Schema $schema): void {
         $this->throwIrreversibleMigrationException();
     }
 }

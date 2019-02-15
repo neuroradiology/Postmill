@@ -2,7 +2,7 @@
 
 namespace DoctrineMigrations;
 
-use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -13,7 +13,7 @@ class Version20170101133959 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema) {
+    public function up(Schema $schema): void {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
         $this->addSql('ALTER TABLE forums ADD canonical_name TEXT');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_FE5E5AB8D69C0128 ON forums (canonical_name)');
@@ -28,7 +28,7 @@ class Version20170101133959 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema) {
+    public function down(Schema $schema): void {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('DROP INDEX UNIQ_FE5E5AB8D69C0128');
