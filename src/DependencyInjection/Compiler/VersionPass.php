@@ -29,11 +29,11 @@ final class VersionPass implements CompilerPassInterface {
     }
 
     private function getGitBranchName(): ?string {
-        return $this->getVersionFromCommand('git rev-parse --abbrev-ref HEAD');
+        return $this->getVersionFromCommand(['git', 'rev-parse', '--abbrev-ref', 'HEAD']);
     }
 
     private function getGitTagName(): ?string {
-        return $this->getVersionFromCommand('git describe --tags');
+        return $this->getVersionFromCommand(['git', 'describe', '--tags']);
     }
 
     private function getComposerBranchAlias(?string $branch): ?string {
@@ -49,7 +49,7 @@ final class VersionPass implements CompilerPassInterface {
         return null;
     }
 
-    private function getVersionFromCommand(string $commandLine): ?string {
+    private function getVersionFromCommand(array $commandLine): ?string {
         $process = new Process($commandLine);
         $process->run();
 

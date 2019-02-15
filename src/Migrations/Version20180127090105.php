@@ -2,11 +2,11 @@
 
 namespace DoctrineMigrations;
 
-use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 class Version20180127090105 extends AbstractMigration {
-    public function up(Schema $schema) {
+    public function up(Schema $schema): void {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE forums RENAME canonical_name TO normalized_name');
@@ -21,7 +21,7 @@ class Version20180127090105 extends AbstractMigration {
         $this->addSql('ALTER INDEX uniq_8ffedcf953032d1b RENAME TO wiki_pages_normalized_path_idx');
     }
 
-    public function down(Schema $schema) {
+    public function down(Schema $schema): void {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE forums RENAME normalized_name TO canonical_name');
