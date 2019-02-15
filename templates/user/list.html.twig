@@ -53,7 +53,7 @@
           <td>{{ user.admin ? ('label.admin'|trans) : user.trusted ? ('label.trusted'|trans) : '-' }}</td>
           <td>
             {% with { count: user.moderatorTokens|length } %}
-              {{ count > 0 ? 'label.forums_count'|transchoice(count) : '-' }}
+              {{ count > 0 ? 'label.forums_count'|trans({'%count%': count}) : '-' }}
             {% endwith %}
           </td>
           <td>

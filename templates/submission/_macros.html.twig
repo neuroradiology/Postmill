@@ -134,7 +134,7 @@
             <ul>
               <li>
                 <a href="{{ path('submission', {forum_name: submission.forum.name, submission_id: submission.id, slug: submission.title|slugify}) }}">
-                  {{- 'submissions.comments'|transchoice(submission.comments|length) -}}
+                  {{- 'submissions.comments'|trans({'%count%': submission.comments|length}) -}}
                 </a>
               </li>
               {%- if is_granted('edit', submission) -%}
