@@ -88,8 +88,6 @@ class CssValidator extends ConstraintValidator {
 
         $value = (string) $value;
 
-        $this->assertDoesNotContainDxFilters($value, $constraint);
-
         $parserSettings = Settings::create()
             // prevent calls to mb_* functions with bad, user-provided charsets
             ->withMultibyteSupport(false)
@@ -122,25 +120,6 @@ class CssValidator extends ConstraintValidator {
                 ->addViolation();
         } finally {
             set_error_handler($oldErrorHandler);
-        }
-    }
-
-    /**
-     * Special check for IE-specific `filter` syntax, as the CSS parser lets
-     * these slip. Since we can't use the parser, let's just check for the
-     * phrase 'progid:' and add a violation if it exists.
-     *
-     * @param string $css
-     * @param Css    $constraint
-     */
-    private function assertDoesNotContainDxFilters(string $css, Css $constraint) {
-        preg_match_all('/\b[pP][rR][oO][gG][iI][dD]:/', $css, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
-
-        foreach ($matches as $match) {
-            $this->context->buildViolation($constraint->progidNotAllowedMessage)
-                ->setParameter('{{ line }}', substr_count($css, "\n", null, $match[0][1]) + 1)
-                ->setCode(Css::PROGID_NOT_ALLOWED)
-                ->addViolation();
         }
     }
 
@@ -190,12 +169,17 @@ class CssValidator extends ConstraintValidator {
 
     private function validateFunction(CSSFunction $cssValue, Css $constraint) {
         /** @noinspection PhpParamsInspection */
-        $name = trim($cssValue->getName());
+        $name = strtolower(trim($cssValue->getName()));
 
-        if (strtolower($name) === 'expression') {
+        if ($name === 'expression') {
             $this->context->buildViolation($constraint->expressionSyntaxNotAllowedMessage)
                 ->setParameter('{{ line }}', $cssValue->getLineNo())
                 ->setCode(Css::EXPRESSION_SYNTAX_NOT_ALLOWED)
+                ->addViolation();
+        } elseif (strpos($name, 'progid:') === 0) {
+            $this->context->buildViolation($constraint->progidNotAllowedMessage)
+                ->setParameter('{{ line }}', $cssValue->getLineNo())
+                ->setCode(Css::PROGID_NOT_ALLOWED)
                 ->addViolation();
         }
     }
