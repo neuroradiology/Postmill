@@ -152,6 +152,17 @@ class User implements UserInterface, EquatableInterface {
     private $ipBans;
 
     /**
+     * @ORM\JoinTable(name="hidden_forums",
+     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="forum_id", referencedColumnName="id")}
+     * )
+     * @ORM\ManyToMany(targetEntity="Forum")
+     *
+     * @var Forum[]|Collection|Selectable
+     */
+    private $hiddenForums;
+
+    /**
      * @ORM\Column(type="text")
      *
      * @var string
@@ -434,6 +445,33 @@ class User implements UserInterface, EquatableInterface {
      */
     public function getIpBans(): Collection {
         return $this->ipBans;
+    }
+
+    /**
+     * @param int $page
+     *
+     * @return Pagerfanta|Forum[]
+     */
+    public function getPaginatedHiddenForums(int $page): Pagerfanta {
+        $pager = new Pagerfanta(new DoctrineCollectionAdapter($this->hiddenForums));
+        $pager->setMaxPerPage(25);
+        $pager->setCurrentPage($page);
+
+        return $pager;
+    }
+
+    public function isHidingForum(Forum $forum): bool {
+        return $this->hiddenForums->contains($forum);
+    }
+
+    public function hideForum(Forum $forum): void {
+        if (!$this->hiddenForums->contains($forum)) {
+            $this->hiddenForums->add($forum);
+        }
+    }
+
+    public function unhideForum(Forum $forum): void {
+        $this->hiddenForums->removeElement($forum);
     }
 
     public function getLocale(): string {

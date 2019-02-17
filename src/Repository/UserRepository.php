@@ -215,4 +215,19 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             yield $ip;
         }
     }
+
+    /**
+     * @param User $user
+     *
+     * @return array|int[]
+     */
+    public function findHiddenForumIdsByUser(User $user): array {
+        $sql = 'SELECT forum_id FROM hidden_forums WHERE user_id = :user_id';
+
+        $sth = $this->_em->getConnection()->prepare($sql);
+        $sth->bindValue(':user_id', $user->getId());
+        $sth->execute();
+
+        return $sth->fetchAll(\PDO::FETCH_COLUMN);
+    }
 }

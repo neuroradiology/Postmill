@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\ForumRepository;
 use App\Repository\SubmissionRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -44,7 +45,7 @@ final class FrontController extends AbstractController {
         $this->submissions = $submissions;
     }
 
-    public function front(string $sortBy, Request $request): Response {
+    public function front(string $sortBy, Request $request, UserRepository $users): Response {
         $user = $this->getUser();
 
         if (!$user instanceof User) {
@@ -57,11 +58,11 @@ final class FrontController extends AbstractController {
 
         switch ($listing) {
         case User::FRONT_SUBSCRIBED:
-            return $this->subscribed($sortBy, $request);
+            return $this->subscribed($sortBy, $request, $users);
         case User::FRONT_FEATURED:
-            return $this->featured($sortBy, $request);
+            return $this->featured($sortBy, $request, $users);
         case User::FRONT_ALL:
-            return $this->all($sortBy, $request);
+            return $this->all($sortBy, $request, $users);
         case User::FRONT_MODERATED:
             return $this->moderated($sortBy, $request);
         default:
@@ -69,10 +70,15 @@ final class FrontController extends AbstractController {
         }
     }
 
-    public function featured(string $sortBy, Request $request): Response {
+    public function featured(string $sortBy, Request $request, UserRepository $users): Response {
         $forums = $this->forums->findFeaturedForumNames();
 
+        if ($this->isGranted('ROLE_USER')) {
+            $excludedForums = $users->findHiddenForumIdsByUser($this->getUser());
+        }
+
         $submissions = $this->submissions->findSubmissions($sortBy, [
+            'excluded_forums' => $excludedForums ?? [],
             'forums' => array_keys($this->forums->findFeaturedForumNames()),
         ], $request);
 
@@ -84,7 +90,7 @@ final class FrontController extends AbstractController {
         ]);
     }
 
-    public function subscribed(string $sortBy, Request $request): Response {
+    public function subscribed(string $sortBy, Request $request, UserRepository $users): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $forums = $this->forums->findSubscribedForumNames($this->getUser());
@@ -92,10 +98,12 @@ final class FrontController extends AbstractController {
 
         if (!$hasSubscriptions) {
             $forums = $this->forums->findFeaturedForumNames();
+            $excludedForums = $users->findHiddenForumIdsByUser($this->getUser());
         }
 
         $submissions = $this->submissions->findSubmissions($sortBy, [
             'forums' => array_keys($forums),
+            'excluded_forums' => $excludedForums ?? [],
         ], $request);
 
         return $this->render('front/subscribed.html.twig', [
@@ -107,9 +115,14 @@ final class FrontController extends AbstractController {
         ]);
     }
 
-    public function all(string $sortBy, Request $request): Response {
-        $submissions = $this->submissions->findSubmissions($sortBy, [],
-            $request);
+    public function all(string $sortBy, Request $request, UserRepository $users): Response {
+        if ($this->isGranted('ROLE_USER')) {
+            $excludedForums = $users->findHiddenForumIdsByUser($this->getUser());
+        }
+
+        $submissions = $this->submissions->findSubmissions($sortBy, [
+            'excluded_forums' => $excludedForums ?? [],
+        ], $request);
 
         return $this->render('front/all.html.twig', [
             'listing' => 'all',

@@ -32,7 +32,17 @@
     <tbody>
       {% for forum in forums %}
         <tr>
-          <td><a href="{{ path('forum', {forum_name: forum.name}) }}"><strong>{{ forum.name }}</strong></a></td>
+          <td>
+            <a href="{{ path('forum', {forum_name: forum.name}) }}"><strong>{{ forum.name }}</strong></a>
+
+            {% if forum.featured %}
+              <span title="{{ 'help.forum_is_featured'|trans }}">&#x2b50;</span>
+            {% endif %}
+
+            {% if is_granted('ROLE_USER') and app.user.hidingForum(forum) %}
+              <span title="{{ 'help.forum_is_hidden'|trans }}">&#x274c;</span>
+            {% endif %}
+          </td>
           <td>{{ forum.title }}</td>
           <td>{{ forum.submissions|length|localizednumber }}</td>
           {% if is_granted('ROLE_USER') %}

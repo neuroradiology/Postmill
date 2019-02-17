@@ -101,3 +101,22 @@ clear_notification:
     path: /clear_notification.{_format}
     methods: [POST]
     requirements: { _format: html|json }
+
+hidden_forums:
+    controller: App\Controller\UserController::hiddenForums
+    defaults: { page: 1 }
+    path: /user/{username}/hidden_forums/{page}
+    methods: [GET]
+    requirements: { username: \w+, page: \d+ }
+
+hide_forum:
+    controller: App\Controller\UserController::hideForum
+    defaults: { hide: true }
+    path: /user/{username}/hide_forum/{forum}
+    methods: [POST]
+
+unhide_forum:
+    controller: App\Controller\UserController::hideForum
+    defaults: { hide: false }
+    path: /user/{username}/unhide_forum/{forum}
+    methods: [POST]

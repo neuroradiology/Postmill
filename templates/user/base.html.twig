@@ -56,6 +56,11 @@
       <li><a href="{{ path('edit_biography', {username: user.username}) }}">{{ 'nav.edit_biography'|trans }}</a></li>
     {% endset %}
     {% set toolbox_items = toolbox_items|merge([item]) %}
+
+    {% set item %}
+      <li><a href="{{ path('hidden_forums', {username: user.username}) }}">{{ 'nav.hidden_forums'|trans }}</a></li>
+    {% endset %}
+    {% set toolbox_items = toolbox_items|merge([item]) %}
   {% endif %}
 
   {% if toolbox_items %}

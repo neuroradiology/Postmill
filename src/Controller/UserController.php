@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Forum;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Form\Model\UserBlockData;
@@ -430,6 +431,51 @@ final class UserController extends AbstractController {
         return $this->render('user/forum_bans.html.twig', [
             'bans' => $repository->findActiveBansByUser($user, $page),
             'user' => $user,
+        ]);
+    }
+
+    /**
+     * @IsGranted("edit_user", subject="user")
+     *
+     * @param User $user
+     * @param int  $page
+     *
+     * @return Response
+     */
+    public function hiddenForums(User $user, int $page) {
+        return $this->render('user/hidden_forums.html.twig', [
+            'forums' => $user->getPaginatedHiddenForums($page),
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * @IsGranted("edit_user", subject="user")
+     *
+     * @param EntityManager   $em
+     * @param Request         $request
+     * @param User            $user
+     * @param Forum           $forum
+     *
+     * @return Response
+     */
+    public function hideForum(EntityManager $em, Request $request, User $user, Forum $forum, bool $hide) {
+        $this->validateCsrf('hide_forum', $request->request->get('token'));
+
+        if ($hide) {
+            $user->hideForum($forum);
+        } else {
+            $user->unhideForum($forum);
+        }
+
+        $em->flush();
+
+        if ($request->headers->has('Referer')) {
+            return $this->redirect($request->headers->get('Referer'));
+        }
+
+        return $this->redirectToRoute('hidden_forums', [
+            'username' => $this->getUser()->getUsername(),
         ]);
     }
 }

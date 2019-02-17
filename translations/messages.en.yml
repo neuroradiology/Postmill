@@ -29,6 +29,8 @@ action:
     post: Post
     save: Save
     search: Search
+    hide: Hide
+    unhide: Unhide
 
 add_moderator:
     title: Add moderator to %forum%
@@ -185,6 +187,7 @@ heading:
     message_thread: "%sender% wrote to %receiver% %timestamp%"
     message_reply: "%sender% replied %timestamp%"
     category: 'Category: %category%'
+    hide_this_forum: Hide this forum
 
 help:
     delete_forum_warning: All content on this forum will be irreversibly deleted!
@@ -198,6 +201,13 @@ help:
     search_external_prefix: Please note:
     search_external_message: Your query will be redirected to DuckDuckGo.
     search_external_warning: Search requires JavaScript to be enabled.
+    forum_is_featured: This forum is featured.
+    forum_is_hidden: You have chosen to hide this forum.
+    hidden_forums: >
+        By marking forums as hidden, you won't see submissions from those forums
+        when browsing the "featured" and "all" submission listings. You can
+        still subscribe to and moderate forums you choose to hide.
+    hidden_forums_no_comment_hiding: Comments posted to hidden forums will still be displayed in the "recent comments" listing.
 
 inbox:
     title: Inbox
@@ -366,6 +376,7 @@ nav:
     new_category: New category
     webhooks: Webhooks
     add_webhook: Add webhook
+    hidden_forums: Hidden forums
 
 placeholder:
     default: (default)
@@ -482,6 +493,7 @@ title:
     forum_webhooks: Webhooks for %forum%
     search_site: Search the site
     search_forum: Search this forum
+    hidden_forums: Hidden forums
 
 user:
     submissions: Submissions
