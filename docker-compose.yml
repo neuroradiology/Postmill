@@ -22,7 +22,6 @@ services:
             - ./public:/app/public:ro
     php:
         build: docker/php
-        user: "${UID}:${GID}"
         environment:
             - APP_ENABLE_WEBHOOKS=1
             - APP_ENABLE_EXTERNAL_SEARCH=1
@@ -36,5 +35,13 @@ services:
         links:
             - db
         volumes:
+            - ./.git:/app/.git:ro
             - composer_cache:/.composer
             - ./:/app
+    assets:
+        image: node:10-alpine
+        command: ["sh", "-c", "npm install && npm run watch"]
+        volumes:
+            - ./.git:/app/.git:ro
+            - ./:/app:rw
+        working_dir: /app

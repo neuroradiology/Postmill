@@ -1,27 +1,28 @@
 # ![](assets/postmill-128.png) Postmill documentation
 
-* **[Getting started](../README.md#getting-started)**
+1. **[Getting started](../README.md#getting-started)**
 
-* **Reference**
+2. **Configuration & administration**
+
+    * [Using Docker](docker.md)
+    * [Database setup](database-setup.md)
+    * [Configuring a web server][web server] (external link)
+    * [Overriding templates & translations](overrides.md)
+    * [Pruning IP addresses automatically](pruning-ips.md)
+    * [How to upgrade Postmill](upgrading.md)
+    * [Deployment][deploy] (external link)
+    
+3. **Reference**
 
     * [Deprecated CSS classes](deprecated-css-classes.md)
     * [Webhooks](webhooks.md)
 
-* **Configuration & administration**
-
-    * [Database setup](database-setup.md)
-    * [Pruning IP addresses automatically](pruning-ips.md)
-    * [Overriding templates & translations](overrides.md)
-    * [Deployment][deploy] (external link)
-    * [Configuring a web server][web server] (external link)
-    * [How to upgrade Postmill](upgrading.md)
-
-* **For developers**
+4. **For developers**
     * [About the unit tests](about-the-unit-tests.md)
     * [Ugly hacks & workarounds](workarounds.md)
     * [Trusted users](trusted_users.md)
 
-* **Meta**
+5. **Appendix**
     * [Version number policy](version-policy.md)
 
 Something missing? Report it on the [issue tracker][issues] and chances are
