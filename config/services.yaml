@@ -39,7 +39,7 @@ services:
         arguments:
             $defaultLocale: "%env(APP_LOCALE)%"
 
-    App\CommonMark\CachedMarkdownConverter:
+    App\CommonMark\MarkdownConverter:
         arguments:
             $cacheItemPool: "@cache.markdown"
 

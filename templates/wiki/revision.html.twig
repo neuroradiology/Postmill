@@ -16,7 +16,7 @@
   <article>
     <h1>{{ revision.title }}</h1>
 
-    {{ revision.body|cached_markdown(markdown_context())|raw }}
+    {{ revision.body|cached_markdown({ context: 'wiki', page: page })|raw }}
   </article>
   <hr>
 

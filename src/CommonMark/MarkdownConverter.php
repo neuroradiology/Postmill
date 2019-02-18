@@ -2,78 +2,80 @@
 
 namespace App\CommonMark;
 
+use App\Event\CommonMarkCacheEvent;
+use App\Event\CommonMarkInitEvent;
+use App\Events;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Webuni\CommonMark\TableExtension\TableExtension;
+use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Service for formatting user-inputted Markdown.
- *
- * @todo refactor using events and listeners
+ * Service for converting user-inputted Markdown to HTML.
  */
-class MarkdownConverter {
-    private const OPTIONS = [
-        'base_path' => '', // TODO: does nothing yet
-        'open_external_links_in_new_tab' => false,
-    ];
-
-    private const HTML_PURIFIER_CONFIG = [
-        'AutoFormat.Linkify' => true,           // Convert non-link URLs to links.
-        'Cache.DefinitionImpl' => null,         // Disable cache
-        'HTML.Nofollow' => true,                // Add rel="nofollow" to outgoing links.
-        'URI.DisableExternalResources' => true, // Disable embedding of external resources like images.
-    ];
-
-    private const COMMONMARK_CONFIG = [
-        'html_input' => 'escape',
-    ];
+final class MarkdownConverter {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
 
     /**
-     * @var UrlGeneratorInterface
+     * @var CacheItemPoolInterface
      */
-    private $urlGenerator;
+    private $cacheItemPool;
 
-    public static function resolveOptions(array $options): array {
-        $options = array_replace(self::OPTIONS, $options);
-        $unknownOptions = array_diff_key($options, self::OPTIONS);
+    public function __construct(
+        EventDispatcherInterface $dispatcher,
+        CacheItemPoolInterface $cacheItemPool
+    ) {
+        $this->dispatcher = $dispatcher;
+        $this->cacheItemPool = $cacheItemPool;
+    }
 
-        if ($unknownOptions) {
-            throw new \InvalidArgumentException(sprintf(
-                'Unknown option(s) "%s"',
-                implode('", "', array_keys($unknownOptions))
-            ));
+    public function convertToHtml(string $markdown, array $context = []): string {
+        $event = new CommonMarkInitEvent($context);
+
+        $this->dispatcher->dispatch(Events::COMMONMARK_INIT, $event);
+
+        $commonMarkEnvironment = new Environment();
+
+        foreach ($event->getExtensions() as $extension) {
+            $commonMarkEnvironment->addExtension($extension);
         }
 
-        return $options;
-    }
+        $commonMarkConverter = new CommonMarkConverter(
+            $event->getCommonMarkConfig(),
+            $commonMarkEnvironment
+        );
 
-    public function __construct(UrlGeneratorInterface $urlGenerator) {
-        $this->urlGenerator = $urlGenerator;
-    }
+        $purifierConfig = \HTMLPurifier_Config::create($event->getHtmlPurifierConfig());
+        $purifier = new \HTMLPurifier($purifierConfig);
 
-    public function convertToHtml(string $markdown, array $options = []): string {
-        $environment = Environment::createCommonMarkEnvironment();
-        $environment->addExtension(new AppExtension($this->urlGenerator));
-        $environment->addExtension(new TableExtension());
-
-        $converter = new CommonMarkConverter(self::COMMONMARK_CONFIG, $environment);
-
-        $options = self::resolveOptions($options);
-
-        $config = \HTMLPurifier_Config::create($this->getHtmlPurifierOptions($options));
-
-        $purifier = new \HTMLPurifier($config);
-
-        $html = $converter->convertToHtml($markdown);
+        $html = $commonMarkConverter->convertToHtml($markdown);
         $html = $purifier->purify($html);
 
         return $html;
     }
 
-    private function getHtmlPurifierOptions(array $options): array {
-        return array_replace(self::HTML_PURIFIER_CONFIG, [
-            'HTML.TargetBlank' => $options['open_external_links_in_new_tab'],
-        ]);
+    public function convertToHtmlCached(string $markdown, array $context = []): string {
+        $event = new CommonMarkCacheEvent($context);
+
+        $this->dispatcher->dispatch(Events::COMMONMARK_CACHE, $event);
+
+        $key = sprintf(
+            'cached_markdown.%s.%s',
+            hash('sha256', $markdown),
+            $event->getCacheKey()
+        );
+
+        $cacheItem = $this->cacheItemPool->getItem($key);
+
+        if (!$cacheItem->isHit()) {
+            $cacheItem->set($this->convertToHtml($markdown, $context));
+
+            $this->cacheItemPool->saveDeferred($cacheItem);
+        }
+
+        return $cacheItem->get();
     }
 }
