@@ -45,7 +45,7 @@ class MarkdownConverterTest extends TestCase {
         /* @var CacheItemPoolInterface|MockObject $cacheItemPool */
         $cacheItemPool = $this->createMock(CacheItemPoolInterface::class);
 
-        return new MarkdownListener($dispatcher, $cacheItemPool);
+        return new MarkdownConverter($dispatcher, $cacheItemPool);
     }
 
     public function testLinksHaveNoTargetByDefault() {
