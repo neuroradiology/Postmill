@@ -1,6 +1,6 @@
 <?php
 
-namespace App\CommonMark\Inline\Element;
+namespace App\Markdown\Inline\Element;
 
 use League\CommonMark\Inline\Element\AbstractStringContainer;
 

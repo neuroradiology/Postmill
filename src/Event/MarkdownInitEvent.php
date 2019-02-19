@@ -5,7 +5,7 @@ namespace App\Event;
 use League\CommonMark\Extension\Extension;
 use Symfony\Component\EventDispatcher\Event;
 
-final class CommonMarkInitEvent extends Event {
+final class MarkdownInitEvent extends Event {
     /**
      * @var string[]
      */

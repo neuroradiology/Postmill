@@ -5,9 +5,9 @@ namespace App\Event;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Event dispatched to build a hash key for CommonMark context.
+ * Event dispatched to build a hash key for Markdown context.
  */
-final class CommonMarkCacheEvent extends Event {
+final class MarkdownCacheEvent extends Event {
     /**
      * @var array
      */

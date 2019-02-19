@@ -2,21 +2,21 @@
 
 namespace App\EventListener;
 
-use App\CommonMark\AppExtension;
 use App\Entity\User;
-use App\Event\CommonMarkCacheEvent;
-use App\Event\CommonMarkInitEvent;
+use App\Event\MarkdownCacheEvent;
+use App\Event\MarkdownInitEvent;
 use App\Events;
+use App\Markdown\AppExtension;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Webuni\CommonMark\TableExtension\TableExtension;
 
 /**
- * Set up CommonMark and HTML Purifier with all the default stuff that we want
- * everywhere.
+ * Set up the CommonMark and HTML Purifier libraries with all the default stuff
+ * that we want everywhere.
  */
-final class CommonMarkListener implements EventSubscriberInterface {
+final class MarkdownListener implements EventSubscriberInterface {
     /**
      * @var AppExtension
      */
@@ -37,12 +37,12 @@ final class CommonMarkListener implements EventSubscriberInterface {
 
     public static function getSubscribedEvents() {
         return [
-            Events::COMMONMARK_INIT => ['onCommonMarkInit'],
-            Events::COMMONMARK_CACHE => ['onCommonMarkCache'],
+            Events::MARKDOWN_INIT => ['onMarkdownInit'],
+            Events::MARKDOWN_CACHE => ['onMarkdownCache'],
         ];
     }
 
-    public function onCommonMarkInit(CommonMarkInitEvent $event) {
+    public function onMarkdownInit(MarkdownInitEvent $event) {
         $event->addExtension(new CommonMarkCoreExtension());
         $event->addExtension(new TableExtension());
         $event->addExtension($this->appExtension);
@@ -67,7 +67,7 @@ final class CommonMarkListener implements EventSubscriberInterface {
         }
     }
 
-    public function onCommonMarkCache(CommonMarkCacheEvent $event) {
+    public function onMarkdownCache(MarkdownCacheEvent $event) {
         if ($this->shouldOpenExternalLinksInNewTab()) {
             $event->addToCacheKey('open_external_links_in_new_tab');
         }

@@ -2,7 +2,7 @@
 
 namespace App\Twig;
 
-use App\CommonMark\MarkdownConverter;
+use App\Markdown\MarkdownConverter;
 use App\Utils\Slugger;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;

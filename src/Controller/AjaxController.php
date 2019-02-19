@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\CommonMark\MarkdownConverter;
+use App\Markdown\MarkdownConverter;
 use Embed\Embed;
 use Embed\Exceptions\InvalidUrlException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

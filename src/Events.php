@@ -9,8 +9,8 @@ final class Events {
     public const NEW_COMMENT = 'postmill.new_comment';
     public const EDIT_COMMENT = 'postmill.edit_comment';
 
-    public const COMMONMARK_CACHE = 'postmill.commonmark_cache';
-    public const COMMONMARK_INIT = 'postmill.commonmark_init';
+    public const MARKDOWN_CACHE = 'postmill.markdown_cache';
+    public const MARKDOWN_INIT = 'postmill.markdown_init';
 
     private function __construct() {}
 }
