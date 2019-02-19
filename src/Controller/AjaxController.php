@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
-use App\CommonMark\MarkdownContext;
-use App\CommonMark\MarkdownConverter;
+use App\Markdown\MarkdownConverter;
 use Embed\Embed;
 use Embed\Exceptions\InvalidUrlException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Helpers for Ajax-related stuff.
@@ -43,14 +43,13 @@ class AjaxController {
         }
     }
 
-    public function markdownPreview(
-        Request $request,
-        MarkdownConverter $converter,
-        MarkdownContext $context
-    ) {
+    public function markdownPreview(Request $request, MarkdownConverter $converter) {
         $markdown = $request->request->get('markdown', '');
-        $options = $context->getContextAwareOptions();
 
-        return new Response($converter->convertToHtml($markdown, $options));
+        if (!\is_string($markdown)) {
+            throw new BadRequestHttpException();
+        }
+
+        return new Response($converter->convertToHtml($markdown));
     }
 }

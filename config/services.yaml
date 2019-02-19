@@ -39,10 +39,6 @@ services:
         arguments:
             $defaultLocale: "%env(APP_LOCALE)%"
 
-    App\CommonMark\CachedMarkdownConverter:
-        arguments:
-            $cacheItemPool: "@cache.markdown"
-
     App\Controller\ForumController:
         arguments:
             $enableWebhooks: "%env(bool:APP_ENABLE_WEBHOOKS)%"
@@ -84,6 +80,10 @@ services:
             $siteName: "%env(SITE_NAME)%"
             $noReplyAddress: "%env(NO_REPLY_ADDRESS)%"
             $salt: "%env(APP_SECRET)%"
+
+    App\Markdown\MarkdownConverter:
+        arguments:
+            $cacheItemPool: "@cache.markdown"
 
     App\Security\AuthenticationHelper:
         arguments:

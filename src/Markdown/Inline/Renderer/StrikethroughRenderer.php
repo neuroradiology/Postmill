@@ -1,8 +1,8 @@
 <?php
 
-namespace App\CommonMark\Inline\Renderer;
+namespace App\Markdown\Inline\Renderer;
 
-use App\CommonMark\Inline\Element\Strikethrough;
+use App\Markdown\Inline\Element\Strikethrough;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\HtmlElement;
 use League\CommonMark\Inline\Element\AbstractInline;

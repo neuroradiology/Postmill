@@ -1,8 +1,8 @@
 <?php
 
-namespace App\CommonMark\Inline\Parser;
+namespace App\Markdown\Inline\Parser;
 
-use App\CommonMark\Inline\Element\Strikethrough;
+use App\Markdown\Inline\Element\Strikethrough;
 use League\CommonMark\ContextInterface;
 use League\CommonMark\Inline\Element\Text;
 use League\CommonMark\Inline\Parser\AbstractInlineParser;

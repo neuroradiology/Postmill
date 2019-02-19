@@ -1,6 +1,6 @@
 <?php
 
-namespace App\CommonMark;
+namespace App\Markdown;
 
 use League\CommonMark\Extension\Extension;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
