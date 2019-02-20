@@ -92,6 +92,13 @@ class Submission extends Votable {
     private $votes;
 
     /**
+     * @ORM\OneToMany(targetEntity="SubmissionMention", mappedBy="submission", cascade={"remove"})
+     *
+     * @var SubmissionMention[]|Collection
+     */
+    private $mentions;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      *
      * @var string
@@ -178,6 +185,7 @@ class Submission extends Votable {
         $this->comments = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->vote($user, $ip, Votable::VOTE_UP);
+        $this->mentions = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -282,6 +290,15 @@ class Submission extends Votable {
         parent::vote($user, $ip, $choice);
 
         $this->updateRanking();
+    }
+
+    public function addMention(User $mentioned) {
+        if (
+            !$mentioned->isBlocking($this->getUser()) &&
+            $mentioned !== $this->getUser()
+        ) {
+            $mentioned->sendNotification(new SubmissionMention($mentioned, $this));
+        }
     }
 
     public function getImage(): ?string {

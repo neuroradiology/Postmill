@@ -42,6 +42,19 @@
   {{ comment(notification.comment, {show_context: true}) }}
 {% endblock %}
 
+{% block notification_comment_mention %}
+  {% from 'comment/_macros.html.twig' import comment %}
+  {% set comment = notification.comment %}
+  {% set submission = comment.submission %}
+  <h1 class="notification-head">
+    {{ 'heading.you_were_mentioned'|trans({
+      '%user%': '<a href="%s">/u/%s</a>'|format(path('user', { username: comment.user.username })|e, comment.user.username|e)
+    })|raw }}
+  </h1>
+
+  {{ comment(comment) }}
+{% endblock notification_comment_mention %}
+
 {% block notification_message_thread %}
   {% from 'message/_macros.html.twig' import message_thread %}
 
@@ -65,6 +78,18 @@
 
   {{ message_reply(notification.reply) }}
 {% endblock %}
+
+{% block notification_submission_mention %}
+  {% from 'submission/_macros.html.twig' import submission %}
+  {% set submission = notification.submission %}
+  <h1 class="notification-head">
+    {{ 'heading.you_were_mentioned'|trans({
+      '%user%': '<a href="%s">/u/%s</a>'|format(path('user', { username: submission.user.username })|e, submission.user.username|e )
+    })|raw }}
+  </h1>
+
+  {{ submission(submission, { show_body: true }) }}
+{% endblock notification_submission_mention %}
 
 {% block clear_notification_button %}
   <form action="{{ path('clear_notification', { id: notification.id }) }}" method="POST">

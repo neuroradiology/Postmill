@@ -111,8 +111,17 @@ class Comment extends Votable {
 
     /**
      * @ORM\OneToMany(targetEntity="CommentNotification", mappedBy="comment", cascade={"remove"})
+     *
+     * @var CommentNotification[]|Collection
      */
     private $notifications;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CommentMention", mappedBy="comment", cascade={"remove"})
+     *
+     * @var CommentMention[]|Collection
+     */
+    private $mentions;
 
     public function __construct(
         string $body,
@@ -150,7 +159,8 @@ class Comment extends Votable {
         $this->votes = new ArrayCollection();
         $this->vote($user, $ip, Votable::VOTE_UP);
         $this->notify();
-        $this->notifications = null; // remove unused field warning
+        $this->notifications = new ArrayCollection();
+        $this->mentions = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -201,6 +211,16 @@ class Comment extends Votable {
      */
     public function getVotes(): Collection {
         return $this->votes;
+    }
+
+    public function addMention(User $mentioned) {
+        if (
+            !$mentioned->isBlocking($this->getUser()) &&
+            $mentioned !== $this->getUser() &&
+            $mentioned !== ($this->getParent() ?: $this->getSubmission())->getUser()
+        ) {
+            $mentioned->sendNotification(new CommentMention($mentioned, $this));
+        }
     }
 
     protected function createVote(User $user, ?string $ip, int $choice): Vote {

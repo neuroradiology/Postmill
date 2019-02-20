@@ -188,6 +188,7 @@ heading:
     message_reply: "%sender% replied %timestamp%"
     category: 'Category: %category%'
     hide_this_forum: Hide this forum
+    you_were_mentioned: You were mentioned by %user%
 
 help:
     delete_forum_warning: All content on this forum will be irreversibly deleted!
