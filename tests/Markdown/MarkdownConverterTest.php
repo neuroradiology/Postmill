@@ -2,10 +2,10 @@
 
 namespace App\Tests\Utils;
 
-use App\Markdown\AppExtension;
-use App\Markdown\MarkdownConverter;
 use App\Entity\User;
 use App\EventListener\MarkdownListener;
+use App\Markdown\AppExtension;
+use App\Markdown\MarkdownConverter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemPoolInterface;

@@ -112,7 +112,8 @@ class VotableTest extends TestCase {
             }
 
             protected function createVote(User $user, ?string $ip, int $choice): Vote {
-                return new class($user, $ip, $choice) extends Vote {};
+                return new class($user, $ip, $choice) extends Vote {
+                };
             }
         };
     }

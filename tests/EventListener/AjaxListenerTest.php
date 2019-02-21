@@ -33,7 +33,6 @@ class AjaxListenerTest extends KernelTestCase {
         $this->listener = new AjaxListener($this->serializer);
     }
 
-
     public function testDoesNotSetResponseOnNotXhrRequests(): void {
         $request = new Request();
         $event = $this->createEvent($request, new AccessDeniedException());

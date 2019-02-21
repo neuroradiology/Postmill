@@ -452,10 +452,10 @@ final class UserController extends AbstractController {
     /**
      * @IsGranted("edit_user", subject="user")
      *
-     * @param EntityManager   $em
-     * @param Request         $request
-     * @param User            $user
-     * @param Forum           $forum
+     * @param EntityManager $em
+     * @param Request       $request
+     * @param User          $user
+     * @param Forum         $forum
      *
      * @return Response
      */

@@ -6,7 +6,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
 final class Version20190220110412 extends AbstractMigration {
-    public function getDescription() : string {
+    public function getDescription(): string {
         return 'Add submission column to notifications table';
     }
 

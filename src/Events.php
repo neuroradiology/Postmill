@@ -12,5 +12,6 @@ final class Events {
     public const MARKDOWN_CACHE = 'postmill.markdown_cache';
     public const MARKDOWN_INIT = 'postmill.markdown_init';
 
-    private function __construct() {}
+    private function __construct() {
+    }
 }

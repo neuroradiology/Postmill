@@ -18,7 +18,7 @@ class SubmissionRepository extends ServiceEntityRepository {
     public const SORT_MOST_COMMENTED = 'most_commented';
 
     /**
-     * `$sortBy` -> ordered column name mapping
+     * `$sortBy` -> ordered column name mapping.
      *
      * @var array[]
      */

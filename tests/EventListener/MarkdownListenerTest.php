@@ -2,10 +2,10 @@
 
 namespace App\Tests\EventListener;
 
-use App\Markdown\AppExtension;
 use App\Entity\User;
 use App\Event\MarkdownInitEvent;
 use App\EventListener\MarkdownListener;
+use App\Markdown\AppExtension;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;

@@ -173,8 +173,7 @@ final class SubmissionImageListener implements EventSubscriberInterface {
             if ($success) {
                 return $filename;
             }
-        }
-        catch (GuzzleException $e) {
+        } catch (GuzzleException $e) {
             $this->logger->notice('Failed to download submission image', [
                 'exception' => $e,
             ]);

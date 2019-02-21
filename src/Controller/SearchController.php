@@ -32,7 +32,7 @@ final class SearchController extends AbstractController {
 
         $finalQuery = urlencode("$site $userQuery");
 
-        $url = "https://duckduckgo.com/?q=".$finalQuery;
+        $url = 'https://duckduckgo.com/?q='.$finalQuery;
 
         return $this->redirect($url);
     }
