@@ -40,6 +40,7 @@ build-assets:prod:
         DATABASE_URL: "pgsql://postmill@postgres/postmill?serverVersion=9.4"
         POSTGRES_USER: postmill
         POSTGRES_PASSWORD: ""
+        APP_ENV: test
     before_script:
         - apt-get update -yqq
         - apt-get install -yqq git libpq-dev libcurl4-gnutls-dev libicu-dev
