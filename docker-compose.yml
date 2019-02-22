@@ -23,15 +23,8 @@ services:
     php:
         build: docker/php
         environment:
-            - APP_ENABLE_WEBHOOKS=1
-            - APP_ENABLE_EXTERNAL_SEARCH=1
-            - APP_ENV=dev
-            - APP_SECRET=very secret, wow!
             - COMPOSER_HOME=/.composer
             - DATABASE_URL=pgsql://postgres@db/postgres?serverVersion=11
-            - NO_REPLY_ADDRESS=no-reply@example.com
-            - MAILER_URL=null://localhost
-            - SITE_NAME=Postmill
         links:
             - db
         volumes:

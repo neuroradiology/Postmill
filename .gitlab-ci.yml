@@ -37,17 +37,9 @@ build-assets:prod:
     services:
         - postgres:9.4-alpine
     variables:
-        APP_ENABLE_WEBHOOKS: 1
-        APP_ENABLE_EXTERNAL_SEARCH: 1
-        APP_ENV: test
-        APP_LOCALE: en
-        APP_SECRET: foo
         DATABASE_URL: "pgsql://postmill@postgres/postmill?serverVersion=9.4"
-        NO_REPLY_ADDRESS: "no-reply@example.com"
         POSTGRES_USER: postmill
         POSTGRES_PASSWORD: ""
-        SITE_NAME: Postmill
-        SYMFONY_DEPRECATIONS_HELPER: disabled
     before_script:
         - apt-get update -yqq
         - apt-get install -yqq git libpq-dev libcurl4-gnutls-dev libicu-dev
@@ -81,3 +73,7 @@ test:7.1:
 test:7.2:
     <<: *php-test
     image: php:7.2
+
+test:7.3:
+    <<: *php-test
+    image: php:7.3
