@@ -31,11 +31,17 @@ build-prod`.
 
 1.  Run `composer install`.
 
-2.  You should now have a `.env` file in the project root. Edit this to your
-    liking or leave the defaults alone, but you *must* change `DATABASE_URL`.
-
+2.  Create a `.env.local` file in the project root. At minimum, you must define
+    your database configuration here:
+    
+    ~~~bash
+    DATABASE_URL='pgsql://db_user:db_password@localhost:5432/db_name?serverVersion=9.6'
+    ~~~
+    
     Instructions for setting up a database can be found at
     [docs/database-setup.md](docs/database-setup.md).
+    
+    You can copy other values from `.env` to override them in your installation.
 
 3.  Run `vendor/bin/requirements-checker` to ensure your environment meets
     necessary requirements needed to run Postmill. Fix any errors that arise.
