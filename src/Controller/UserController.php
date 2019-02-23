@@ -247,16 +247,14 @@ final class UserController extends AbstractController {
     }
 
     /**
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit_user", subject="user")
      *
+     * @param User $user
      * @param int $page
      *
      * @return Response
      */
-    public function blockList(int $page) {
-        /* @var User $user */
-        $user = $this->getUser();
-
+    public function blockList(User $user, int $page) {
         return $this->render('user/block_list.html.twig', [
             'blocks' => $user->getPaginatedBlocks($page),
         ]);
@@ -293,7 +291,9 @@ final class UserController extends AbstractController {
 
             $this->addFlash('success', 'flash.user_blocked');
 
-            return $this->redirectToRoute('user_block_list');
+            return $this->redirectToRoute('user_block_list', [
+                'username' => $blocker->getUsername(),
+            ]);
         }
 
         return $this->render('user/block.html.twig', [
@@ -319,7 +319,9 @@ final class UserController extends AbstractController {
 
         $this->addFlash('success', 'flash.user_unblocked');
 
-        return $this->redirectToRoute('user_block_list');
+        return $this->redirectToRoute('user_block_list', [
+            'username' => $this->getUser()->getUsername(),
+        ]);
     }
 
     /**
@@ -395,7 +397,6 @@ final class UserController extends AbstractController {
     }
 
     /**
-     * @Entity("user", expr="repository.find(id)")
      * @IsGranted("ROLE_ADMIN")
      *
      * @param Request       $request
@@ -456,6 +457,7 @@ final class UserController extends AbstractController {
      * @param Request       $request
      * @param User          $user
      * @param Forum         $forum
+     * @param bool          $hide
      *
      * @return Response
      */

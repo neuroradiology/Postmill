@@ -77,7 +77,7 @@
   {% if is_granted('ROLE_ADMIN') %}
     <section class="sidebar__section sidebar__section--user-roles">
       <h1 class="sidebar__title">{{ 'heading.user_roles'|trans }}</h1>
-      <form action="{{ path('mark_user_trusted', {id: user.id, trusted: not user.trusted ? 1 : 0}) }}" method="post" class="form">
+      <form action="{{ path(user.trusted ? 'mark_user_untrusted' : 'mark_user_trusted', {username: user.username}) }}" method="post" class="form">
         <input type="hidden" name="token" value="{{ csrf_token('mark_trusted') }}">
         <div class="form__row">
           <button class="button">{{ (not user.trusted ? 'action.mark_as_trusted' : 'action.mark_as_untrusted')|trans }}</button>

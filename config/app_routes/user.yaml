@@ -32,23 +32,23 @@ users:
 
 edit_user:
     controller: App\Controller\UserController::editUser
-    path: /edit_user/{username}
+    path: /user/{username}/account
     methods: [GET, POST]
 
 edit_biography:
     controller: App\Controller\UserController::editBiography
-    path: /edit_biography/{username}
+    path: /user/{username}/edit_biography
     methods: [GET, POST]
 
 user_settings:
     controller: App\Controller\UserController::userSettings
-    path: /user_settings/{username}
+    path: /user/{username}/preferences
     methods: [GET, POST]
 
 user_block_list:
     controller: App\Controller\UserController::blockList
     defaults: { page: 1 }
-    path: /block_list/{page}
+    path: /user/{username}/block_list/{page}
     methods: [GET, POST]
     requirements: { page: \d+ }
 
@@ -70,9 +70,15 @@ registration:
 
 mark_user_trusted:
     controller: App\Controller\UserController::markAsTrusted
-    path: /mark_as_trusted/{id}/{trusted}
+    defaults: { trusted: true }
+    path: /user/{username}/mark_as_trusted
     methods: [POST]
-    requirements: { trusted: '[01]' }
+
+mark_user_untrusted:
+    controller: App\Controller\UserController::markAsTrusted
+    defaults: { trusted: false }
+    path: /user/{username}/mark_as_untrusted
+    methods: [POST]
 
 inbox:
     controller: App\Controller\UserController::inbox
