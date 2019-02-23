@@ -1,14 +1,21 @@
-{%- macro icon(name, alt_text = '') -%}
-  <span class="icon">
-    {%- if alt_text|length > 0 -%}
-      {#- Attempt to display an empty SVG. If this fails, the alt text will
-          display. We assume that no support for SVG via <img> = no inline SVG
-          support, although this assumption doesn't always hold true for older
-          browsers (which we don't care about anyway). This hack is necessary to
-          provide alternative text for Tor browser in high security mode, where
-          SVG icons are disabled. -#}
-      <img src="data:image/svg+xml,{{ '<svg xmlns="http://www.w3.org/2000/svg"/>'|url_encode }}" alt="{{ alt_text }}" class="icon__alt" aria-hidden="true">
-    {%- endif -%}
-    {{- source('_icons/%s.svg'|format(name)) -}}
-  </span>
-{%- endmacro -%}
+{% macro icon(name, alt_text = '') -%}
+  {%- spaceless -%}
+    <span class="icon {{ alt_text ? 'icon--with-alt-text' }}">
+      {%- if alt_text is not empty -%}
+        {#- Attempt to display an empty SVG. If this fails, the alt text will
+            display. We assume that no support for SVG via <img> = no inline SVG
+            support, although this assumption doesn't always hold true for older
+            browsers (which we don't care about anyway). This hack is necessary to
+            provide alternative text for Tor browser in high security mode, where
+            SVG icons are disabled. -#}
+            <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%2F%3E"
+                 alt="{{ alt_text }}"
+                 class="icon__alt"
+                 aria-hidden="true"
+                 width="0"
+                 height="0">
+      {%- endif -%}
+      <svg width="16" height="16"><use xlink:href="#{{ name }}"/></svg>
+    </span>
+  {%- endspaceless -%}
+{%- endmacro %}

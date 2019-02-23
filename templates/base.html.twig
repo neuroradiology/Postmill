@@ -78,5 +78,9 @@
         <script src="{{ path('bazinga_jstranslation_js') }}"></script>
       {% endif %}
     {% endblock %}
+
+    {% block svg_sprites %}
+      {{ source('_includes/icons.svg') }}
+    {% endblock %}
   </body>
 </html>
