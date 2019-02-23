@@ -1,3 +1,4 @@
+FROM composer:1.8 AS composer
 FROM php:7.3-fpm-alpine
 
 RUN set -ex && \
@@ -17,9 +18,9 @@ RUN set -ex && \
     apk del --no-cache autoconf build-base postgresql-dev icu-dev freetype-dev \
         libjpeg-turbo-dev libpng-dev libwebp-dev libzip-dev bzip2-dev
 
-RUN curl -fsSL https://getcomposer.org/installer | \
-        php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
-RUN mkdir -p /.composer && chmod 777 /.composer
+ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV COMPOSER_HOME /tmp
 
 WORKDIR /app

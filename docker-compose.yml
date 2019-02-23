@@ -1,8 +1,6 @@
 version: '3'
 
 volumes:
-    composer_cache:
-        driver: local
     postgres_data:
         driver: local
 
@@ -23,13 +21,11 @@ services:
     php:
         build: docker/php
         environment:
-            - COMPOSER_HOME=/.composer
             - DATABASE_URL=pgsql://postgres@db/postgres?serverVersion=11
         links:
             - db
         volumes:
             - ./.git:/app/.git:ro
-            - composer_cache:/.composer
             - ./:/app
     assets:
         image: node:10-alpine
