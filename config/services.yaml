@@ -8,6 +8,7 @@ parameters:
     env(APP_ENABLE_WEBHOOKS): false
     env(APP_ENABLE_EXTERNAL_SEARCH): true
     submission_sort_modes: hot|new|top|controversial|most_commented
+    env(RATELIMIT_WHITELIST): ""
 
 services:
     _defaults:
@@ -85,10 +86,12 @@ services:
         arguments:
             $cacheItemPool: "@cache.markdown"
 
-    App\Security\AuthenticationHelper:
+    App\Security\LoginAuthenticator:
         arguments:
-            $rememberMeServices: "@security.authentication.rememberme.services.simplehash.main"
-            $firewallMap: "@security.firewall.map"
+            $rateLimit: "@postmill.ratelimit.login"
+
+    App\Security\TokenAuthenticator:
+        arguments:
             $secret: "%env(APP_SECRET)%"
 
     App\Security\Voter\TokenVoter:
@@ -100,6 +103,18 @@ services:
             $siteName: "%env(SITE_NAME)%"
             $enableWebhooks: "%env(bool:APP_ENABLE_WEBHOOKS)%"
             $enableExternalSearch: "%env(bool:APP_ENABLE_EXTERNAL_SEARCH)%"
+
+
+    ## Named services
+
+    postmill.ratelimit.login:
+        class: App\Utils\IpRateLimit
+        arguments:
+            $cacheItemPool: "@cache.ratelimit.login"
+            $ipWhitelist: "%env(csv:RATELIMIT_WHITELIST)%"
+            $maxHits: 20
+            $period: 10 minutes
+        public: false
 
 
     ## Misc

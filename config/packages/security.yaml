@@ -19,23 +19,18 @@ security:
         main:
             anonymous: true
 
-            # this is enabled for unit tests
-            http_basic: ~
-
-            form_login:
-                csrf_token_generator: security.csrf.token_manager
-                check_path: login_check
-                login_path: login
+            guard:
+                authenticators:
+                    - App\Security\TokenAuthenticator
+                    - App\Security\LoginAuthenticator
+                entry_point: App\Security\LoginAuthenticator
 
             logout:
                 csrf_parameter: token
                 csrf_token_generator: security.csrf.token_manager
                 path: log_out
 
-            remember_me:
-                secret: "%env(APP_SECRET)%"
-                always_remember_me: true
-
+            stateless: true
             user_checker: App\Security\UserChecker
 
     role_hierarchy:
