@@ -125,7 +125,8 @@ final class CommentController extends AbstractController {
     /**
      * Edits a comment.
      *
-     * @IsGranted("edit", subject="comment")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit", subject="comment", statusCode=403)
      *
      * @param EntityManager            $em
      * @param Forum                    $forum
@@ -177,7 +178,8 @@ final class CommentController extends AbstractController {
     /**
      * Delete a comment.
      *
-     * @IsGranted("delete", subject="comment")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("delete", subject="comment", statusCode=403)
      *
      * @param EntityManager $em
      * @param Submission    $submission
@@ -232,7 +234,8 @@ final class CommentController extends AbstractController {
     /**
      * "Soft deletes" a comment by blanking its body.
      *
-     * @IsGranted("softdelete", subject="comment")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("softdelete", subject="comment", statusCode=403)
      *
      * @param EntityManager $em
      * @param Forum         $forum

@@ -76,7 +76,8 @@ final class WikiController extends AbstractController {
 
     /**
      * @Entity("page", expr="repository.findOneCaseInsensitively(path)")
-     * @IsGranted("delete", subject="page")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("delete", subject="page", statusCode=403)
      *
      * @param Request       $request
      * @param WikiPage      $page
@@ -99,7 +100,8 @@ final class WikiController extends AbstractController {
      * Edits a wiki page.
      *
      * @Entity("page", expr="repository.findOneCaseInsensitively(path)")
-     * @IsGranted("write", subject="page")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("write", subject="page", statusCode=403)
      *
      * @param Request       $request
      * @param WikiPage      $page
@@ -131,7 +133,8 @@ final class WikiController extends AbstractController {
     }
 
     /**
-     * @IsGranted("lock", subject="page")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("lock", subject="page", statusCode=403)
      *
      * @param Request       $request
      * @param WikiPage      $page

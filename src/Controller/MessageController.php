@@ -34,7 +34,8 @@ final class MessageController extends AbstractController {
     /**
      * Start a new message thread.
      *
-     * @IsGranted("message", subject="receiver")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("message", subject="receiver", statusCode=403)
      * @Entity("receiver", expr="repository.findOneOrRedirectToCanonical(username, 'username')")
      *
      * @param Request       $request
@@ -69,7 +70,8 @@ final class MessageController extends AbstractController {
     /**
      * View a message thread.
      *
-     * @IsGranted("access", subject="thread")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("access", subject="thread", statusCode=403)
      *
      * @param MessageThread $thread
      *
@@ -94,7 +96,8 @@ final class MessageController extends AbstractController {
     }
 
     /**
-     * @IsGranted("reply", subject="thread")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("reply", subject="thread", statusCode=40333)
      *
      * @param Request       $request
      * @param EntityManager $em

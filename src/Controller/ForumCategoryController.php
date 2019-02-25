@@ -36,7 +36,8 @@ class ForumCategoryController extends AbstractController {
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      *
      * @param Request       $request
      * @param EntityManager $em
@@ -64,7 +65,8 @@ class ForumCategoryController extends AbstractController {
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      *
      * @param ForumCategory $category
      * @param Request       $request
@@ -93,7 +95,8 @@ class ForumCategoryController extends AbstractController {
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      *
      * @param ForumCategoryRepository $repository
      * @param int                     $page

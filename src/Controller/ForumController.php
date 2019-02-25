@@ -93,7 +93,8 @@ final class ForumController extends AbstractController {
     /**
      * Create a new forum.
      *
-     * @IsGranted("create_forum")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("create_forum", statusCode=403)
      *
      * @param Request       $request
      * @param EntityManager $em
@@ -123,7 +124,8 @@ final class ForumController extends AbstractController {
     }
 
     /**
-     * @IsGranted("moderator", subject="forum")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderator", subject="forum", statusCode=403)
      *
      * @param Request       $request
      * @param Forum         $forum
@@ -172,7 +174,8 @@ final class ForumController extends AbstractController {
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      *
      * @param Request       $request
      * @param Forum         $forum
@@ -278,7 +281,8 @@ final class ForumController extends AbstractController {
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      *
      * @param EntityManager $em
      * @param Forum         $forum
@@ -311,7 +315,8 @@ final class ForumController extends AbstractController {
 
     /**
      * @Entity("moderator", expr="repository.findOneBy({'forum': forum, 'id': moderator_id})")
-     * @IsGranted("remove", subject="moderator")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("remove", subject="moderator", statusCode=403)
      *
      * @param EntityManager $em
      * @param Forum         $forum
@@ -349,7 +354,8 @@ final class ForumController extends AbstractController {
     /**
      * Alter a forum's appearance.
      *
-     * @IsGranted("moderator", subject="forum")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderator", subject="forum", statusCode=403)
      *
      * @param Forum         $forum
      * @param Request       $request
@@ -394,7 +400,8 @@ final class ForumController extends AbstractController {
     }
 
     /**
-     * @IsGranted("moderator", subject="forum")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderator", subject="forum", statusCode=403)
      *
      * @param Forum $forum
      * @param User  $user
@@ -411,7 +418,8 @@ final class ForumController extends AbstractController {
     }
 
     /**
-     * @IsGranted("moderator", subject="forum")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderator", subject="forum", statusCode=403)
      *
      * @param Forum $forum
      *
@@ -428,7 +436,8 @@ final class ForumController extends AbstractController {
     }
 
     /**
-     * @IsGranted("moderator", subject="forum")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderator", subject="forum", statusCode=403)
      *
      * @param Forum         $forum
      * @param Request       $request
@@ -467,7 +476,8 @@ final class ForumController extends AbstractController {
 
     /**
      * @Entity("webhook", expr="repository.findOneBy({forum: forum, id: webhook_id})")
-     * @IsGranted("moderator", subject="forum")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderator", subject="forum", statusCode=403)
      *
      * @param Forum         $forum
      * @param ForumWebhook  $webhook
@@ -505,7 +515,8 @@ final class ForumController extends AbstractController {
     }
 
     /**
-     * @IsGranted("moderator", subject="forum")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderator", subject="forum", statusCode=403)
      *
      * @param Forum                  $forum
      * @param Request                $request
@@ -540,7 +551,8 @@ final class ForumController extends AbstractController {
     }
 
     /**
-     * @IsGranted("moderator", subject="forum")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderator", subject="forum", statusCode=403)
      *
      * @param Forum         $forum
      * @param User          $user
@@ -575,7 +587,8 @@ final class ForumController extends AbstractController {
     }
 
     /**
-     * @IsGranted("moderator", subject="forum")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderator", subject="forum", statusCode=403)
      *
      * @param Forum         $forum
      * @param User          $user

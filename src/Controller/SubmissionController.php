@@ -123,7 +123,8 @@ final class SubmissionController extends AbstractController {
     }
 
     /**
-     * @IsGranted("edit", subject="submission")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit", subject="submission", statusCode=403)
      *
      * @param Forum                    $forum
      * @param Submission               $submission
@@ -171,7 +172,8 @@ final class SubmissionController extends AbstractController {
     }
 
     /**
-     * @IsGranted("delete_with_reason", subject="submission")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("delete_with_reason", subject="submission", statusCode=403)
      *
      * @param Request       $request
      * @param EntityManager $em
@@ -211,7 +213,8 @@ final class SubmissionController extends AbstractController {
     }
 
     /**
-     * @IsGranted("delete_immediately", subject="submission")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("delete_immediately", subject="submission", statusCode=403)
      *
      * @param Request       $request
      * @param EntityManager $em
@@ -237,7 +240,8 @@ final class SubmissionController extends AbstractController {
     }
 
     /**
-     * @IsGranted("moderator", subject="forum")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderator", subject="forum", statusCode=403)
      *
      * @param EntityManager $em
      * @param Request       $request

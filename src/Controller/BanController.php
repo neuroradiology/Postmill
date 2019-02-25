@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @IsGranted("ROLE_ADMIN")
+ * @IsGranted("ROLE_ADMIN", statusCode=403)
  * @Entity("user", expr="repository.findOneOrRedirectToCanonical(username, 'username')")
  */
 final class BanController extends AbstractController {

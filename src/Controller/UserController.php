@@ -92,7 +92,8 @@ final class UserController extends AbstractController {
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      *
      * @param UserRepository $users
      * @param int            $page
@@ -154,7 +155,8 @@ final class UserController extends AbstractController {
     }
 
     /**
-     * @IsGranted("edit_user", subject="user")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit_user", subject="user", statusCode=403)
      *
      * @param EntityManager $em
      * @param User          $user
@@ -185,7 +187,8 @@ final class UserController extends AbstractController {
     }
 
     /**
-     * @IsGranted("edit_user", subject="user")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit_user", subject="user", statusCode=403)
      *
      * @param EntityManager $em
      * @param User          $user
@@ -216,7 +219,8 @@ final class UserController extends AbstractController {
     }
 
     /**
-     * @IsGranted("edit_user", subject="user")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit_user", subject="user", statusCode=403)
      *
      * @param EntityManager $em
      * @param User          $user
@@ -247,7 +251,8 @@ final class UserController extends AbstractController {
     }
 
     /**
-     * @IsGranted("edit_user", subject="user")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit_user", subject="user", statusCode=403)
      *
      * @param User $user
      * @param int $page
@@ -303,7 +308,8 @@ final class UserController extends AbstractController {
     }
 
     /**
-     * @Security("is_granted('ROLE_USER') and user === block.getBlocker()")
+     * @IsGranted("ROLE_USER")
+     * @Security("user === block.getBlocker()", statusCode=403)
      *
      * @param UserBlock     $block
      * @param EntityManager $em
@@ -397,7 +403,8 @@ final class UserController extends AbstractController {
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      *
      * @param Request       $request
      * @param User          $user
@@ -420,7 +427,8 @@ final class UserController extends AbstractController {
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      *
      * @param User               $user
      * @param ForumBanRepository $repository
@@ -436,7 +444,8 @@ final class UserController extends AbstractController {
     }
 
     /**
-     * @IsGranted("edit_user", subject="user")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit_user", subject="user", statusCode=403)
      *
      * @param User $user
      * @param int  $page
@@ -451,7 +460,8 @@ final class UserController extends AbstractController {
     }
 
     /**
-     * @IsGranted("edit_user", subject="user")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit_user", subject="user", statusCode=403)
      *
      * @param EntityManager $em
      * @param Request       $request

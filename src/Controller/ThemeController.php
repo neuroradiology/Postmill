@@ -63,7 +63,8 @@ class ThemeController extends AbstractController {
 
     /**
      * @Entity("theme", expr="repository.findOneByUsernameAndName(username, name)")
-     * @IsGranted("edit", subject="theme")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit", subject="theme", statusCode=403)
      *
      * @param Request       $request
      * @param EntityManager $em
@@ -96,7 +97,8 @@ class ThemeController extends AbstractController {
 
     /**
      * @Entity("theme", expr="repository.findOneByUsernameAndName(username, name)")
-     * @IsGranted("edit", subject="theme")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit", subject="theme", statusCode=403)
      *
      * @param Request       $request
      * @param EntityManager $em
