@@ -31,3 +31,6 @@ framework:
                 adapter: cache.app
                 default_lifetime: "%markdown_cache_time%"
                 public: true
+            cache.ratelimit.login:
+                adapter: cache.app
+                public: true

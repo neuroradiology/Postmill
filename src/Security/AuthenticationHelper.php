@@ -3,17 +3,22 @@
 namespace App\Security;
 
 use App\Entity\User;
-use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface;
 
 class AuthenticationHelper {
     /**
-     * @var FirewallMap
+     * @var GuardAuthenticatorHandler
      */
-    private $firewallMap;
+    private $guardHandler;
+
+    /**
+     * @var LoginAuthenticator
+     */
+    private $loginAuthenticator;
 
     /**
      * @var RememberMeServicesInterface
@@ -26,11 +31,13 @@ class AuthenticationHelper {
     private $secret;
 
     public function __construct(
-        FirewallMap $firewallMap,
+        GuardAuthenticatorHandler $guardHandler,
+        LoginAuthenticator $loginAuthenticator,
         RememberMeServicesInterface $rememberMeServices,
         string $secret
     ) {
-        $this->firewallMap = $firewallMap;
+        $this->guardHandler = $guardHandler;
+        $this->loginAuthenticator = $loginAuthenticator;
         $this->rememberMeServices = $rememberMeServices;
         $this->secret = $secret;
     }
@@ -38,25 +45,16 @@ class AuthenticationHelper {
     /**
      * Programmatically set a user as logged in.
      *
-     * @param User          $user
-     * @param Request       $request
-     * @param Response|null $response
-     *
-     * @return Response provided response, or a new one if none was provided
+     * @param User     $user
+     * @param Request  $request
+     * @param Response $response
+     * @param string   $providerKey
      */
-    public function login(User $user, Request $request, Response $response = null): Response {
-        $config = $this->firewallMap->getFirewallConfig($request);
+    public function login(User $user, Request $request, Response $response, string $providerKey): void {
+        $token = $this->loginAuthenticator->createAuthenticatedToken($user, $providerKey);
+        $this->guardHandler->authenticateWithToken($token, $request, $providerKey);
 
-        if (!$config) {
-            throw new \BadMethodCallException('No firewall for this request');
-        }
-
-        $token = new RememberMeToken($user, $config->getName(), $this->secret);
-
-        $response = $response ?: new Response();
-
+        $token = new RememberMeToken($user, $providerKey, $this->secret);
         $this->rememberMeServices->loginSuccess($request, $response, $token);
-
-        return $response;
     }
 }

@@ -5,9 +5,10 @@ parameters:
     user_forum_creation_interval: 1 day
     uuid_regex:      '[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}'
     wiki_page_regex: '[A-Za-z][A-Za-z0-9_-]*(/[A-Za-z][A-Za-z0-9_-]*)*'
+    submission_sort_modes: hot|new|top|controversial|most_commented
     env(APP_ENABLE_WEBHOOKS): false
     env(APP_ENABLE_EXTERNAL_SEARCH): true
-    submission_sort_modes: hot|new|top|controversial|most_commented
+    env(RATELIMIT_WHITELIST): ""
 
 services:
     _defaults:
@@ -88,8 +89,11 @@ services:
     App\Security\AuthenticationHelper:
         arguments:
             $rememberMeServices: "@security.authentication.rememberme.services.simplehash.main"
-            $firewallMap: "@security.firewall.map"
             $secret: "%env(APP_SECRET)%"
+
+    App\Security\LoginAuthenticator:
+        arguments:
+            $rateLimit: "@postmill.ratelimit.login"
 
     App\Security\Voter\TokenVoter:
         arguments:
@@ -100,6 +104,18 @@ services:
             $siteName: "%env(SITE_NAME)%"
             $enableWebhooks: "%env(bool:APP_ENABLE_WEBHOOKS)%"
             $enableExternalSearch: "%env(bool:APP_ENABLE_EXTERNAL_SEARCH)%"
+
+
+    ## Named services
+
+    postmill.ratelimit.login:
+        class: App\Utils\IpRateLimit
+        arguments:
+            $cacheItemPool: "@cache.ratelimit.login"
+            $ipWhitelist: "%env(csv:RATELIMIT_WHITELIST)%"
+            $maxHits: 20
+            $period: 10 minutes
+        public: false
 
 
     ## Misc

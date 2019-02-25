@@ -141,7 +141,7 @@ final class UserController extends AbstractController {
 
             $response = $this->redirectToRoute('front');
 
-            $authenticationHelper->login($user, $request, $response);
+            $authenticationHelper->login($user, $request, $response, 'main');
 
             $this->addFlash('success', 'flash.user_account_registered');
 

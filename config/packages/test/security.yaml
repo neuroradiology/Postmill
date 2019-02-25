@@ -3,3 +3,7 @@ security:
     encoders:
         App\Entity\User: plaintext
         App\Form\Model\UserData: plaintext
+
+    firewalls:
+        main:
+            http_basic: ~
