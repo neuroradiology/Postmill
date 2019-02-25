@@ -66,6 +66,10 @@ class MentionsListener implements EventSubscriberInterface {
         /* @var \App\Entity\Submission $submission */
         $submission = $event->getSubject();
 
+        if ($submission->getBody() === null) {
+            return;
+        }
+
         $html = $this->converter->convertToHtml($submission->getBody(), [
             'context' => 'submission',
             'submission' => $submission,
@@ -83,6 +87,10 @@ class MentionsListener implements EventSubscriberInterface {
     public function onNewComment(GenericEvent $event) {
         /* @var \App\Entity\Comment $comment */
         $comment = $event->getSubject();
+
+        if ($comment->getBody() === null) {
+            return;
+        }
 
         $html = $this->converter->convertToHtml($comment->getBody(), [
             'context' => 'comment',
