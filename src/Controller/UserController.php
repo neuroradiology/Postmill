@@ -16,7 +16,7 @@ use App\Form\UserType;
 use App\Repository\ForumBanRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
-use App\Security\TokenAuthenticator;
+use App\Security\AuthenticationHelper;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -121,7 +121,7 @@ final class UserController extends AbstractController {
     public function registration(
         Request $request,
         EntityManager $em,
-        TokenAuthenticator $tokenAuthenticator
+        AuthenticationHelper $authenticationHelper
     ) {
         if ($this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('front');
@@ -141,7 +141,7 @@ final class UserController extends AbstractController {
 
             $response = $this->redirectToRoute('front');
 
-            $authenticationHelper->login($user, $request, $response);
+            $authenticationHelper->login($user, $request, $response, 'main');
 
             $this->addFlash('success', 'flash.user_account_registered');
 

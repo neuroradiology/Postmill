@@ -6,11 +6,9 @@ use App\Security\Exception\IpRateLimitedException;
 use App\Utils\IpRateLimit;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
@@ -29,8 +27,9 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
  *
  * - Rate limit IPs on login.
  *
- * - Don't redirect to login form when authorization fails when authenticated by
- *   'remember me' cookies.
+ * @todo two-factor authentication
+ * @todo login tokens stored in db so users can see where they're logged in
+ * @todo rehash passwords if password_needs_rehash is true
  */
 final class LoginAuthenticator extends AbstractGuardAuthenticator {
     use TargetPathTrait;
@@ -68,14 +67,10 @@ final class LoginAuthenticator extends AbstractGuardAuthenticator {
     }
 
     public function start(Request $request, AuthenticationException $authException = null) {
-        if ($authException instanceof AccessDeniedException) {
-            // don't redirect to login form on AccessDeniedException
-            throw new AccessDeniedHttpException();
-        }
-
         $referer = $request->headers->get('Referer');
 
-        if ($referer && !$request->isMethod('POST')) {
+        if ($referer && $request->isMethod('GET')) {
+            // store referer for later redirection
             $this->saveTargetPath($request->getSession(), 'main', $referer);
         }
 
@@ -100,17 +95,13 @@ final class LoginAuthenticator extends AbstractGuardAuthenticator {
             throw new IpRateLimitedException();
         }
 
-        return \array_filter([
-            'username' => $request->request->get('_username'),
-            'password' => $request->request->get('_password'),
-        ], 'is_string');
+        return [
+            'username' => $request->request->get('_username') ?? null,
+            'password' => $request->request->get('_password') ?? null,
+        ];
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider) {
-        if (!isset($credentials['username'], $credentials['password'])) {
-            return null;
-        }
-
         try {
             return $userProvider->loadUserByUsername($credentials['username']);
         } catch (UsernameNotFoundException $e) {
@@ -119,17 +110,18 @@ final class LoginAuthenticator extends AbstractGuardAuthenticator {
     }
 
     public function checkCredentials($credentials, UserInterface $user) {
-        if (\strlen($credentials['password']) > Security::MAX_USERNAME_LENGTH) {
-            return false;
-        }
-
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception) {
         $session = $request->getSession();
         $session->set(Security::AUTHENTICATION_ERROR, $exception);
-        $session->set(Security::LAST_USERNAME, $request->request->get('_username'));
+
+        $username = $request->request->get('_username');
+
+        if (\strlen($username) <= Security::MAX_USERNAME_LENGTH) {
+            $session->set(Security::LAST_USERNAME, $username);
+        }
 
         $this->rateLimit->increment($request->getClientIp());
 
@@ -144,6 +136,7 @@ final class LoginAuthenticator extends AbstractGuardAuthenticator {
         if ($targetPath) {
             $this->removeTargetPath($request->getSession(), $providerKey);
 
+            // redirect to referer saved when we started
             return new RedirectResponse($targetPath);
         }
 
@@ -151,6 +144,6 @@ final class LoginAuthenticator extends AbstractGuardAuthenticator {
     }
 
     public function supportsRememberMe() {
-        return false;
+        return true;
     }
 }

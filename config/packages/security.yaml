@@ -21,16 +21,17 @@ security:
 
             guard:
                 authenticators:
-                    - App\Security\TokenAuthenticator
                     - App\Security\LoginAuthenticator
-                entry_point: App\Security\LoginAuthenticator
 
             logout:
                 csrf_parameter: token
                 csrf_token_generator: security.csrf.token_manager
                 path: log_out
 
-            stateless: true
+            remember_me:
+                secret: "%env(APP_SECRET)%"
+                always_remember_me: true
+
             user_checker: App\Security\UserChecker
 
     role_hierarchy:
