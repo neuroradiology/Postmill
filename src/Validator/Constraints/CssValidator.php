@@ -2,6 +2,7 @@
 
 namespace App\Validator\Constraints;
 
+use App\Utils\ErrorExceptionHandler;
 use Sabberworm\CSS\CSSList\CSSList;
 use Sabberworm\CSS\Parser;
 use Sabberworm\CSS\Parsing\SourceException;
@@ -96,13 +97,7 @@ class CssValidator extends ConstraintValidator {
         $parser = new Parser($value, $parserSettings);
 
         // the parser isn't very robust, so we have to handle PHP notices too
-        $oldErrorHandler = set_error_handler(function ($severity, $message, $file, $line) {
-            if (!(error_reporting() & $severity)) {
-                return;
-            }
-
-            throw new \ErrorException($message, 0, $severity, $file, $line);
-        });
+        $oldErrorHandler = set_error_handler(new ErrorExceptionHandler());
 
         try {
             $document = $parser->parse();

@@ -4,6 +4,7 @@ namespace App\EventListener;
 
 use App\Entity\Submission;
 use App\Events;
+use App\Utils\ErrorExceptionHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Embed\Embed;
 use Embed\Exceptions\EmbedException;
@@ -134,7 +135,7 @@ final class SubmissionImageListener implements EventSubscriberInterface {
      * @return string|null the final file name, or null if the download failed
      */
     private function getFilename(string $imageUrl): ?string {
-        $oldExceptionHandler = \set_error_handler(__NAMESPACE__.'\error_handler');
+        $oldErrorHandler = \set_error_handler(new ErrorExceptionHandler());
 
         try {
             $tempFile = \tempnam(\sys_get_temp_dir(), 'pml');
@@ -182,7 +183,7 @@ final class SubmissionImageListener implements EventSubscriberInterface {
                 'exception' => $e,
             ]);
         } finally {
-            \set_exception_handler($oldExceptionHandler);
+            \set_error_handler($oldErrorHandler);
             @\unlink($tempFile);
             @\fclose($fh);
         }
@@ -196,12 +197,4 @@ final class SubmissionImageListener implements EventSubscriberInterface {
             KernelEvents::TERMINATE => 'onKernelTerminate',
         ];
     }
-}
-
-function error_handler($severity, $message, $file, $line) {
-    if (!(error_reporting() & $severity)) {
-        return;
-    }
-
-    throw new \ErrorException($message, 0, $severity, $file, $line);
 }
