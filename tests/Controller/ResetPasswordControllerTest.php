@@ -54,7 +54,7 @@ class ResetPasswordControllerTest extends WebTestCase {
             'expires' => $expires,
             'checksum' => hash_hmac(
                 'sha256', $user->getId().'~'.$user->getPassword().'~'.$expires,
-                $mailer->getSalt()
+                $mailer->getSecret()
             ),
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 

@@ -43,7 +43,7 @@ final class WebhookListener implements EventSubscriberInterface {
     /**
      * @var bool
      */
-    private $webhooksEnabled;
+    private $enableWebhooks;
 
     /**
      * @var LoggerInterface
@@ -54,19 +54,19 @@ final class WebhookListener implements EventSubscriberInterface {
         Client $client,
         RequestStack $requestStack,
         SerializerInterface $serializer,
-        bool $webhooksEnabled,
+        bool $enableWebhooks,
         LoggerInterface $logger = null
     ) {
         $this->client = $client;
         $this->requestStack = $requestStack;
         $this->serializer = $serializer;
-        $this->webhooksEnabled = $webhooksEnabled;
+        $this->enableWebhooks = $enableWebhooks;
         $this->logger = $logger ?: new NullLogger();
     }
 
     public function onKernelTerminate(PostResponseEvent $event): void {
         if (
-            !$this->webhooksEnabled ||
+            !$this->enableWebhooks ||
             $event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST ||
             !$event->getRequest()->attributes->has(self::QUEUE_KEY)
         ) {

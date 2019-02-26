@@ -12,7 +12,7 @@ services:
         arguments:
             $siteName: "%env(SITE_NAME)%"
             $noReplyAddress: "%env(NO_REPLY_ADDRESS)%"
-            $salt: "%env(APP_SECRET)%"
+            $secret: "%env(APP_SECRET)%"
 
     App\Tests\Fixtures\:
         resource: '../tests/Fixtures'

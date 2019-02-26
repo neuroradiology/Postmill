@@ -36,7 +36,7 @@ final class ResetPasswordMailer {
     /**
      * @var string
      */
-    private $salt;
+    private $secret;
 
     public function __construct(
         \Swift_Mailer $mailer,
@@ -44,14 +44,14 @@ final class ResetPasswordMailer {
         UrlGeneratorInterface $urlGenerator,
         string $siteName,
         $noReplyAddress,
-        string $salt
+        string $secret
     ) {
         $this->mailer = $mailer;
         $this->translator = $translator;
         $this->urlGenerator = $urlGenerator;
         $this->siteName = $siteName;
         $this->noReplyAddress = $noReplyAddress;
-        $this->salt = $salt;
+        $this->secret = $secret;
     }
 
     public function canMail(): bool {
@@ -116,15 +116,15 @@ final class ResetPasswordMailer {
             $expiresAt->format('U')
         );
 
-        return hash_hmac('sha256', $data, $this->salt);
+        return hash_hmac('sha256', $data, $this->secret);
     }
 
     public function getNoReplyAddress(): ?string {
         return $this->noReplyAddress;
     }
 
-    public function getSalt(): string {
-        return $this->salt;
+    public function getSecret(): string {
+        return $this->secret;
     }
 
     public function getSiteName(): string {
