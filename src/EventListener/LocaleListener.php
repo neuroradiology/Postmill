@@ -8,7 +8,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\LocaleAwareInterface;
 
 /**
  * @see https://symfony.com/doc/current/session/locale_sticky_session.html
@@ -25,7 +26,7 @@ final class LocaleListener {
     private $tokenStorage;
 
     /**
-     * @var TranslatorInterface
+     * @var TranslatorInterface|LocaleAwareInterface
      */
     private $translator;
 
@@ -34,6 +35,12 @@ final class LocaleListener {
         TokenStorageInterface $tokenStorage,
         TranslatorInterface $translator
     ) {
+        if (!$translator instanceof LocaleAwareInterface) {
+            throw new \InvalidArgumentException(
+                '$translator must be instance of '.LocaleAwareInterface::class
+            );
+        }
+
         $this->session = $session;
         $this->tokenStorage = $tokenStorage;
         $this->translator = $translator;
