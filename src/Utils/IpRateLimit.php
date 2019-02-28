@@ -2,7 +2,7 @@
 
 namespace App\Utils;
 
-use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\IpUtils;
 
 /**
@@ -10,14 +10,19 @@ use Symfony\Component\HttpFoundation\IpUtils;
  */
 final class IpRateLimit {
     /**
-     * @var CacheItemPoolInterface
+     * @var AdapterInterface
      */
-    private $cacheItemPool;
+    private $cache;
 
     /**
-     * @var string[]
+     * @var array
      */
     private $ipWhitelist;
+
+    /**
+     * @var string
+     */
+    private $prefix;
 
     /**
      * @var int
@@ -27,18 +32,20 @@ final class IpRateLimit {
     /**
      * @var \DateInterval
      */
-    private $period;
+    private $interval;
 
     public function __construct(
-        CacheItemPoolInterface $cacheItemPool,
+        AdapterInterface $cache,
         array $ipWhitelist,
+        string $prefix,
         int $maxHits,
-        string $period
+        \DateInterval $interval
     ) {
-        $this->cacheItemPool = $cacheItemPool;
+        $this->cache = $cache;
         $this->ipWhitelist = $ipWhitelist;
+        $this->prefix = $prefix;
         $this->maxHits = $maxHits;
-        $this->period = \DateInterval::createFromDateString($period);
+        $this->interval = $interval;
     }
 
     public function isExceeded(string $ip): bool {
@@ -46,13 +53,9 @@ final class IpRateLimit {
             return false;
         }
 
-        $cacheItem = $this->cacheItemPool->getItem(self::getCacheKey($ip));
+        $cacheItem = $this->cache->getItem($this->getCacheKey($ip));
 
-        if (!$cacheItem->isHit()) {
-            return false;
-        }
-
-        return $cacheItem->get() > $this->maxHits;
+        return $cacheItem->isHit() && $cacheItem->get() > $this->maxHits;
     }
 
     public function increment(string $ip): void {
@@ -60,26 +63,22 @@ final class IpRateLimit {
             return;
         }
 
-        $cacheItem = $this->cacheItemPool->getItem(self::getCacheKey($ip));
+        $cacheItem = $this->cache->getItem($this->getCacheKey($ip));
         $cacheItem->set(($cacheItem->get() ?? 0) + 1);
-        $cacheItem->expiresAfter($this->period);
+        $cacheItem->expiresAfter($this->interval);
 
-        $this->cacheItemPool->saveDeferred($cacheItem);
+        $this->cache->save($cacheItem);
     }
 
     public function reset(string $ip): void {
-        $this->cacheItemPool->deleteItem(self::getCacheKey($ip));
+        $this->cache->deleteItem($this->getCacheKey($ip));
     }
 
-    public function clear(): void {
-        $this->cacheItemPool->clear();
+    private function getCacheKey(string $ip): string {
+        return $this->prefix.\str_replace(':', 'x', '-'.$ip);
     }
 
     private function isWhitelisted(string $ip): bool {
         return IpUtils::checkIp($ip, $this->ipWhitelist);
-    }
-
-    private static function getCacheKey(string $ip): string {
-        return \str_replace(':', 'x', $ip);
     }
 }

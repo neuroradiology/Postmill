@@ -1,5 +1,9 @@
 # Learn more about services, parameters and containers at
 # http://symfony.com/doc/current/service_container.html
+
+imports:
+    - ./ratelimit.yaml
+
 parameters:
     days_to_keep_logs: 7
     submission_sort_modes: hot|new|top|controversial|most_commented
@@ -71,16 +75,15 @@ services:
     App\Security\Voter\TokenVoter:
         $forumCreationInterval: "%user_forum_creation_interval%"
 
-
-    ## Named services
-
-    postmill.ratelimit.login:
-        class: App\Utils\IpRateLimit
+    App\Utils\IpRateLimitFactory:
         arguments:
-            $cacheItemPool: "@cache.ratelimit.login"
+            $cache: "@cache.ratelimit"
             $ipWhitelist: "%env(csv:RATELIMIT_WHITELIST)%"
-            $maxHits: 20
-            $period: 10 minutes
+
+    App\Utils\IpRateLimit:
+        class: App\Utils\IpRateLimit
+        factory: 'App\Utils\IpRateLimitFactory:create'
+        abstract: true
 
 
     ## Misc
