@@ -15,7 +15,6 @@ services:
             $defaultLocale: "%env(APP_LOCALE)%"
             $enableExternalSearch: "%env(bool:APP_ENABLE_EXTERNAL_SEARCH)%"
             $enableWebhooks: "%env(bool:APP_ENABLE_WEBHOOKS)%"
-            $noReplyAddress: "%env(NO_REPLY_ADDRESS)%"
             $secret: "%env(APP_SECRET)%"
             $siteName: "%env(SITE_NAME)%"
         public: false
@@ -56,6 +55,9 @@ services:
 
     App\Form\RequestPasswordResetType:
         $bypass: "@=parameter('kernel.environment') === 'test'"
+
+    App\Mailer\ResetPasswordMailer:
+        $noReplyAddress: "%env(NO_REPLY_ADDRESS)%"
 
     App\Markdown\MarkdownConverter:
         $cacheItemPool: "@cache.markdown"
