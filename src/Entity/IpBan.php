@@ -3,10 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\IpBanRepository")
  * @ORM\Table(name="bans")
+ * @ApiResource(
+ *  attributes={"access_control"="is_granted('ROLE_ADMIN')"},
+ * )
  */
 class IpBan {
     /**

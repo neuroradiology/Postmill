@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ForumCategoryRepository")
@@ -13,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\UniqueConstraint(name="forum_categories_name_idx", columns={"name"}),
  *     @ORM\UniqueConstraint(name="forum_categories_normalized_name_idx", columns={"normalized_name"})
  * })
+ * @ApiResource()
  */
 class ForumCategory {
     /**
@@ -58,6 +60,7 @@ class ForumCategory {
     /**
      * @ORM\OneToMany(targetEntity="Forum", mappedBy="category")
      * @ORM\OrderBy({"normalizedName": "ASC"})
+     * @ApiSubresourcse()
      *
      * @var Forum[]|Collection|Selectable
      */

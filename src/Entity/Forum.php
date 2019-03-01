@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Pagerfanta\Adapter\DoctrineCollectionAdapter;
 use Pagerfanta\Adapter\DoctrineSelectableAdapter;
 use Pagerfanta\Pagerfanta;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ForumRepository")
@@ -19,6 +20,7 @@ use Pagerfanta\Pagerfanta;
  *     @ORM\UniqueConstraint(name="forums_name_idx", columns={"name"}),
  *     @ORM\UniqueConstraint(name="forums_normalized_name_idx", columns={"normalized_name"}),
  * })
+ * @ApiResource()
  */
 class Forum {
     /**
