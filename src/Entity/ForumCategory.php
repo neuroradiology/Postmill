@@ -60,7 +60,6 @@ class ForumCategory {
     /**
      * @ORM\OneToMany(targetEntity="Forum", mappedBy="category")
      * @ORM\OrderBy({"normalizedName": "ASC"})
-     * @ApiSubresource()
      *
      * @var Forum[]|Collection|Selectable
      */

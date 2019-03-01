@@ -7,12 +7,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubmissionRepository")
  * @ORM\Table(name="submissions", indexes={
  *     @ORM\Index(name="submissions_ranking_id_idx", columns={"ranking", "id"})
  * })
+ * @ApiResource()
  */
 class Submission extends Votable {
     const DOWNVOTED_CUTOFF = -5;
@@ -55,6 +58,7 @@ class Submission extends Votable {
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="submission",
      *     fetch="EXTRA_LAZY", cascade={"remove"})
+     * @ApiSubresource()
      *
      * @var Comment[]|Collection
      */

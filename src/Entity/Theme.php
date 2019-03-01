@@ -9,12 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Pagerfanta\Adapter\DoctrineCollectionAdapter;
 use Pagerfanta\Pagerfanta;
 use Ramsey\Uuid\Uuid;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ThemeRepository")
  * @ORM\Table(name="themes", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="themes_author_name_idx", columns={"author_id", "name"})
  * })
+ * @ApiResource()
  */
 class Theme {
     /**

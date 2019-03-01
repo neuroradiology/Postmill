@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="forum_subscriptions", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="forum_user_idx", columns={"forum_id", "user_id"})
  * })
+ * @ApiResource()
  */
 class ForumSubscription {
     /**

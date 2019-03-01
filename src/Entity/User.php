@@ -12,6 +12,8 @@ use Pagerfanta\Adapter\DoctrineSelectableAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -19,6 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *     @ORM\UniqueConstraint(name="users_username_idx", columns={"username"}),
  *     @ORM\UniqueConstraint(name="users_normalized_username_idx", columns={"normalized_username"}),
  * })
+ * @ApiResource()
  */
 class User implements UserInterface, EquatableInterface {
     const FRONT_DEFAULT = 'default';
@@ -110,6 +113,7 @@ class User implements UserInterface, EquatableInterface {
     /**
      * @ORM\OneToMany(targetEntity="Submission", mappedBy="user", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"id": "DESC"})
+     * @ApiSubresource(maxDepth=1)
      *
      * @var Submission[]|Collection|Selectable
      */
@@ -125,6 +129,7 @@ class User implements UserInterface, EquatableInterface {
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="user", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"id": "DESC"})
+     * @ApiSubresource()
      *
      * @var Comment[]|Collection|Selectable
      */

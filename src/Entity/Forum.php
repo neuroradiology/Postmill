@@ -11,6 +11,7 @@ use Pagerfanta\Adapter\DoctrineCollectionAdapter;
 use Pagerfanta\Adapter\DoctrineSelectableAdapter;
 use Pagerfanta\Pagerfanta;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ForumRepository")
@@ -69,6 +70,7 @@ class Forum {
 
     /**
      * @ORM\OneToMany(targetEntity="Moderator", mappedBy="forum", cascade={"persist", "remove"})
+     * @ApiSubresource()
      *
      * @var Moderator[]|Collection
      */
@@ -76,6 +78,7 @@ class Forum {
 
     /**
      * @ORM\OneToMany(targetEntity="Submission", mappedBy="forum", cascade={"remove"}, fetch="EXTRA_LAZY")
+     * @ApiSubresource(maxDepth=1)
      *
      * @var Submission[]|Collection
      */
@@ -91,6 +94,7 @@ class Forum {
     /**
      * @ORM\OneToMany(targetEntity="ForumSubscription", mappedBy="forum",
      *     cascade={"persist", "remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
+     * @ApiSubresource()
      *
      * @var ForumSubscription[]|Collection|Selectable
      */

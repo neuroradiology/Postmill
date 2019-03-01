@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Pagerfanta\Adapter\DoctrineSelectableAdapter;
 use Pagerfanta\Pagerfanta;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\WikiPageRepository")
@@ -15,6 +16,7 @@ use Pagerfanta\Pagerfanta;
  *     @ORM\UniqueConstraint(name="wiki_pages_path_idx", columns={"path"}),
  *     @ORM\UniqueConstraint(name="wiki_pages_normalized_path_idx", columns={"normalized_path"}),
  * })
+ * @ApiResource()
  */
 class WikiPage {
     /**
