@@ -9,13 +9,29 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubmissionRepository")
  * @ORM\Table(name="submissions", indexes={
  *     @ORM\Index(name="submissions_ranking_id_idx", columns={"ranking", "id"})
  * })
- * @ApiResource()
+ * @ApiResource(
+ * 	attributes={
+ * 		"normalization_context"={"groups"={"read", "mod:read", "admin:read"}},
+ * 		"denormalization_context"={"groups"={"write", "mod:write", "admin:write"}},
+ * 	},
+ * 	collectionOperations={
+ * 		"get"={"method"="GET", "path"="/submissions"},
+ * 	},
+ * 	itemOperations={
+ * 		"get"={"method"="GET", "path"="/{id}"},
+ * 	},
+ * 	subresourceOperations={
+ *		"comments_get_subresource"={"method"="GET", "path"="/{id}/comments"},
+ *		"user_get_subresource"={"method"="GET", "path"="/{id}/user"},
+ * 	}
+ * )
  */
 class Submission extends Votable {
     const DOWNVOTED_CUTOFF = -5;
@@ -29,6 +45,7 @@ class Submission extends Votable {
      * @ORM\Column(type="bigint")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
+     * @Groups({"read"})
      *
      * @var int
      */
@@ -36,6 +53,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"read", "write"})
      *
      * @var string
      */
@@ -43,6 +61,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"read", "write"})
      *
      * @var string
      */
@@ -50,6 +69,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"read", "write"})
      *
      * @var string
      */
@@ -58,6 +78,7 @@ class Submission extends Votable {
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="submission",
      *     fetch="EXTRA_LAZY", cascade={"remove"})
+     * @Groups({"read"})
      * @ApiSubresource()
      *
      * @var Comment[]|Collection
@@ -66,6 +87,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="datetimetz")
+     * @Groups({"read"})
      *
      * @var \DateTime
      */
@@ -74,6 +96,7 @@ class Submission extends Votable {
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="Forum", inversedBy="submissions")
+     * @Groups({"read", "write"})
      *
      * @var Forum
      */
@@ -82,6 +105,8 @@ class Submission extends Votable {
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User", inversedBy="submissions")
+     * @Groups({"read"})
+     * @ApiSubresource()
      *
      * @var User
      */
@@ -90,6 +115,7 @@ class Submission extends Votable {
     /**
      * @ORM\OneToMany(targetEntity="SubmissionVote", mappedBy="submission",
      *     fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Groups({"read"})
      *
      * @var SubmissionVote[]|Collection
      */
@@ -97,6 +123,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\OneToMany(targetEntity="SubmissionMention", mappedBy="submission", cascade={"remove"})
+     * @Groups({"read"})
      *
      * @var SubmissionMention[]|Collection
      */
@@ -104,6 +131,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"read"})
      *
      * @var string
      */
@@ -111,6 +139,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="inet", nullable=true)
+     * @Groups({"admin:read"})
      *
      * @var string|null
      */
@@ -118,6 +147,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"read", "mod:write"})
      *
      * @var bool
      */
@@ -125,6 +155,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="bigint")
+     * @Groups({"admin:read"})
      *
      * @var int
      */
@@ -132,6 +163,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="datetimetz", nullable=true)
+     * @Groups({"admin:read"})
      *
      * @var \DateTime|null
      */
@@ -139,6 +171,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
+     * @Groups({"admin:read"})
      *
      * @var bool
      */
@@ -146,6 +179,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="smallint", options={"default": 0})
+     * @Groups({"admin:read"})
      *
      * @var int
      */
@@ -153,6 +187,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
+     * @Groups({"admin:read"})
      *
      * @var bool
      */

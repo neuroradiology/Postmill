@@ -14,7 +14,10 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *     @ORM\UniqueConstraint(name="forum_categories_name_idx", columns={"name"}),
  *     @ORM\UniqueConstraint(name="forum_categories_normalized_name_idx", columns={"normalized_name"})
  * })
- * @ApiResource()
+ * @ApiResource(
+ * 	collectionOperations={"get","post"},
+ * 	itemOperations={"get"},
+ * )
  */
 class ForumCategory {
     /**

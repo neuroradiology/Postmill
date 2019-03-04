@@ -12,6 +12,7 @@ use Pagerfanta\Adapter\DoctrineSelectableAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 
@@ -21,7 +22,18 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
  *     @ORM\UniqueConstraint(name="users_username_idx", columns={"username"}),
  *     @ORM\UniqueConstraint(name="users_normalized_username_idx", columns={"normalized_username"}),
  * })
- * @ApiResource()
+ * @ApiResource(
+ * 	attributes={
+ * 		"normalization_context"={"groups"={"read", "mod:read", "admin:read"}},
+ * 		"denormalization_context"={"groups"={"write", "mod:write", "admin:write"}},
+ * 	},
+ * 	collectionOperations={
+ * 		"get"={"method"="GET", "path"="/users"},
+ * 	},
+ * 	itemOperations={
+ * 		"get"={"method"="GET", "path"="/user/{id}"},
+ * 	},
+ * )
  */
 class User implements UserInterface, EquatableInterface {
     const FRONT_DEFAULT = 'default';
@@ -42,6 +54,7 @@ class User implements UserInterface, EquatableInterface {
      * @ORM\Column(type="bigint")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
+     * @Groups({"read"})
      *
      * @var int|null
      */
@@ -49,6 +62,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", unique=true)
+     * @Groups({"read", "write"})
      *
      * @var string
      */
@@ -56,6 +70,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", unique=true)
+     * @Groups({"read"})
      *
      * @var string
      */
@@ -63,6 +78,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"read", "write"})
      *
      * @var string
      */
@@ -70,6 +86,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"read", "write"})
      *
      * @var string|null
      */
@@ -77,6 +94,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"read"})
      *
      * @var string|null
      */
@@ -84,6 +102,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="datetimetz")
+     * @Groups({"read"})
      *
      * @var \DateTime
      */
@@ -91,6 +110,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="datetimetz", nullable=true)
+     * @Groups({"read"})
      *
      * @var \DateTime|null
      */
@@ -98,6 +118,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
+     * @Groups({"read"})
      *
      * @var bool
      */
@@ -105,6 +126,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\OneToMany(targetEntity="Moderator", mappedBy="user")
+     * @Groups({"read", "write:admin"})
      *
      * @var Moderator[]|Collection
      */
@@ -113,7 +135,7 @@ class User implements UserInterface, EquatableInterface {
     /**
      * @ORM\OneToMany(targetEntity="Submission", mappedBy="user", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"id": "DESC"})
-     * @ApiSubresource(maxDepth=1)
+     * @Groups({"read"})
      *
      * @var Submission[]|Collection|Selectable
      */
@@ -129,7 +151,7 @@ class User implements UserInterface, EquatableInterface {
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="user", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"id": "DESC"})
-     * @ApiSubresource()
+     * @Groups({"read"})
      *
      * @var Comment[]|Collection|Selectable
      */
@@ -144,6 +166,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\OneToMany(targetEntity="UserBan", mappedBy="user")
+     * @Groups({"admin:read"})
      *
      * @var UserBan[]|Collection|Selectable
      */
@@ -151,6 +174,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\OneToMany(targetEntity="IpBan", mappedBy="user")
+     * @Groups({"admin:read"})
      *
      * @var IpBan[]|Collection|Selectable
      */
@@ -169,6 +193,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"read"})
      *
      * @var string
      */
@@ -197,6 +222,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
+     * @Groups({"admin:read"})
      *
      * @var bool
      */

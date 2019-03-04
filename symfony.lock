@@ -154,6 +154,12 @@
             "ref": "370bcf99b04c0dfd0b545745aad622d757af5e1b"
         }
     },
+    "friendsofsymfony/oauth-server-bundle": {
+        "version": "1.6.2"
+    },
+    "friendsofsymfony/oauth2-php": {
+        "version": "1.2.3"
+    },
     "gregwar/captcha": {
         "version": "dev-master"
     },

@@ -10,8 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Pagerfanta\Adapter\DoctrineCollectionAdapter;
 use Pagerfanta\Adapter\DoctrineSelectableAdapter;
 use Pagerfanta\Pagerfanta;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ForumRepository")
@@ -21,13 +23,30 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
  *     @ORM\UniqueConstraint(name="forums_name_idx", columns={"name"}),
  *     @ORM\UniqueConstraint(name="forums_normalized_name_idx", columns={"normalized_name"}),
  * })
- * @ApiResource()
+ * @ApiResource(
+ * 	attributes={
+ * 		"normalization_context"={"groups"={"read", "mod:read", "admin:read"}},
+ * 		"denormalization_context"={"groups"={"write", "mod:write", "admin:write"}},
+ * 	},
+ * 	collectionOperations={
+ * 		"get"={"method"="GET", "path"="/forums"},
+ * 	},
+ * 	itemOperations={
+ * 		"get"={"method"="GET", "path"="/f/{id}"},
+ * 	},
+ * 	subresourceOperations={
+ *		"submissions_get_subresource"={"method"="GET", "path"="/f/{id}/submissions"},
+ *		"moderators_get_subresource"={"method"="GET", "path"="/f/{id}/moderators"},
+ *		"subscriptions_get_subresource"={"method"="GET", "path"="/f/{id}/subscriptions"},
+ * 	}
+ * )
  */
 class Forum {
     /**
      * @ORM\Column(type="bigint")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
+     * @Groups({"read"})
      *
      * @var int|null
      */
@@ -35,6 +54,7 @@ class Forum {
 
     /**
      * @ORM\Column(type="text", unique=true)
+     * @Groups({"read", "write"})
      *
      * @var string
      */
@@ -42,6 +62,7 @@ class Forum {
 
     /**
      * @ORM\Column(type="text", unique=true)
+     * @Groups({"read"})
      *
      * @var string
      */
@@ -49,6 +70,7 @@ class Forum {
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"read", "write"})
      *
      * @var string
      */
@@ -56,6 +78,7 @@ class Forum {
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"read", "write"})
      *
      * @var string|null
      */
@@ -63,6 +86,7 @@ class Forum {
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"read", "write"})
      *
      * @var string
      */
@@ -70,6 +94,7 @@ class Forum {
 
     /**
      * @ORM\OneToMany(targetEntity="Moderator", mappedBy="forum", cascade={"persist", "remove"})
+     * @Groups({"read"})
      * @ApiSubresource()
      *
      * @var Moderator[]|Collection
@@ -78,6 +103,7 @@ class Forum {
 
     /**
      * @ORM\OneToMany(targetEntity="Submission", mappedBy="forum", cascade={"remove"}, fetch="EXTRA_LAZY")
+     * @Groups({"read"})
      * @ApiSubresource(maxDepth=1)
      *
      * @var Submission[]|Collection
@@ -86,6 +112,7 @@ class Forum {
 
     /**
      * @ORM\Column(type="datetimetz")
+     * @Groups({"read"})
      *
      * @var \DateTime
      */
@@ -95,6 +122,7 @@ class Forum {
      * @ORM\OneToMany(targetEntity="ForumSubscription", mappedBy="forum",
      *     cascade={"persist", "remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
      * @ApiSubresource()
+     * @Groups({"read", "write"})
      *
      * @var ForumSubscription[]|Collection|Selectable
      */
@@ -102,6 +130,7 @@ class Forum {
 
     /**
      * @ORM\OneToMany(targetEntity="ForumBan", mappedBy="forum", cascade={"persist", "remove"})
+     * @Groups({"read", "mod:write"})
      *
      * @var ForumBan[]|Collection|Selectable
      */
@@ -109,6 +138,7 @@ class Forum {
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
+     * @Groups({"read", "admin:write"})
      *
      * @var bool
      */
@@ -116,6 +146,7 @@ class Forum {
 
     /**
      * @ORM\ManyToOne(targetEntity="ForumCategory", inversedBy="forums")
+     * @Groups({"read", "write"})
      *
      * @var ForumCategory|null
      */
@@ -123,6 +154,7 @@ class Forum {
 
     /**
      * @ORM\ManyToOne(targetEntity="Theme")
+     * @Groups({"read", "write"})
      *
      * @var Theme|null
      */
@@ -131,6 +163,7 @@ class Forum {
     /**
      * @ORM\OneToMany(targetEntity="ForumLogEntry", mappedBy="forum", cascade={"persist", "remove"})
      * @ORM\OrderBy({"timestamp": "DESC"})
+     * @Groups({"read"})
      *
      * @var ForumLogEntry[]|Collection
      */
@@ -138,6 +171,7 @@ class Forum {
 
     /**
      * @ORM\OneToMany(targetEntity="ForumWebhook", mappedBy="forum")
+     * @Groups({"read"})
      *
      * @var ForumWebhook[]|Collection
      */
