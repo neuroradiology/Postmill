@@ -23,6 +23,7 @@
     * [Trusted users](trusted_users.md)
 
 5. **Appendix**
+    * [Security FAQ](security.md)
     * [Version number policy](version-policy.md)
 
 Something missing? Report it on the [issue tracker][issues] and chances are
