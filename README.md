@@ -16,44 +16,9 @@ Postmill should be able to run under any Unix environment. It has been tested to
 work under Linux, macOS, and Windows 10's Linux subsystem. Running directly on
 Windows may work, but is unsupported.
 
-## Getting started
+## Documentation
 
-Clone the repository somewhere and navigate there with the command line.
-
-### Retrieving frontend assets
-
-Download [the pre-built assets][assets] and unzip them into the `public/build`
-folder such that this contains a large amount of files. Alternatively, you may
-install Node and compile your own assets with `npm run build-dev`/`npm run
-build-prod`.
-
-### Setting up the backend
-
-1.  Run `composer install`.
-
-2.  Create a `.env.local` file in the project root. At minimum, you must define
-    your database configuration here:
-    
-    ~~~bash
-    DATABASE_URL='pgsql://db_user:db_password@localhost:5432/db_name?serverVersion=9.6'
-    ~~~
-    
-    Instructions for setting up a database can be found at
-    [docs/database-setup.md](docs/database-setup.md).
-    
-    You can copy other values from `.env` to override them in your installation.
-
-3.  Run `vendor/bin/requirements-checker` to ensure your environment meets
-    necessary requirements needed to run Postmill. Fix any errors that arise.
-
-4.  Run `bin/console doctrine:migrations:migrate` to load the database schema.
-
-5.  Run `bin/console app:user:add <username> --admin` to create a user account.
-
-6.  Run `bin/console server:run` to start the application.
-
-7.  Navigate to <http://localhost:8000/>. Log in with the credentials you chose
-    in step 2.
+[Read the documentation][wiki] in the wiki.
 
 ## Support
 
@@ -97,4 +62,4 @@ details.
 [issues]: https://gitlab.com/edgyemma/Postmill/issues
 [matrix]: https://matrix.to/#/#postmill:matrix.org
 [support]: https://community.postmill.xyz/f/Support
-[assets]: https://gitlab.com/edgyemma/Postmill/-/jobs/artifacts/master/download?job=build-assets%3Aprod
+[wiki]: https://gitlab.com/postmill/Postmill/wikis/home
