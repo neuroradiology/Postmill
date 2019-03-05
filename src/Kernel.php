@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\DependencyInjection\Compiler\LocalePass;
 use App\DependencyInjection\Compiler\VersionPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -56,7 +55,6 @@ class Kernel extends BaseKernel {
     }
 
     protected function build(ContainerBuilder $container) {
-        $container->addCompilerPass(new LocalePass());
         $container->addCompilerPass(new VersionPass());
     }
 }
