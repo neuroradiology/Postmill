@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 
 /**
- * Rate limit by user.
+ * Rate limit by user and IP address.
  *
  * @Annotation
  * @Target("CLASS")
@@ -19,17 +19,15 @@ class RateLimit extends Constraint {
     ];
 
     public $entityClass;
-
+    public $errorPath = null;
     public $message = 'You cannot post more. Wait a while before trying again.';
-
     public $max;
-
     public $timestampField = 'timestamp';
-
     public $userField = 'user';
+    public $ipField = 'ip';
 
     /**
-     * {@link strtotime()} compatible date string.
+     * {@link \DateInterval::createFromDateString()} compatible interval.
      *
      * @var string
      */
@@ -41,18 +39,14 @@ class RateLimit extends Constraint {
     public function __construct($options = null) {
         parent::__construct($options);
 
-        $time = new \DateTime();
-        $altered = @(clone $time)->modify($options['period']);
+        $period = \DateInterval::createFromDateString($options['period']);
 
-        if ($altered === false) {
-            throw new ConstraintDefinitionException(
-                '"period" must be a date string accepted by \DateTime::modify()'
-            );
-        }
+        $d2 = new \DateTime('@'.time());
+        $d1 = (clone $d2)->sub($period);
 
-        if ($time == $altered) {
+        if ($d2 <= $d1) {
             throw new ConstraintDefinitionException(
-                'The period specifies does not alter a \DateTime object'
+                'The period specified is not a valid interval'
             );
         }
     }
