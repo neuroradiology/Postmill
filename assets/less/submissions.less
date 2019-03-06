@@ -33,12 +33,16 @@
   }
 }
 
-.submission-link:visited {
-  color: @submission-link-color-visited;
-}
+.submission-link {
+  color: @submission-link-color;
 
-.submission-sticky .submission-link {
-  color: @submission-sticky-link-color;
+  &:visited {
+    color: @submission-link-color-visited;
+  }
+
+  .submission-sticky & {
+    color: @submission-sticky-link-color;
+  }
 }
 
 .submission-info {

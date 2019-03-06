@@ -1,67 +1,66 @@
 // Global
-@page-background-color: white;
-@page-color: black;
-@page-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-@page-font-size: 14px;
-@page-line-height: 1.5;
-@page-link-color: #c00;
+@page-background-color: var(--page-bg);
+@page-color: var(--text);
+@page-font-family: var(--font-family);
+@page-font-size: var(--font-size);
+@page-line-height: var(--line-height);
+@page-link-color: var(--link);
 
 @desktop-min-width: 768px;
 
 // Navigation
-@nav-background-color: #c00;
-@nav-inner-background-color: #a00;
-@nav-active-background-color: #a00;
+@nav-background-color: var(--primary);
+@nav-inner-background-color: var(--primary-alt);
+@nav-active-background-color: var(--primary-alt);
 @nav-notifications-background-color: #f60;
-@nav-link-color: #fff;
+@nav-link-color: var(--primary-fg);
 @nav-font-size: 16px;
 
 // Voting
-@vote-arrow-color: lightslategrey;
-@vote-arrow-color-upvoted: orange;
-@vote-arrow-color-downvoted: #0080ff;
+@vote-arrow-color: var(--fg-grey);
+@vote-arrow-color-upvoted: var(--fg-orange);
+@vote-arrow-color-downvoted: var(--fg-blue);
 
 // Misc
-@meta-color: #606070;
-@sidebar-background-color: #efe;
-@comment-highlight-background: #fff0f0;
-@markdown-preview-background-color: #fff0f0;
+@meta-color: var(--muted);
+@sidebar-background-color: var(--sidebar-card);
+@markdown-preview-background-color: var(--bg-red);
 
 // Submissions
-@submission-link-color: #c00;
-@submission-link-color-visited: multiply(@submission-link-color, darkgrey);
-@submission-sticky-link-color: #008000;
+@submission-link-color: var(--submission-link);
+@submission-link-color-visited: var(--submission-link-visited);
+@submission-sticky-link-color: var(--submission-link-sticky);
 
 // Comments
-@comment-border-color: lightgrey;
-@comment-submitter-background-color: #c00;
-@comment-submitter-color: #fff;
+@comment-border-color: var(--bg-grey);
+@comment-submitter-background-color: var(--primary);
+@comment-submitter-color: var(--primary-fg);
 
 // Notices
-@alert-notice-color: aliceblue;
-@alert-success-color: palegreen;
+@alert-notice-color: var(--bg-blue);
+@alert-success-color: var(--bg-green);
 
 // Forms
-@form-error-color: red;
-@form-text-input-background-color: #fff;
-@form-text-input-color: #000;
-@form-text-input-border-color: #aaa;
-@form-text-input-focus-border-color: #c00;
-@form-text-input-disabled-background-color: #efefef;
-@form-text-input-disabled-color: #666;
-@form-help-text-color: dimgray;
+@form-error-color: var(--fg-red);
+@form-text-input-background-color: var(--page-bg);
+@form-text-input-color: var(--text);
+@form-text-input-border-color: var(--border);
+@form-text-input-focus-border-color: var(--primary);
+@form-text-input-disabled-background-color: var(--bg-grey);
+@form-text-input-disabled-color: var(--fg-grey);
+@form-help-text-color: var(--muted);
 
 // Dropdowns
-@dropdown-menu-border-color: lightslategrey;
-@dropdown-menu-background-color: @page-background-color;
+@dropdown-menu-border-color: var(--border);
+@dropdown-menu-background-color: var(--page-bg);
 
 // Tables
-@table-header-separator-color: #aaa;
+@table-header-separator-color: var(--border);
 @table-alternate-row-background-color: #f8f8f8;
 
 // Buttons
-@button-background-color: #c00;
-@button-text-color: #fff;
+@button-background-color: var(--primary);
+@button-text-color: var(--primary-fg);
 @button-hover-background-color: darken(#c00, 5%);
 @button-active-text-color: #efefef;
 
@@ -69,24 +68,24 @@
 @message-border-color: @comment-border-color;
 
 // Forums
-@grouped-forum-listing-border-color: lightslategrey;
+@grouped-forum-listing-border-color: var(--fg-grey);
 
 // User flags
-@user-flag-moderator-color: mediumpurple;
-@user-flag-admin-color: crimson;
+@user-flag-moderator-color: var(--fg-green);
+@user-flag-admin-color: var(--fg-red);
 
 // Tabs
-@tab-background-color: #efefef;
-@tab-active-border-color: #c00;
-@tab-inactive-border-color: #999;
+@tab-background-color: var(--secondary);
+@tab-active-border-color: var(--primary);
+@tab-inactive-border-color: var(--secondary-alt);
 
 // Diff tables
-@diff-table-added-background-color: #dfd;
-@diff-table-removed-background-color: #fdd;
-@diff-table-changed-background-color: #ddf;
-@diff-table-line-group-border-color: @page-background-color;
-@diff-table-line-no-background-color: lightgrey;
+@diff-table-added-background-color: var(--bg-green);
+@diff-table-removed-background-color: var(--bg-red);
+@diff-table-changed-background-color: var(--bg-blue);
+@diff-table-line-group-border-color: var(--page-bg);
+@diff-table-line-no-background-color: var(--bg-grey);
 
 // Blockquote
-@blockquote-background-color: #f4f4f4;
-@blockquote-border-color: grey;
+@blockquote-background-color: var(--bg-grey);
+@blockquote-border-color: var(--fg-grey);
