@@ -52,7 +52,6 @@ class Comment extends Votable {
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
      * @Groups({"read"})
-     * @ApiSubresource(maxDepth=1)
      *
      * @var User
      */

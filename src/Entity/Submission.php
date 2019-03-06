@@ -95,8 +95,6 @@ class Submission extends Votable {
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User", inversedBy="submissions")
-     * @Groups({"read"})
-     * @ApiSubresource()
      *
      * @var User
      */

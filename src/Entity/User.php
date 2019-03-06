@@ -24,7 +24,7 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
  * })
  * @ApiResource(
  * 	attributes={
- * 		"normalization_context"={"groups"={"user", "user:read", "admin:read"}},
+ * 		"normalization_context"={"groups"={"user", "user:read", "admin:read", "abbreviated_user"}},
  * 		"denormalization_context"={"groups"={"user", "user:write"}},
  * 	}
  * )
@@ -48,7 +48,7 @@ class User implements UserInterface, EquatableInterface {
      * @ORM\Column(type="bigint")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
-     * @Groups({"user"})
+     * @Groups({"user", "abbreviated_user"})
      *
      * @var int|null
      */
@@ -56,7 +56,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", unique=true)
-     * @Groups({"user"})
+     * @Groups({"user", "abbreviated_user"})
      *
      * @var string
      */
