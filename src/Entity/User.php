@@ -24,15 +24,9 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
  * })
  * @ApiResource(
  * 	attributes={
- * 		"normalization_context"={"groups"={"read", "mod:read", "admin:read"}},
- * 		"denormalization_context"={"groups"={"write", "mod:write", "admin:write"}},
- * 	},
- * 	collectionOperations={
- * 		"get"={"method"="GET", "path"="/users"},
- * 	},
- * 	itemOperations={
- * 		"get"={"method"="GET", "path"="/user/{id}"},
- * 	},
+ * 		"normalization_context"={"groups"={"user", "user:read", "admin:read"}},
+ * 		"denormalization_context"={"groups"={"user", "user:write"}},
+ * 	}
  * )
  */
 class User implements UserInterface, EquatableInterface {
@@ -54,7 +48,7 @@ class User implements UserInterface, EquatableInterface {
      * @ORM\Column(type="bigint")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
-     * @Groups({"read"})
+     * @Groups({"user"})
      *
      * @var int|null
      */
@@ -62,7 +56,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", unique=true)
-     * @Groups({"read", "write"})
+     * @Groups({"user"})
      *
      * @var string
      */
@@ -70,7 +64,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", unique=true)
-     * @Groups({"read"})
+     * @Groups({"user"})
      *
      * @var string
      */
@@ -78,7 +72,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"read", "write"})
+     * @Groups({"user"})
      *
      * @var string
      */
@@ -86,7 +80,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"read", "write"})
+     * @Groups({"user"})
      *
      * @var string|null
      */
@@ -94,7 +88,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"read"})
+     * @Groups({"user"})
      *
      * @var string|null
      */
@@ -102,7 +96,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="datetimetz")
-     * @Groups({"read"})
+     * @Groups({"user"})
      *
      * @var \DateTime
      */
@@ -110,7 +104,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="datetimetz", nullable=true)
-     * @Groups({"read"})
+     * @Groups({"user"})
      *
      * @var \DateTime|null
      */
@@ -118,7 +112,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
-     * @Groups({"read"})
+     * @Groups({"user"})
      *
      * @var bool
      */
@@ -126,7 +120,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\OneToMany(targetEntity="Moderator", mappedBy="user")
-     * @Groups({"read", "write:admin"})
+     * @Groups({"user:write"})
      *
      * @var Moderator[]|Collection
      */
@@ -135,7 +129,7 @@ class User implements UserInterface, EquatableInterface {
     /**
      * @ORM\OneToMany(targetEntity="Submission", mappedBy="user", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"id": "DESC"})
-     * @Groups({"read"})
+     * @Groups({"user"})
      *
      * @var Submission[]|Collection|Selectable
      */
@@ -151,7 +145,7 @@ class User implements UserInterface, EquatableInterface {
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="user", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"id": "DESC"})
-     * @Groups({"read"})
+     * @Groups({"user"})
      *
      * @var Comment[]|Collection|Selectable
      */
@@ -193,7 +187,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"read"})
+     * @Groups({"user"})
      *
      * @var string
      */
@@ -259,6 +253,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"user"})
      *
      * @var string|null
      */

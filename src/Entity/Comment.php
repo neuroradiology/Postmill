@@ -18,13 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * 	attributes={
  * 		"normalization_context"={"groups"={"read", "mod:read", "admin:read"}},
  * 		"denormalization_context"={"groups"={"write", "mod:write", "admin:write"}},
- * 	},
- * 	collectionOperations={
- * 		"get"={"method"="GET", "path"="/comments"},
- * 	},
- * 	itemOperations={
- * 		"get"={"method"="GET", "path"="/comment/{id}"},
- * 	},
+ * 	}
  * )
  */
 class Comment extends Votable {

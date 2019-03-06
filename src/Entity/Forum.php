@@ -27,17 +27,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * 	attributes={
  * 		"normalization_context"={"groups"={"read", "mod:read", "admin:read"}},
  * 		"denormalization_context"={"groups"={"write", "mod:write", "admin:write"}},
- * 	},
- * 	collectionOperations={
- * 		"get"={"method"="GET", "path"="/forums"},
- * 	},
- * 	itemOperations={
- * 		"get"={"method"="GET", "path"="/f/{id}"},
- * 	},
- * 	subresourceOperations={
- *		"submissions_get_subresource"={"method"="GET", "path"="/f/{id}/submissions"},
- *		"moderators_get_subresource"={"method"="GET", "path"="/f/{id}/moderators"},
- *		"subscriptions_get_subresource"={"method"="GET", "path"="/f/{id}/subscriptions"},
  * 	}
  * )
  */
