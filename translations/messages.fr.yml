@@ -196,7 +196,6 @@ help:
     will_appear_in_the_url: Apparaîtra dans l'URL.
     search_external_prefix: Veuillez noter:
     search_external_message: Votre requête sera redirigée vers DuckDuckGo.
-    search_external_warning: La recherche nécessite d'avoir activé JavaScript.
 
 inbox:
     title: Boîte de réception

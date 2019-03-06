@@ -201,7 +201,6 @@ help:
     will_appear_in_the_url: Will appear in the URL.
     search_external_prefix: Please note:
     search_external_message: Your query will be redirected to DuckDuckGo.
-    search_external_warning: Search requires JavaScript to be enabled.
     forum_is_featured: This forum is featured.
     forum_is_hidden: You have chosen to hide this forum.
     hidden_forums: >
