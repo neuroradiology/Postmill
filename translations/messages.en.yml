@@ -1,6 +1,10 @@
 # New keys should use the generic categories 'title', 'label', 'help', 'nav',
 # etc. Older keys are subject to renaming.
 
+This submission is locked: This submission is locked
+This submission is pinned: This submission is pinned
+'Expires at (YYYY-MM-DD hh:mm)': Expires at (YYYY-MM-DD hh:mm)
+
 action:
     mark_as_trusted: Mark user as trusted
     mark_as_untrusted: Mark user as untrusted
@@ -37,8 +41,6 @@ add_moderator:
 
 ban_add:
     title: Ban an IP address
-
-'Expires at (YYYY-MM-DD hh:mm)': Expires at (YYYY-MM-DD hh:mm)
 
 ban_list:
     ip: IP address
