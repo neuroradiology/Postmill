@@ -10,6 +10,10 @@
   text-align: center;
   white-space: nowrap;
 
+  &:hover {
+    text-decoration: none;
+  }
+
   &--inline {
     font-size: 100%;
     display: inline;
@@ -22,16 +26,15 @@
 
     &:hover {
       background-color: var(--primary-alt);
-      text-decoration: none;
     }
   }
 
   &--secondary {
-    background: var(--accent);
+    background-color: var(--accent);
     color: var(--accent-fg);
 
     &:hover {
-      background: var(--accent-alt);
+      background-color: var(--accent-alt);
     }
   }
 }

@@ -31,12 +31,12 @@
   --bg-page: #000;
 
   --text: #ccc;
-  --text-muted: #808080;
+  --text-muted: #909090;
   --fg-red: #f00;
-  --fg-orange: #f80;
-  --fg-green: #080;
-  --fg-blue: #08f;
-  --fg-grey: #888;
+  --fg-orange: #fa4;
+  --fg-green: #8f8;
+  --fg-blue: #4af;
+  --fg-grey: #777;
   --border: #aaa;
 }
 
