@@ -1,5 +1,4 @@
-@import (reference) 'mixins';
-@import (reference) 'settings';
+@import (reference) '_mixins';
 
 .vote {
   padding: 0.5rem 1.5rem;
@@ -16,16 +15,16 @@
 
 .vote-button {
   .unbuttonize();
-  color: @vote-arrow-color;
+  color: var(--fg-grey);
   line-height: 1.15;
   white-space: nowrap;
   cursor: pointer;
 }
 
 .vote-user-upvoted .vote-up {
-  color: @vote-arrow-color-upvoted;
+  color: var(--fg-orange)
 }
 
 .vote-user-downvoted .vote-down {
-  color: @vote-arrow-color-downvoted;
+  color: var(--fg-blue);
 }

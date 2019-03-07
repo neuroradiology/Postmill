@@ -1,5 +1,5 @@
-@import (reference) 'mixins';
-@import (reference) 'settings';
+@import (reference) '_mixins';
+@import (reference) '_variables';
 
 /*
  * 1. Hide label in comment form.
@@ -9,8 +9,8 @@
 }
 
 .comment-user.submitter {
-  background: @comment-submitter-background-color;
+  background: var(--primary);
   border-radius: 2px;
-  color: @comment-submitter-color;
+  color: var(--primary-fg);
   padding: 0 0.25rem;
 }

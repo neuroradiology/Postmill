@@ -1,8 +1,8 @@
-@import (reference) '../settings';
+@import (reference) '../_variables';
 
 @media screen and (min-width: @desktop-min-width) {
   .site-nav {
-    background-color: @nav-background-color;
+    background-color: var(--primary);
     display: flex;
     margin-bottom: 1rem;
     padding: 0 1rem;
@@ -13,7 +13,7 @@
 
     &__logo,
     &__link {
-      color: @nav-link-color;
+      color: var(--primary-fg);
       display: block;
       font-size: @nav-font-size;
       padding: 1rem;
@@ -40,14 +40,14 @@
       display: block;
 
       &--has-notifications {
-        background: @nav-notifications-background-color;
+        background: var(--fg-orange); // todo
       }
 
       // todo: BEM
       &.dropdown-container {
         &.expanded,
         &:not(.js):hover {
-          background: @nav-active-background-color;
+          background: var(--primary-alt);
         }
       }
     }
@@ -58,7 +58,7 @@
 
 @media screen and (max-width: (@desktop-min-width - 1px)) {
   .site-nav {
-    background-color: @nav-background-color;
+    background-color: var(--primary);
     margin-bottom: 1rem;
 
     &__logo {
@@ -68,14 +68,14 @@
     &__logo,
     &__mobile-toggle,
     &__link {
-      color: @nav-link-color;
+      color: var(--primary-fg);
       font-size: @nav-font-size;
       padding: 1rem;
     }
 
     &__mobile-toggle {
       &--has-notifications {
-        background: @nav-notifications-background-color;
+        background: var(--fg-orange); // todo
       }
     }
 
@@ -91,13 +91,13 @@
 
     &__item {
       &--has-notifications {
-        background: @nav-notifications-background-color;
+        background: var(--fg-orange); // todo
       }
 
       &.dropdown-container {
         &.expanded,
         &:not(.js):hover {
-          background: @nav-active-background-color;
+          background: var(--primary-alt);
         }
       }
     }
@@ -107,7 +107,7 @@
     }
 
     &__inner {
-      background-color: @nav-inner-background-color;
+      background-color: var(--primary-alt);
       display: none;
 
       &--mobile-visible {

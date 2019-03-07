@@ -1,4 +1,4 @@
-@import (reference) 'mixins';
+@import (reference) '_mixins';
 
 .content-wrapper {
   display: flex;
@@ -55,13 +55,13 @@
 .user-flag::after { content: ']'; }
 
 .user-flag-admin {
-  color: @user-flag-admin-color;
+  color: var(--fg-red);
 }
 
 .user-flag-moderator {
-  color: @user-flag-moderator-color;
+  color: var(--fg-green);
 }
 
 .forum-group-heading a {
-  color: @page-color;
+  color: var(--text);
 }

@@ -1,0 +1,37 @@
+@import (reference) '../_mixins';
+
+.button {
+  .unbuttonize();
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 120%;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  white-space: nowrap;
+
+  &--inline {
+    font-size: 100%;
+    display: inline;
+    padding: 0.25rem 0.5rem;
+  }
+
+  &:not(&--secondary) {
+    background-color: var(--primary);
+    color: var(--primary-fg);
+
+    &:hover {
+      background-color: var(--primary-alt);
+      text-decoration: none;
+    }
+  }
+
+  &--secondary {
+    background: var(--accent);
+    color: var(--accent-fg);
+
+    &:hover {
+      background: var(--accent-alt);
+    }
+  }
+}

@@ -1,5 +1,5 @@
-@import (reference) 'mixins';
-@import (reference) 'settings';
+@import (reference) '_mixins';
+@import (reference) '_variables';
 
 .submission {
   margin-bottom: 1rem;
@@ -34,14 +34,14 @@
 }
 
 .submission-link {
-  color: @submission-link-color;
+  color: var(--submission-link);
 
   &:visited {
-    color: @submission-link-color-visited;
+    color: var(--submission-link-visited);
   }
 
   .submission-sticky & {
-    color: @submission-sticky-link-color;
+    color: var(--submission-link-sticky);
   }
 }
 
