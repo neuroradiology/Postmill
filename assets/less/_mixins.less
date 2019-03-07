@@ -1,4 +1,4 @@
-@import (reference) 'settings';
+@import (reference) '_variables';
 
 /*
  * Make certain things boring and grey.
@@ -6,7 +6,7 @@
  * This should be applied to paragraphs or navs only, never entire containers.
  */
 .meta() {
-  color: @meta-color;
+  color: var(--text-muted);
   font-size: 0.85rem;
   padding: 0.075rem 0;
 

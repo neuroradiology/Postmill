@@ -1,14 +1,14 @@
-@import (reference) 'mixins';
-@import (reference) 'settings';
+@import (reference) '_mixins';
+@import (reference) '_variables';
 
 html {
-  background: @page-background-color;
+  background: var(--bg-page);
   box-sizing: border-box;
-  color: @page-color;
-  font-family: @page-font-family;
-  font-size: @page-font-size;
+  color: var(--text);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
   height: 100%;
-  line-height: @page-line-height;
+  line-height: var(--line-height);
 }
 
 *, *::before, *::after {
@@ -23,7 +23,7 @@ body {
 }
 
 a {
-  color: @page-link-color;
+  color: var(--link);
   text-decoration: none;
 }
 
@@ -41,19 +41,17 @@ h1, h2, h3, h4, h5, h6, p, dl, ol, ul, blockquote {
 
 // opinionated blockquote styling - should be safe?
 blockquote {
-  background-color: @blockquote-background-color;
-  border-left: 1px inset @blockquote-border-color;
-  margin: 0 0 0 0.5rem;
+  background-color: var(--bg-grey);
+  border-left: 1px solid var(--border);
+  margin: 0;
   padding: 0 0.5rem;
 
   & > * {
-    @day-color: lighten(@page-color, 25%);
-    @night-color: darken(@page-color, 25%);
-    color: contrast(@page-color, @day-color, @night-color);
+    color: var(--text-muted);
   }
 
   a {
-    color: @page-color;
+    color: var(--text);
   }
 }
 
@@ -71,6 +69,11 @@ option,
 select,
 textarea {
   font: inherit;
+}
+
+pre, code, kbd {
+  font-family: var(--mono-font-family, monospace);
+  font-size: var(--mono-font-size, 1em);
 }
 
 pre {

@@ -2,10 +2,12 @@
 
 {% if hierarchy[0].appendToDefaultStyle ?? true %}
   {% if not night_mode %}
-    <link rel="stylesheet" href="{{ preload(asset('build/red.css')) }}">
+    <link rel="stylesheet" href="{{ preload(asset('build/postmill.css')) }}">
   {% else %}
-    <link rel="stylesheet" href="{{ preload(asset('build/night.css')) }}">
+    <link rel="stylesheet" href="{{ preload(asset('build/postmill-night.css')) }}">
   {% endif %}
+
+  <link rel="stylesheet" href="{{ preload(asset('build/core.css')) }}">
 {% endif %}
 
 {% for revision in hierarchy %}

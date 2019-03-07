@@ -1,0 +1,48 @@
+@import '~typeface-roboto';
+@import '~typeface-roboto-mono';
+
+/*! https://postmill.xyz/ */
+
+:root {
+  --font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+  --font-size: 14px;
+  --line-height: 1.5;
+  --mono-font-family: Roboto Mono, monospace;
+  --mono-font-size: 14px;
+
+  --link: #fff;
+  --submission-link: var(--link);
+  --submission-link-visited: var(--text);
+  --submission-link-sticky: var(--fg-green);
+
+  --primary: #c00;
+  --primary-alt: #a00;
+  --primary-fg: #fff;
+  --accent: var(--bg-grey);
+  --accent-alt: #dedede;
+  --accent-fg: #fff;
+  --sidebar-card: #010;
+
+  --bg-red: #660000;
+  --bg-orange: #663500;
+  --bg-green: #004200;
+  --bg-blue: #003666;
+  --bg-grey: #424242;
+  --bg-page: #000;
+
+  --text: #ccc;
+  --text-muted: #808080;
+  --fg-red: #f00;
+  --fg-orange: #f80;
+  --fg-green: #080;
+  --fg-blue: #08f;
+  --fg-grey: #888;
+  --border: #aaa;
+}
+
+.select2-container {
+  /* Fix for select2 being bad on dark pages.
+   * It doesn't matter that the select box is bright, since regular select boxes
+   * wouldn't have their colours overridden anyway. */
+  color: #000;
+}

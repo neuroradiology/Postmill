@@ -1,5 +1,4 @@
-@import (reference) '../mixins';
-@import (reference) '../settings';
+@import (reference) '../_mixins';
 
 .subscribe-button {
   .unbuttonize;
@@ -13,8 +12,8 @@
 
   &__label,
   &__subscriber-count {
-    background-color: @button-background-color;
-    color: @button-text-color;
+    background-color: var(--primary);
+    color: var(--primary-fg);
     padding: 0.5rem 1rem;
   }
 
@@ -29,13 +28,13 @@
 
   &:active {
     .subscribe-button__label {
-      color: @button-active-text-color;
+      color: var(--fg-grey);
     }
   }
 
   &:hover {
     .subscribe-button__label {
-      background-color: @button-hover-background-color;
+      background-color: var(--primary-alt);
     }
   }
 

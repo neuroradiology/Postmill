@@ -1,11 +1,11 @@
-@import (reference) 'mixins';
-@import (reference) 'settings';
+@import (reference) '_mixins';
+@import (reference) '_variables';
 
 .grouped-forum-listing {
   .columns(@counter) when (@counter <= 5) {
     @media screen and (min-width: (160px + 192px * @counter)) {
       columns: @counter;
-      column-rule: solid 1px @grouped-forum-listing-border-color;
+      column-rule: solid 1px var(--border);
     }
 
     .columns(@counter + 1);
