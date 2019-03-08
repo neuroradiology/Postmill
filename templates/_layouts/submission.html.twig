@@ -58,14 +58,14 @@
 
             {% if submission.sticky %}
               <span class="submission__sticky-icon"
-                    title="{{ 'This submission is locked'|trans }}">
+                    title="{{ 'This submission is pinned'|trans }}">
                 {{- icon('pin') -}}
               </span>
             {% endif %}
 
             {% if submission.locked %}
               <span class="submission__locked-icon"
-                    title="{{ 'This submission is pinned'|trans }}">
+                    title="{{ 'This submission is locked'|trans }}">
                 {{- icon('lock') -}}
               </span>
             {% endif %}
