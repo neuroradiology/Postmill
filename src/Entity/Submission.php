@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * })
  * @ApiResource(
  * 	attributes={
- * 		"normalization_context"={"groups"={"read", "mod:read", "admin:read"}},
+ * 		"normalization_context"={"groups"={"read", "mod:read", "admin:read", "abbreviated_user"}},
  * 		"denormalization_context"={"groups"={"write", "mod:write", "admin:write"}},
  * 	}
  * )
@@ -68,8 +68,7 @@ class Submission extends Votable {
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="submission",
      *     fetch="EXTRA_LAZY", cascade={"remove"})
-     * @Groups({"read"})
-     * @ApiSubresource()
+     * @ApiSubresource(maxDepth=1)
      *
      * @var Comment[]|Collection
      */
@@ -86,7 +85,6 @@ class Submission extends Votable {
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="Forum", inversedBy="submissions")
-     * @Groups({"read", "write"})
      *
      * @var Forum
      */
@@ -103,7 +101,6 @@ class Submission extends Votable {
     /**
      * @ORM\OneToMany(targetEntity="SubmissionVote", mappedBy="submission",
      *     fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @Groups({"read"})
      *
      * @var SubmissionVote[]|Collection
      */
@@ -111,7 +108,6 @@ class Submission extends Votable {
 
     /**
      * @ORM\OneToMany(targetEntity="SubmissionMention", mappedBy="submission", cascade={"remove"})
-     * @Groups({"read"})
      *
      * @var SubmissionMention[]|Collection
      */

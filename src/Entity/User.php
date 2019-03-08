@@ -24,8 +24,7 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
  * })
  * @ApiResource(
  * 	attributes={
- * 		"normalization_context"={"groups"={"user", "user:read", "admin:read", "abbreviated_user"}},
- * 		"denormalization_context"={"groups"={"user", "user:write"}},
+ * 		"normalization_context"={"groups"={"read"}},
  * 	}
  * )
  */
@@ -48,7 +47,7 @@ class User implements UserInterface, EquatableInterface {
      * @ORM\Column(type="bigint")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
-     * @Groups({"user", "abbreviated_user"})
+     * @Groups({"read"})
      *
      * @var int|null
      */
@@ -56,7 +55,6 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", unique=true)
-     * @Groups({"user", "abbreviated_user"})
      *
      * @var string
      */
@@ -64,7 +62,6 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", unique=true)
-     * @Groups({"user"})
      *
      * @var string
      */
@@ -72,7 +69,6 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"user"})
      *
      * @var string
      */
@@ -80,7 +76,6 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"user"})
      *
      * @var string|null
      */
@@ -88,7 +83,6 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"user"})
      *
      * @var string|null
      */
@@ -96,7 +90,6 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="datetimetz")
-     * @Groups({"user"})
      *
      * @var \DateTime
      */
@@ -104,7 +97,6 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="datetimetz", nullable=true)
-     * @Groups({"user"})
      *
      * @var \DateTime|null
      */
@@ -112,7 +104,6 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
-     * @Groups({"user"})
      *
      * @var bool
      */
@@ -120,7 +111,6 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\OneToMany(targetEntity="Moderator", mappedBy="user")
-     * @Groups({"user:write"})
      *
      * @var Moderator[]|Collection
      */
@@ -129,7 +119,6 @@ class User implements UserInterface, EquatableInterface {
     /**
      * @ORM\OneToMany(targetEntity="Submission", mappedBy="user", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"id": "DESC"})
-     * @Groups({"user"})
      *
      * @var Submission[]|Collection|Selectable
      */
@@ -145,7 +134,6 @@ class User implements UserInterface, EquatableInterface {
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="user", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"id": "DESC"})
-     * @Groups({"user"})
      *
      * @var Comment[]|Collection|Selectable
      */
@@ -160,7 +148,6 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\OneToMany(targetEntity="UserBan", mappedBy="user")
-     * @Groups({"admin:read"})
      *
      * @var UserBan[]|Collection|Selectable
      */
@@ -168,7 +155,6 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\OneToMany(targetEntity="IpBan", mappedBy="user")
-     * @Groups({"admin:read"})
      *
      * @var IpBan[]|Collection|Selectable
      */
@@ -187,7 +173,6 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"user"})
      *
      * @var string
      */
@@ -216,7 +201,6 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
-     * @Groups({"admin:read"})
      *
      * @var bool
      */
@@ -253,7 +237,6 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"user"})
      *
      * @var string|null
      */

@@ -16,8 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Table(name="comments")
  * @ApiResource(
  * 	attributes={
- * 		"normalization_context"={"groups"={"read", "mod:read", "admin:read"}},
- * 		"denormalization_context"={"groups"={"write", "mod:write", "admin:write"}},
+ * 		"normalization_context"={"groups"={"comment_read", "read", "abbreviated_user"}},
  * 	}
  * )
  */
@@ -34,7 +33,7 @@ class Comment extends Votable {
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"read", "write"})
+     * @Groups({"comment_read", "comment_write"})
      *
      * @var string
      */
@@ -42,7 +41,7 @@ class Comment extends Votable {
 
     /**
      * @ORM\Column(type="datetimetz")
-     * @Groups({"read"})
+     * @Groups({"comment_read"})
      *
      * @var \DateTime
      */
@@ -51,7 +50,7 @@ class Comment extends Votable {
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
-     * @Groups({"read"})
+     * @Groups({"comment_read"})
      *
      * @var User
      */
@@ -60,7 +59,7 @@ class Comment extends Votable {
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="Submission", inversedBy="comments")
-     * @Groups({"read"})
+     * @Groups({"comment_read"})
      *
      * @var Submission
      */
@@ -68,7 +67,7 @@ class Comment extends Votable {
 
     /**
      * @ORM\ManyToOne(targetEntity="Comment", inversedBy="children")
-     * @Groups({"read"})
+     * @Groups({"comment_read"})
      *
      * @var Comment|null
      */
@@ -76,7 +75,8 @@ class Comment extends Votable {
 
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="parent", cascade={"remove"})
-     * @Groups({"read"})
+     * @Groups({"comment_read"})
+     * @ApiSubresource(maxDepth=1)
      *
      * @var Comment[]|Collection
      */
@@ -85,7 +85,7 @@ class Comment extends Votable {
     /**
      * @ORM\OneToMany(targetEntity="CommentVote", mappedBy="comment",
      *     fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @Groups({"read"})
+     * @Groups({"comment_read"})
      *
      * @var CommentVote[]|Collection
      */
@@ -93,7 +93,7 @@ class Comment extends Votable {
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
-     * @Groups({"admin:read"})
+     * @Groups({"comment_read"})
      *
      * @var bool
      */
@@ -101,7 +101,6 @@ class Comment extends Votable {
 
     /**
      * @ORM\Column(type="inet", nullable=true)
-     * @Groups({"admin:read"})
      *
      * @var string|null
      */
@@ -109,7 +108,7 @@ class Comment extends Votable {
 
     /**
      * @ORM\Column(type="datetimetz", nullable=true)
-     * @Groups({"read"})
+     * @Groups({"comment_read"})
      *
      * @var \DateTime|null
      */
@@ -117,7 +116,7 @@ class Comment extends Votable {
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
-     * @Groups({"read"})
+     * @Groups({"comment_read"})
      *
      * @var bool
      */
@@ -125,7 +124,7 @@ class Comment extends Votable {
 
     /**
      * @ORM\Column(type="smallint", options={"default": 0})
-     * @Groups({"read"})
+     * @Groups({"comment_read"})
      *
      * @var int
      */
