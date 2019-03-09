@@ -88,6 +88,9 @@ comment_form:
 compose_message:
     title: Composing a message to %username%
 
+content:
+    empty: There's nothing here...
+
 create_forum:
     create_new_forum: Create new forum
 

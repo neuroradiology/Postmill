@@ -106,4 +106,8 @@ class SubmissionPager implements \IteratorAggregate {
             throw new \InvalidArgumentException("Unexpected type '$type'");
         }
     }
+
+    public function isEmpty(): bool {
+        return empty($this->submissions);
+    }
 }
