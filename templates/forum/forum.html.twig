@@ -38,22 +38,7 @@
   </nav>
 
   {% if submissions.isEmpty() %}
-    <div class="empty empty-forum">
-      <div class="empty__emoji">
-        {{ random([
-          '(・.・;)',
-          '(・_・;)',
-          '(._.)',
-          '(￣□￣;)',
-          '（　ﾟДﾟ）',
-          '(ﾟдﾟ)'
-        ]) }}
-      </div>
-
-      <div class="empty__text">
-        {{ 'content.empty'|trans }}
-      </div>
-    </div>
+    {% include '_includes/empty.html.twig' %}
   {% endif %}
 
   {% for submission in submissions %}
