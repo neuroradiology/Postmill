@@ -7,9 +7,11 @@ use App\Entity\Submission;
 use App\Entity\User;
 use App\Entity\UserFlags;
 use App\Validator\Constraints\NotForumBanned;
+use App\Validator\Constraints\RateLimit;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @RateLimit(period="5 minutes", max=10, groups={"create"}, entityClass=Comment::class, errorPath="body")
  * @NotForumBanned(forumPath="submission.forum", errorPath="body")
  */
 class CommentData {

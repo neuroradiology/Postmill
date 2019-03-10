@@ -6,6 +6,7 @@ imports:
 
 parameters:
     days_to_keep_logs: 7
+    ratelimit_ip_whitelist: "%env(csv:RATELIMIT_WHITELIST)%"
     submission_sort_modes: hot|new|top|controversial|most_commented
     user_forum_creation_interval: 1 day
     uuid_regex: '[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}'
@@ -60,6 +61,9 @@ services:
     App\Form\RequestPasswordResetType:
         $bypass: "@=parameter('kernel.environment') === 'test'"
 
+    App\Form\UserSettingsType:
+        $availableLocales: "%env(csv:AVAILABLE_LOCALES)%"
+
     App\Mailer\ResetPasswordMailer:
         $noReplyAddress: "%env(NO_REPLY_ADDRESS)%"
 
@@ -76,15 +80,16 @@ services:
         $forumCreationInterval: "%user_forum_creation_interval%"
 
     App\Utils\IpRateLimitFactory:
-        arguments:
-            $cache: "@cache.ratelimit"
-            $ipWhitelist: "%env(csv:RATELIMIT_WHITELIST)%"
+        $cache: "@cache.ratelimit"
+        $ipWhitelist: "%ratelimit_ip_whitelist%"
 
     App\Utils\IpRateLimit:
         class: App\Utils\IpRateLimit
         factory: 'App\Utils\IpRateLimitFactory:create'
         abstract: true
 
+    App\Validator\Constraints\RateLimitValidator:
+        $ipWhitelist: "%ratelimit_ip_whitelist%"
 
     ## Misc
 

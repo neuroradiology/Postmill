@@ -21,7 +21,9 @@
         "jquery": "^3.3.1",
         "lodash.debounce": "^4.0.8",
         "normalize.css": "^6.0.0",
-        "select2": "^4.0.5"
+        "select2": "^4.0.5",
+        "typeface-roboto": "0.0.54",
+        "typeface-roboto-mono": "0.0.54"
     },
     "scripts": {
         "build-dev": "node_modules/.bin/encore dev",

@@ -1,4 +1,4 @@
-@import '../settings';
+@import '../_variables';
 
 .tabs {
   display: flex;
@@ -6,24 +6,24 @@
   margin-right: -1rem;
 
   &__bar {
-    background: @tab-background-color;
+    background: var(--accent);
     display: flex;
     margin: 0 1rem 1rem 0;
     padding: 0;
   }
 
   &__tab {
-    border-bottom: solid 1px @tab-inactive-border-color;
+    border-bottom: solid 1px var(--border);
     display: block;
     padding: 0;
 
     &--active {
-      border-bottom: solid 3px @tab-active-border-color;
+      border-bottom: solid 3px var(--primary);
     }
   }
 
   &__link {
-    color: unset;
+    color: var(--accent-fg);
     display: block;
     padding: 0.4rem 0.7rem 0.2rem 0.7rem;
   }

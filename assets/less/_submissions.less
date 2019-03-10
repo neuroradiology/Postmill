@@ -1,0 +1,79 @@
+@import (reference) '_mixins';
+
+.submission {
+  margin-bottom: 1rem;
+
+  &__title {
+    font-size: 1.33rem;
+    font-weight: normal;
+    margin: 0;
+
+    // don't make giant new lines if only the tiny host text wraps.
+    // also aligns icons correctly.
+    line-height: 0;
+
+    > * {
+      // restore line-height for children
+      line-height: var(--line-height);
+    }
+  }
+
+  &__link {
+    color: var(--submission-link);
+
+    &:visited {
+      color: var(--submission-link-visited);
+    }
+  }
+
+  &--sticky &__link {
+    color: var(--submission-link-sticky);
+  }
+
+  &__host {
+    font-size: 0.75rem;
+  }
+
+  &__body {
+    word-wrap: break-word;
+    padding-top: 1rem;
+  }
+}
+
+.submission-header > * {
+  margin-bottom: 0;
+}
+
+.submission-row {
+  .vote-flex;
+}
+
+.submission-image,
+.submission-thumbnail {
+  display: block;
+}
+
+.submission-image-container {
+  margin-right: 1rem;
+
+  @media screen and (max-width: 480px) {
+    // don't show thumbnails on tiny screens
+    display: none;
+  }
+}
+
+.submission-info {
+  .meta;
+}
+
+.submission-nav {
+  .meta-nav;
+
+  ul {
+    margin-bottom: 0;
+  }
+}
+
+.submission-permalink-nav {
+  .horizontal-menu();
+}

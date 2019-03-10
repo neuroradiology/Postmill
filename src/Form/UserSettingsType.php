@@ -10,18 +10,46 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Intl\Intl;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class UserSettingsType extends AbstractType {
-    private $localeChoices = [];
+    /**
+     * @var array
+     */
+    private $availableLocales;
+
+    public function __construct(array $availableLocales) {
+        $this->availableLocales = $availableLocales;
+    }
 
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        $localeChoices = [];
+        $localeBundle = Intl::getLocaleBundle();
+
+        foreach ($this->availableLocales as $locale) {
+            $name = $localeBundle->getLocaleName($locale, $locale);
+
+            $localeChoices[$name] = $locale;
+        }
+
+        \uksort($localeChoices, function ($a, $b) {
+            [$a, $b] = \array_map(function ($key) {
+                return \transliterator_transliterate(
+                    'NFKD; Latin; Latin/US-ASCII; [:Nonspacing Mark:] Remove; Lower',
+                    $key
+                );
+            }, [$a, $b]);
+
+            return \strnatcasecmp($a, $b);
+        });
+
         $builder
             ->add('locale', ChoiceType::class, [
-                'choices' => $this->getLocaleChoices(),
+                'choices' => $localeChoices,
                 'choice_translation_domain' => false,
             ])
             ->add('front_page', ChoiceType::class, [
@@ -68,13 +96,5 @@ final class UserSettingsType extends AbstractType {
             'label_format' => 'user_settings_form.%name%',
             'validation_groups' => ['settings'],
         ]);
-    }
-
-    public function getLocaleChoices(): array {
-        return $this->localeChoices;
-    }
-
-    public function setLocaleChoices(array $localeChoices) {
-        $this->localeChoices = $localeChoices;
     }
 }

@@ -1,4 +1,4 @@
-@import (reference) '../settings';
+@import (reference) '../_variables';
 
 // No real need to use BEM for the table structure since HTML places strict
 // restrictions on how tables are structured. Just make sure nested tables don't
@@ -13,7 +13,7 @@
   }
 
   & > thead {
-    border-bottom: solid 2px @table-header-separator-color;
+    border-bottom: solid 2px var(--border);
   }
 
   & > thead,
@@ -36,10 +36,10 @@
     }
   }
 
-  & > tbody > tr:nth-child(even) {
+  & > tbody > tr {
     & > th,
     & > td {
-      background-color: @table-alternate-row-background-color;
+      border-bottom: solid 1px var(--border);
     }
   }
 }

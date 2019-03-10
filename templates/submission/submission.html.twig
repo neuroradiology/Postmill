@@ -31,4 +31,8 @@
       {{ comment(comment, {recurse: true}) }}
     {% endfor %}
   </div>
+
+  {% if submission.topLevelComments is empty %}
+    {% include '_includes/empty.html.twig' %}
+  {% endif %}
 {% endblock %}

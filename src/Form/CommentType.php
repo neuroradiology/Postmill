@@ -9,6 +9,7 @@ use App\Form\Type\MarkdownType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -64,6 +65,17 @@ final class CommentType extends AbstractType {
             'forum' => null, // for UserFlagTrait
             'honeypot' => true,
             'label_format' => 'comment_form.%name%',
+            'validation_groups' => function (FormInterface $form) {
+                $groups = ['Default'];
+
+                if ($form->getData() && $form->getData()->getEntityId()) {
+                    $groups[] = 'edit';
+                } else {
+                    $groups[] = 'create';
+                }
+
+                return $groups;
+            },
         ]);
 
         $resolver->setAllowedTypes('forum', ['null', Forum::class]); // ditto

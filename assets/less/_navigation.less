@@ -1,6 +1,5 @@
-@import (reference) 'components/button';
-@import (reference) 'mixins';
-@import (reference) 'settings';
+@import (reference) '_components/button';
+@import (reference) '_mixins';
 
 .dropdown-container {
   position: relative;
@@ -31,10 +30,10 @@
 }
 
 .dropdown-menu {
-  background: @dropdown-menu-background-color;
-  border: solid 1px @dropdown-menu-border-color;
+  background: var(--bg-page); // todo
+  border: solid 1px var(--border);
   border-top: none;
-  box-shadow: 0 0 1px @dropdown-menu-border-color;
+  box-shadow: 0 0 1px var(--border);
   display: none;
   margin-top: -1px;
   min-width: 12rem;
@@ -55,16 +54,13 @@
   }
 
   & > li > a {
+    color: var(--text);
     display: block;
     padding: 0.5rem 1rem;
 
-    &:not(:hover) > .icon {
-      color: @page-color;
-    }
-
     &:hover {
-      background: @page-link-color;
-      color: @page-background-color;
+      background: var(--accent);
+      color: var(--accent-fg);
       text-decoration: none;
     }
   }
@@ -76,9 +72,4 @@
 
 .pagination {
   .horizontal-menu();
-
-  a {
-    .button();
-    font-size: 1rem;
-  }
 }
