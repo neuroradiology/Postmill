@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Controller\ApiController;
 use App\Entity\Exception\BannedFromForumException;
 use App\Entity\Exception\SubmissionLockedException;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,9 +16,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
  * @ORM\Table(name="comments")
  * @ApiResource(
- * 	attributes={
- * 		"normalization_context"={"groups"={"comment_read", "read", "abbreviated_user"}},
- * 	}
+ *     attributes={
+ *         "denormalization_context": {"groups"={"comment_write"}},
+ *         "normalization_context"={"groups"={"comment_read", "abbreviated_user"}},
+ * 	   },
  * )
  */
 class Comment extends Votable {
@@ -50,7 +52,7 @@ class Comment extends Votable {
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
-     * @Groups({"comment_read"})
+     * @Groups({"comment_read", "inject_user"})
      *
      * @var User
      */
@@ -85,7 +87,6 @@ class Comment extends Votable {
     /**
      * @ORM\OneToMany(targetEntity="CommentVote", mappedBy="comment",
      *     fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @Groups({"comment_read"})
      *
      * @var CommentVote[]|Collection
      */
@@ -101,6 +102,7 @@ class Comment extends Votable {
 
     /**
      * @ORM\Column(type="inet", nullable=true)
+     * @Groups({"inject_ip"})
      *
      * @var string|null
      */

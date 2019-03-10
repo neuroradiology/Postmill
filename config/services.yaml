@@ -76,6 +76,11 @@ services:
     App\Security\LoginAuthenticator:
         $rateLimit: "@postmill.ratelimit.login"
 
+    App\Serializer\CommentDenormalizer:
+        decorates: api_platform.jsonld.normalizer.item
+        arguments:
+            $decorated: '@App\Serializer\CommentDenormalizer.inner'
+
     App\Security\Voter\TokenVoter:
         $forumCreationInterval: "%user_forum_creation_interval%"
 

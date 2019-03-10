@@ -47,7 +47,7 @@ class User implements UserInterface, EquatableInterface {
      * @ORM\Column(type="bigint")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
-     * @Groups({"read"})
+     * @Groups({"read", "abbreviated_user"})
      *
      * @var int|null
      */
@@ -55,6 +55,7 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", unique=true)
+     * @Groups({"abbreviated_user"})
      *
      * @var string
      */
