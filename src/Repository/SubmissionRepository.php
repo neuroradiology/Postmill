@@ -8,6 +8,7 @@ use App\Repository\Submission\SubmissionPager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Types\Type;
 use Symfony\Component\HttpFoundation\Request;
 
 class SubmissionRepository extends ServiceEntityRepository {
@@ -16,6 +17,12 @@ class SubmissionRepository extends ServiceEntityRepository {
     public const SORT_TOP = 'top';
     public const SORT_CONTROVERSIAL = 'controversial';
     public const SORT_MOST_COMMENTED = 'most_commented';
+    public const TIME_ALL = 'all';
+    public const TIME_YEAR = 'year';
+    public const TIME_MONTH = 'month';
+    public const TIME_WEEK = 'week';
+    public const TIME_DAY = 'day';
+    public const DEFAULT_TIME = self::TIME_ALL;
 
     /**
      * `$sortBy` -> ordered column name mapping.
@@ -78,8 +85,10 @@ class SubmissionRepository extends ServiceEntityRepository {
      *                         <li><kbd>excluded_users</kbd>
      *                         <li><kbd>stickies</kbd> - show stickies first
      *                         <li><kbd>max_per_page</kbd>
+     *                         <li><kbd>time</kbd> - One of TIME_* constants
      *                         </ul>
-     * @param Request $request Request to retrieve pager options from
+     * @param Request $request Request to retrieve pager options and time filter
+     *                         from
      *
      * @return Submission[]|SubmissionPager
      *
@@ -88,6 +97,12 @@ class SubmissionRepository extends ServiceEntityRepository {
      */
     public function findSubmissions(string $sortBy, array $options = [], Request $request = null) {
         $maxPerPage = $options['max_per_page'] ?? self::MAX_PER_PAGE;
+        $time = $request ? $request->query->get('t') : null;
+
+        // Silently fail on invalid time
+        if (!$this->isValidTime($time)) {
+            $time = self::DEFAULT_TIME;
+        }
 
         $rsm = $this->createResultSetMappingBuilder('s');
 
@@ -113,6 +128,32 @@ class SubmissionRepository extends ServiceEntityRepository {
             throw new \InvalidArgumentException("Sort mode '$sortBy' not implemented");
         }
 
+        if ($time !== self::TIME_ALL) {
+            $since = new \DateTime();
+
+            $qb->andWhere('s.timestamp > :time');
+            $qb->setParameter('time', $since, Type::DATETIMETZ);
+        }
+
+        switch ($time) {
+        case self::TIME_ALL:
+            break;
+        case self::TIME_YEAR:
+            $since->modify('-1 year');
+            break;
+        case self::TIME_MONTH:
+            $since->modify('-1 month');
+            break;
+        case self::TIME_WEEK:
+            $since->modify('-1 week');
+            break;
+        case self::TIME_DAY:
+            $since->modify('-1 day');
+            break;
+        default:
+            throw new \InvalidArgumentException("Time mode '$time' not implemented");
+        }
+
         $pager = $request
             ? SubmissionPager::getParamsFromRequest($sortBy, $request)
             : [];
@@ -126,7 +167,7 @@ class SubmissionRepository extends ServiceEntityRepository {
                 // assumed to be on page 1. Will miss all stickies that are
                 // meant to be on the next page. The solution is to not be a
                 // doofus and sticky more than $maxPerPage posts.
-                $qb->where($qb->expr()->eq('sticky', 'false'));
+                $qb->andWhere($qb->expr()->eq('sticky', 'false'));
             }
         }
 
@@ -161,6 +202,17 @@ class SubmissionRepository extends ServiceEntityRepository {
         $this->hydrateAssociations($submissions);
 
         return $submissions;
+    }
+
+    private function isValidTime($time): bool {
+        return \in_array($time, [
+            '',
+            self::TIME_ALL,
+            self::TIME_YEAR,
+            self::TIME_MONTH,
+            self::TIME_WEEK,
+            self::TIME_DAY,
+        ], true);
     }
 
     private static function filterQuery(QueryBuilder $qb, array $options): void {

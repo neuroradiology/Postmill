@@ -35,6 +35,8 @@
     <ul class="tabs__bar">
       {{- submission_sort(sort_by) -}}
     </ul>
+
+    {% include '_includes/time_filters.html.twig' with {sort_by: sort_by, time: app.request.query.get('t')} %}
   </nav>
 
   {% if submissions.isEmpty() %}

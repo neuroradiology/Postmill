@@ -21,6 +21,8 @@
   <nav class="tabs submission-sort">
     <ul class="tabs__bar">{{ submission_sort(sort_by) }}</ul>
     <ul class="tabs__bar">{{ submission_filter(listing, sort_by) }}</ul>
+
+    {%- include '_includes/time_filters.html.twig' with {sort_by: sort_by, time: app.request.query.get('t')} -%}
   </nav>
 
   {% block front_alerts '' %}
