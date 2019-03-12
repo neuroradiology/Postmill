@@ -21,6 +21,7 @@
   --accent: #424242;
   --accent-alt: #525252;
   --accent-fg: #fff;
+  --card: var(--bg-page);
   --sidebar-card: #010;
 
   --bg-red: #660000;

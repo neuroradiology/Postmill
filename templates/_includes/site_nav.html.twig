@@ -1,83 +1,86 @@
 {% from '_macros/icon.html.twig' import icon %}
-{% spaceless %}
-  {%- set notification_count = is_granted('ROLE_USER') ? app.user.notifications|length : 0 -%}
+{%- set notification_count = is_granted('ROLE_USER') ? app.user.notifications|length : 0 -%}
 
-  <nav class="site-nav">
-    <div class="site-nav__header">
-      <a href="{{ path('front') }}" class="site-nav__logo">{{ site_name() }}</a>
-      {# todo: accessibility #}
-      <a href="#" class="site-nav__mobile-toggle {{ notification_count > 0 ? 'site-nav__mobile-toggle--has-notifications' }}" onclick="$(this).parents('.site-nav').find('.site-nav__inner').toggleClass('site-nav__inner--mobile-visible'); return false">{{ icon('menu') }}</a>
-    </div>
+<nav class="site-nav">
+  <div class="site-nav__header">
+    <a href="{{ path('front') }}" class="site-nav__logo">{{ site_name() }}</a>
+    {# todo: accessibility #}
+    <a href="#" class="site-nav__mobile-toggle {{ notification_count > 0 ? 'site-nav__mobile-toggle--has-notifications' }}" onclick="$(this).parents('.site-nav').find('.site-nav__inner').toggleClass('site-nav__inner--mobile-visible'); return false">{{ icon('menu') }}</a>
+  </div>
 
-    <div class="site-nav__inner">
-      {# left portion of site nav #}
-      <ul class="site-nav__menu">
+  <div class="site-nav__inner">
+    {# left portion of site nav #}
+    <ul class="site-nav__menu">
+      <li class="site-nav__item">
+        <a href="{{ path('forum_list') }}" class="site-nav__link">{{ 'nav.forums'|trans }}</a>
+      </li>
+
+      <li class="site-nav__item">
+        <a href="{{ path('wiki') }}" class="site-nav__link">{{ 'nav.wiki'|trans }}</a>
+      </li>
+
+      <li class="site-nav__item">
+        <a href="{{ path('comment_list') }}" class="site-nav__link">{{ 'nav.comments'|trans }}</a>
+      </li>
+
+      {% if is_granted('ROLE_ADMIN') %}
+        <li class="site-nav__item dropdown dropdown">
+          <a href="#" class="site-nav__link dropdown__toggle">
+            {{ 'label.admin'|trans }}
+            <span class="dropdown__toggle" role="presentation"></span>
+          </a>
+          <ul class="card dropdown__menu no-wrap unlistify">
+            <li><a href="{{ path('user_bans') }}" class="menu-link">{{ icon('hammer') }} {{ 'label.bans'|trans }}</a></li>
+            <li><a href="{{ path('manage_forum_categories') }}" class="menu-link">{{ icon('sitemap') }} {{ 'nav.forum_categories'|trans }}</a></li>
+            <li><a href="{{ path('users') }}" class="menu-link">{{ icon('user') }} {{ 'nav.users'|trans }}</a></li>
+          </ul>
+        </li>
+      {% endif %}
+    </ul>
+
+    {# right portion of site nav #}
+    <ul class="site-nav__menu right-nav">
+      {% if not is_granted('ROLE_USER') %}
         <li class="site-nav__item">
-          <a href="{{ path('forum_list') }}" class="site-nav__link">{{ 'nav.forums'|trans }}</a>
+          <a href="{{ path('login') }}" class="site-nav__link">{{ 'nav.log_in'|trans }}</a>
         </li>
 
         <li class="site-nav__item">
-          <a href="{{ path('wiki') }}" class="site-nav__link">{{ 'nav.wiki'|trans }}</a>
+          <a href="{{ path('registration') }}" class="site-nav__link">{{ 'nav.register'|trans }}</a>
         </li>
-
-	<li class="site-nav__item">
-	  <a href="{{ path('comment_list') }}" class="site-nav__link">{{ 'nav.comments'|trans }}</a>
-	</li>
-
-        {% if is_granted('ROLE_ADMIN') %}
-          <li class="site-nav__item dropdown-container">
-            <a href="#" class="site-nav__link dropdown-toggle">{{ 'label.admin'|trans }}</a>
-            <ul class="dropdown-menu">
-              <li><a href="{{ path('user_bans') }}">{{ icon('hammer') }} {{ 'label.bans'|trans }}</a></li>
-              <li><a href="{{ path('manage_forum_categories') }}">{{ icon('sitemap') }} {{ 'nav.forum_categories'|trans }}</a></li>
-              <li><a href="{{ path('users') }}">{{ icon('user') }} {{ 'nav.users'|trans }}</a></li>
-            </ul>
-          </li>
-        {% endif %}
-      </ul>
-
-      {# right portion of site nav #}
-      <ul class="site-nav__menu right-nav">
-        {% if not is_granted('ROLE_USER') %}
-          <li class="site-nav__item">
-            <a href="{{ path('login') }}" class="site-nav__link">{{ 'nav.log_in'|trans }}</a>
-          </li>
-
-          <li class="site-nav__item">
-            <a href="{{ path('registration') }}" class="site-nav__link">{{ 'nav.register'|trans }}</a>
-          </li>
-        {% else %}
-          {# notifications #}
-          {% if notification_count > 0 %}
-            <li class="site-nav__item site-nav__item--has-notifications">
-              <a href="{{ path('inbox') }}" class="site-nav__link">
-                {{- 'nav.inbox_count'|trans({'%count%': '<strong>%s</strong>'|format(notification_count|localizednumber)})|raw -}}
-              </a>
-            </li>
-          {% endif %}
-
-          {# submit button #}
-          <li class="site-nav__item">
-            <a href="{{ path('submit', {forum_name: forum.name ?? null}) }}" class="site-nav__link">
-              {{- 'nav.submit'|trans -}}
+      {% else %}
+        {# notifications #}
+        {% if notification_count > 0 %}
+          <li class="site-nav__item site-nav__item--has-notifications">
+            <a href="{{ path('inbox') }}" class="site-nav__link">
+              {{- 'nav.inbox_count'|trans({'%count%': '<strong>%s</strong>'|format(notification_count|localizednumber)})|raw -}}
             </a>
           </li>
-
-          {# user menu #}
-          <li class="site-nav__item dropdown-container">
-            <a href="#" class="site-nav__link dropdown-toggle"><strong>{{ app.user.username }}</strong></a>
-            <ul class="dropdown-menu">
-              <li><a href="{{ path('user', {username: app.user.username}) }}">{{ icon('user') }} {{ 'nav.profile'|trans }}</a></li>
-              <li><a href="{{ path('message_list') }}">{{ icon('mail') }} {{ 'nav.messages'|trans }}</a></li>
-              <li><a href="{{ path('edit_user', {username: app.user.username}) }}">{{ icon('lock') }} {{ 'nav.my_account'|trans }}</a></li>
-              <li><a href="{{ path('user_settings', {username: app.user.username}) }}">{{ icon('settings') }} {{ 'nav.user_settings'|trans }}</a></li>
-              <li><a href="{{ path('user_block_list', {username: app.user.username}) }}">{{ icon('block') }} {{ 'nav.block_list'|trans }}</a></li>
-              <li><a href="{{ logout_path() }}">{{ icon('logout') }} {{ 'nav.log_out'|trans }}</a></li>
-            </ul>
-          </li>
-
         {% endif %}
-      </ul>
-    </div>
-  </nav>
-{% endspaceless %}
+
+        {# submit button #}
+        <li class="site-nav__item">
+          <a href="{{ path('submit', {forum_name: forum.name ?? null}) }}" class="site-nav__link">
+            {{- 'nav.submit'|trans -}}
+          </a>
+        </li>
+
+        {# user menu #}
+        <li class="site-nav__item dropdown dropdown--right">
+          <a href="#" class="no-underline site-nav__link dropdown__toggle">
+            <strong class="no-underline__exempt">{{ app.user.username }}</strong>
+            <span class="dropdown__arrow" role="presentation"></span>
+          </a>
+          <ul class="card dropdown__menu no-wrap unlistify">
+            <li><a href="{{ path('user', {username: app.user.username}) }}" class="menu-link">{{ icon('user') }} {{ 'nav.profile'|trans }}</a></li>
+            <li><a href="{{ path('message_list') }}" class="menu-link">{{ icon('mail') }} {{ 'nav.messages'|trans }}</a></li>
+            <li><a href="{{ path('edit_user', {username: app.user.username}) }}" class="menu-link">{{ icon('lock') }} {{ 'nav.my_account'|trans }}</a></li>
+            <li><a href="{{ path('user_settings', {username: app.user.username}) }}" class="menu-link">{{ icon('settings') }} {{ 'nav.user_settings'|trans }}</a></li>
+            <li><a href="{{ path('user_block_list', {username: app.user.username}) }}" class="menu-link">{{ icon('block') }} {{ 'nav.block_list'|trans }}</a></li>
+            <li><a href="{{ logout_path() }}" class="menu-link">{{ icon('logout') }} {{ 'nav.log_out'|trans }}</a></li>
+          </ul>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
