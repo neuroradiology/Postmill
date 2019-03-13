@@ -16,7 +16,9 @@
   {%- set user_choice = is_granted('ROLE_USER') ? entity.userChoice(app.user) : null -%}
   {%- spaceless -%}
     <form action="{{ path(route, {id: entity.id}) }}" method="post"
-          class="vote {{ user_choice == upvoted ? 'vote-user-upvoted' }} {{ user_choice == downvoted ? 'vote-user-downvoted' }}"
+          class="vote
+                {{- user_choice == upvoted ? ' vote--user-upvoted' }}
+                {{- user_choice == downvoted ? ' vote--user-downvoted' }}"
           data-ajax-action="{{ path(route, {id: entity.id, _format: 'json'}) }}"
           data-score="{{ entity.netScore }}">
 
@@ -26,15 +28,15 @@
       {% endif %}
 
       <button type="submit" name="choice" value="{{ user_choice == upvoted ? retract : upvote }}"
-              class="vote-button vote-up"
+              class="vote__button vote__up"
               title="{{ (user_choice == upvoted ? 'action.retract_upvote' : 'action.upvote')|trans }}">
         <span class="inner" aria-hidden="true">{{ icon('up', 'up') }}</span>
       </button>
 
-      <span class="vote-score">{{ entity.netScore }}</span>
+      <span class="vote__net-score">{{ entity.netScore }}</span>
 
       <button type="submit" name="choice" value="{{ user_choice == downvoted ? retract : downvote }}"
-              class="vote-button vote-down"
+              class="vote__button vote__down"
               title="{{ (user_choice == downvoted ? 'action.retract_downvote' : 'action.downvote')|trans }}">
         <span class="inner" aria-hidden="true">{{ icon('down', 'down') }}</span>
       </button>

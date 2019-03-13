@@ -1,30 +1,34 @@
 @import (reference) '_mixins';
 
 .vote {
-  padding: 0.5rem 1.5rem;
-  text-align: center;
-}
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+  width: 6ch;
 
-.vote * {
-  display: block;
-}
+  &__button {
+    .unbuttonize();
+    color: var(--fg-grey);
+    cursor: pointer;
+    line-height: 1;
+    white-space: nowrap;
+    height: 1em;
+  }
 
-.vote-score {
-  font-weight: bold;
-}
+  &--user-upvoted &__up {
+    color: var(--fg-orange);
+  }
 
-.vote-button {
-  .unbuttonize();
-  color: var(--fg-grey);
-  line-height: 1.15;
-  white-space: nowrap;
-  cursor: pointer;
-}
+  &--user-downvoted &__down {
+    color: var(--fg-blue);
+  }
 
-.vote-user-upvoted .vote-up {
-  color: var(--fg-orange)
-}
+  &__net-score {
+    font-weight: bold;
+  }
 
-.vote-user-downvoted .vote-down {
-  color: var(--fg-blue);
+  &--failed &__net-score {
+    color: var(--fg-red);
+  }
 }
