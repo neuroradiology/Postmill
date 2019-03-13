@@ -7,6 +7,8 @@ use App\Entity\Exception\SubmissionLockedException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -18,6 +20,8 @@ class Comment extends Votable {
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
      *
+     * @Groups({"comment:read", "abbreviated_relations"})
+     *
      * @var int
      */
     private $id;
@@ -25,12 +29,16 @@ class Comment extends Votable {
     /**
      * @ORM\Column(type="text")
      *
+     * @Groups({"comment:read"})
+     *
      * @var string
      */
     private $body;
 
     /**
      * @ORM\Column(type="datetimetz")
+     *
+     * @Groups({"comment:read"})
      *
      * @var \DateTime
      */
@@ -40,6 +48,8 @@ class Comment extends Votable {
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
      *
+     * @Groups({"comment:read"})
+     *
      * @var User
      */
     private $user;
@@ -47,6 +57,8 @@ class Comment extends Votable {
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="Submission", inversedBy="comments")
+     *
+     * @Groups({"comment:read"})
      *
      * @var Submission
      */
@@ -77,6 +89,8 @@ class Comment extends Votable {
     /**
      * @ORM\Column(type="boolean", options={"default": false})
      *
+     * @Groups({"comment:read"})
+     *
      * @var bool
      */
     private $softDeleted = false;
@@ -91,12 +105,16 @@ class Comment extends Votable {
     /**
      * @ORM\Column(type="datetimetz", nullable=true)
      *
+     * @Groups({"comment:read"})
+     *
      * @var \DateTime|null
      */
     private $editedAt;
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
+     *
+     * @Groups({"comment:read"})
      *
      * @var bool
      */
@@ -122,6 +140,21 @@ class Comment extends Votable {
      * @var CommentMention[]|Collection
      */
     private $mentions;
+
+    /**
+     * @Groups({"comment:read"})
+     */
+    protected $upvotes;
+
+    /**
+     * @Groups({"comment:read"})
+     */
+    protected $downvotes;
+
+    /**
+     * @Groups({"comment:read"})
+     */
+    protected $netScore;
 
     public function __construct(
         string $body,
@@ -192,6 +225,16 @@ class Comment extends Votable {
     }
 
     /**
+     * @Groups({"comment:read"})
+     * @SerializedName("parent")
+     *
+     * @return int|null
+     */
+    public function getParentId(): ?int {
+        return $this->parent ? $this->parent->id : null;
+    }
+
+    /**
      * Get replies, ordered by descending net score.
      *
      * @return Comment[]
@@ -204,6 +247,15 @@ class Comment extends Votable {
         }
 
         return $children;
+    }
+
+    /**
+     * @Groups({"comment:read"})
+     *
+     * @return int
+     */
+    public function getReplyCount(): int {
+        return \count($this->children);
     }
 
     /**
@@ -276,6 +328,16 @@ class Comment extends Votable {
 
     public function getUserFlag(): int {
         return $this->userFlag;
+    }
+
+    /**
+     * @Groups({"comment:read"})
+     * @SerializedName("userFlag")
+     *
+     * @return string|null
+     */
+    public function getReadableUserFlag(): ?string {
+        return UserFlags::toReadable($this->userFlag);
     }
 
     public function setUserFlag(int $userFlag) {

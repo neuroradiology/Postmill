@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Pagerfanta\Adapter\DoctrineCollectionAdapter;
 use Pagerfanta\Adapter\DoctrineSelectableAdapter;
 use Pagerfanta\Pagerfanta;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ForumRepository")
@@ -26,12 +27,16 @@ class Forum {
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
      *
+     * @Groups({"abbreviated_relations"})
+     *
      * @var int|null
      */
     private $id;
 
     /**
      * @ORM\Column(type="text", unique=true)
+     *
+     * @Groups({"abbreviated_relations"})
      *
      * @var string
      */

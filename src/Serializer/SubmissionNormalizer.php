@@ -3,94 +3,52 @@
 namespace App\Serializer;
 
 use App\Entity\Submission;
-use App\Entity\UserFlags;
-use App\Utils\Slugger;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
-use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
-class SubmissionNormalizer extends AbstractNormalizer {
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private $urlGenerator;
-
+class SubmissionNormalizer implements NormalizerInterface {
     /**
      * @var CacheManager
      */
     private $cacheManager;
 
+    /**
+     * @var ObjectNormalizer
+     */
+    private $normalizer;
+
     public function __construct(
-        UrlGeneratorInterface $urlGenerator,
-        CacheManager $liipCacheManager,
-        ClassMetadataFactoryInterface $classMetadataFactory = null,
-        NameConverterInterface $nameConverter = null
+        CacheManager $cacheManager,
+        ObjectNormalizer $normalizer
     ) {
-        parent::__construct($classMetadataFactory, $nameConverter);
-
-        $this->urlGenerator = $urlGenerator;
-        $this->cacheManager = $liipCacheManager;
-    }
-
-    public function denormalize($data, $class, $format = null, array $context = []) {
-        // TODO
-    }
-
-    public function supportsDenormalization($data, $type, $format = null): bool {
-        return false;
+        $this->cacheManager = $cacheManager;
+        $this->normalizer = $normalizer;
     }
 
     public function normalize($object, $format = null, array $context = []): array {
         if (!$object instanceof Submission) {
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException('Expected $object to be instance of '.Submission::class);
         }
 
-        $normalized = [
-            'resource' => $this->urlGenerator->generate('submission', [
-                'forum_name' => $object->getForum()->getName(),
-                'submission_id' => $object->getId(),
-                'slug' => Slugger::slugify($object->getTitle()),
-            ], UrlGeneratorInterface::ABSOLUTE_URL),
-            'id' => $object->getId(),
-            'forum' => $this->urlGenerator->generate('forum', [
-                'forum_name' => $object->getForum()->getName(),
-            ], UrlGeneratorInterface::ABSOLUTE_URL),
-            'user' => $this->urlGenerator->generate('user', [
-                'username' => $object->getUser()->getUsername(),
-            ], UrlGeneratorInterface::ABSOLUTE_URL),
-            'title' => $object->getTitle(),
-            'body' => $object->getBody(),
-            'url' => $object->getUrl(),
-            'timestamp' => $object->getTimestamp()->format('c'),
-            'locked' => $object->isLocked(),
-            'sticky' => $object->isSticky(),
-            'user_flag' => UserFlags::toReadable($object->getUserFlag()),
-            'edited_at' => $object->getEditedAt()
-                ? $object->getEditedAt()->format('c')
-                : null,
-            'moderated' => $object->isModerated(),
-            'comment_count' => \count($object->getComments()),
-            'upvotes' => $object->getUpvotes(),
-            'downvotes' => $object->getDownvotes(),
-        ];
+        $data = $this->normalizer->normalize($object, $format, $context);
 
-        if ($object->getImage()) {
-            $normalized['thumbnail_1x'] = $this->cacheManager->generateUrl(
-                $object->getImage(),
-                'submission_thumbnail_1x'
-            );
+        if (\in_array('submission:read', $context['groups'] ?? [], true)) {
+            $image = $object->getImage();
 
-            $normalized['thumbnail_2x'] = $this->cacheManager->generateUrl(
-                $object->getImage(),
-                'submission_thumbnail_2x'
-            );
+            foreach (['1x', '2x'] as $size) {
+                if ($image) {
+                    $url = $this->cacheManager->generateUrl(
+                        $image,
+                        "submission_thumbnail_{$size}"
+                    );
+                }
+
+                $data["thumbnail_{$size}"] = $url ?? null;
+            }
         }
 
-        return \array_filter($normalized, function ($element) {
-            return $element !== null;
-        });
+        return $data;
     }
 
     public function supportsNormalization($data, $format = null): bool {

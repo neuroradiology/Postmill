@@ -123,6 +123,12 @@ final class CommentController extends AbstractController {
         ]);
     }
 
+    public function commentJson(Forum $forum, Submission $submission, Comment $comment) {
+        return $this->json($comment, 200, [], [
+            'groups' => ['comment:read', 'abbreviated_relations'],
+        ]);
+    }
+
     /**
      * Edits a comment.
      *

@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubmissionRepository")
@@ -27,12 +29,16 @@ class Submission extends Votable {
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
      *
+     * @Groups({"submission:read", "abbreviated_relations"})
+     *
      * @var int
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
+     *
+     * @Groups({"submission:read"})
      *
      * @var string
      */
@@ -41,12 +47,16 @@ class Submission extends Votable {
     /**
      * @ORM\Column(type="text", nullable=true)
      *
+     * @Groups({"submission:read"})
+     *
      * @var string
      */
     private $url;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
+     * @Groups({"submission:read"})
      *
      * @var string
      */
@@ -63,6 +73,8 @@ class Submission extends Votable {
     /**
      * @ORM\Column(type="datetimetz")
      *
+     * @Groups({"submission:read"})
+     *
      * @var \DateTime
      */
     private $timestamp;
@@ -71,6 +83,8 @@ class Submission extends Votable {
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="Forum", inversedBy="submissions")
      *
+     * @Groups({"submission:read", "abbreviated_relations"})
+     *
      * @var Forum
      */
     private $forum;
@@ -78,6 +92,8 @@ class Submission extends Votable {
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User", inversedBy="submissions")
+     *
+     * @Groups({"submission:read"})
      *
      * @var User
      */
@@ -115,6 +131,8 @@ class Submission extends Votable {
     /**
      * @ORM\Column(type="boolean")
      *
+     * @Groups({"submission:read"})
+     *
      * @var bool
      */
     private $sticky = false;
@@ -129,12 +147,16 @@ class Submission extends Votable {
     /**
      * @ORM\Column(type="datetimetz", nullable=true)
      *
+     * @Groups({"submission:read"})
+     *
      * @var \DateTime|null
      */
     private $editedAt;
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
+     *
+     * @Groups({"submission:read"})
      *
      * @var bool
      */
@@ -150,9 +172,26 @@ class Submission extends Votable {
     /**
      * @ORM\Column(type="boolean", options={"default": false})
      *
+     * @Groups({"submission:read"})
+     *
      * @var bool
      */
     private $locked = false;
+
+    /**
+     * @Groups({"submission:read"})
+     */
+    protected $upvotes;
+
+    /**
+     * @Groups({"submission:read"})
+     */
+    protected $downvotes;
+
+    /**
+     * @Groups({"submission:read"})
+     */
+    protected $netScore;
 
     public function __construct(
         string $title,
@@ -223,6 +262,11 @@ class Submission extends Votable {
         return $this->comments;
     }
 
+    /**
+     * @Groups({"submission:read"})
+     *
+     * @return int
+     */
     public function getCommentCount(): int {
         return \count($this->comments);
     }
@@ -361,6 +405,16 @@ class Submission extends Votable {
 
     public function getUserFlag(): int {
         return $this->userFlag;
+    }
+
+    /**
+     * @Groups({"submission:read"})
+     * @SerializedName("userFlag")
+     *
+     * @return string|null
+     */
+    public function getReadableUserFlag(): ?string {
+        return UserFlags::toReadable($this->userFlag);
     }
 
     public function setUserFlag(int $userFlag) {
