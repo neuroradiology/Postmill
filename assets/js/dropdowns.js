@@ -2,6 +2,8 @@
 
 import $ from 'jquery';
 
+$('.dropdown-container').addClass('js'); // BC
+
 $('.dropdown__toggle').each((i, el) => {
     const $el = $(el);
 
@@ -23,6 +25,7 @@ $(document).on('click', '.dropdown__toggle', function (event) {
     // toggle the current dropdown
     $(this)
         .attr('aria-expanded', !$(container).hasClass('dropdown--expanded'))
+        .toggleClass('expanded') // BC
         .parent('.dropdown')
         .toggleClass('dropdown--expanded');
 

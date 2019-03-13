@@ -24,12 +24,12 @@
       </li>
 
       {% if is_granted('ROLE_ADMIN') %}
-        <li class="site-nav__item dropdown dropdown">
-          <a href="#" class="site-nav__link dropdown__toggle">
-            {{ 'label.admin'|trans }}
-            <span class="dropdown__toggle" role="presentation"></span>
+        <li class="dropdown site-nav__item dropdown-container">
+          <a href="#" class="dropdown__toggle site-nav__link no-underline dropdown-toggle">
+            <span class="no-underline__exempt">{{ 'label.admin'|trans }}</span>
+            <span class="dropdown__arrow" role="presentation"></span>
           </a>
-          <ul class="card dropdown__menu no-wrap unlistify">
+          <ul class="card dropdown__menu no-wrap unlistify dropdown-menu">
             <li><a href="{{ path('user_bans') }}" class="menu-link">{{ icon('hammer') }} {{ 'label.bans'|trans }}</a></li>
             <li><a href="{{ path('manage_forum_categories') }}" class="menu-link">{{ icon('sitemap') }} {{ 'nav.forum_categories'|trans }}</a></li>
             <li><a href="{{ path('users') }}" class="menu-link">{{ icon('user') }} {{ 'nav.users'|trans }}</a></li>
@@ -66,12 +66,12 @@
         </li>
 
         {# user menu #}
-        <li class="site-nav__item dropdown dropdown--right">
-          <a href="#" class="no-underline site-nav__link dropdown__toggle">
+        <li class="dropdown dropdown--right site-nav__item dropdown-container">
+          <a href="#" class="dropdown__toggle no-underline site-nav__link dropdown-toggle">
             <strong class="no-underline__exempt">{{ app.user.username }}</strong>
             <span class="dropdown__arrow" role="presentation"></span>
           </a>
-          <ul class="card dropdown__menu no-wrap unlistify">
+          <ul class="card dropdown__menu no-wrap unlistify dropdown-menu">
             <li><a href="{{ path('user', {username: app.user.username}) }}" class="menu-link">{{ icon('user') }} {{ 'nav.profile'|trans }}</a></li>
             <li><a href="{{ path('message_list') }}" class="menu-link">{{ icon('mail') }} {{ 'nav.messages'|trans }}</a></li>
             <li><a href="{{ path('edit_user', {username: app.user.username}) }}" class="menu-link">{{ icon('lock') }} {{ 'nav.my_account'|trans }}</a></li>
