@@ -110,6 +110,7 @@ final class CommentController extends AbstractController {
                 'forum_name' => $forum->getName(),
                 'submission_id' => $submission->getId(),
                 'comment_id' => $reply->getId(),
+                'slug' => Slugger::slugify($submission->getTitle()),
             ]);
         }
 
