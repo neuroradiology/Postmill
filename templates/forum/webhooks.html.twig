@@ -23,19 +23,19 @@
       <table class="table">
         <thead>
           <tr>
-            <th></th>
-            <th>{{ 'label.event'|trans }}</th>
+            <th class="table__shrink"></th>
+            <th class="table__shrink">{{ 'label.event'|trans }}</th>
             <th>{{ 'label.url'|trans }}</th>
-            <th></th>
+            <th class="table__shrink"></th>
           </tr>
         </thead>
         <tbody>
           {% for webhook in forum.webhooks %}
             <tr>
-              <td><input type="checkbox" name="webhook[]" value="{{ webhook.id }}"></td>
-              <td>{{ ('label.event.'~webhook.event)|trans }}</td>
+              <td class="table__shrink"><input type="checkbox" name="webhook[]" value="{{ webhook.id }}"></td>
+              <td class="table__shrink">{{ ('label.event.'~webhook.event)|trans }}</td>
               <td><kbd>{{ webhook.url }}</kbd></td>
-              <td>
+              <td class="table__shrink">
                 <a href="{{ path('forum_edit_webhook', {forum_name: forum.name, webhook_id: webhook.id}) }}"
                    class="button button--inline">{{ 'action.edit'|trans }}</a>
               </td>

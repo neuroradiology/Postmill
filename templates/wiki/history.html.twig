@@ -17,27 +17,27 @@
     <table class="table">
       <thead>
         <tr>
-          <th colspan="2">{{ 'label.compare'|trans }}</th>
-          <th>{{ 'wiki.id_label'|trans }}</th>
-          <th>{{ 'wiki.revision_time'|trans }}</th>
+          <th class="table__shrink" colspan="2">{{ 'label.compare'|trans }}</th>
+          <th class="table__shrink">{{ 'wiki.id_label'|trans }}</th>
+          <th class="table__shrink">{{ 'wiki.revision_time'|trans }}</th>
           <th>{{ 'wiki.user'|trans }}</th>
         </tr>
       </thead>
       <tbody>
         {% for revision in revisions %}
           <tr>
-            <td><input type="radio"
+            <td class="table__shrink"><input type="radio"
                        name="from"
                        value="{{ revision.id }}"
                        {{ loop.index == 2 ? 'checked' }}></td>
-            <td><input type="radio"
+            <td class="table__shrink"><input type="radio"
                        name="to"
                        value="{{ revision.id }}"
                        {{ loop.index == 1 ? 'checked' }}></td>
-            <td>
+            <td class="table__shrink">
               <a href="{{ path('wiki_revision', {id: revision.id}) }}">{{ revision.id.hex|slice(0, 8) }}</a>
             </td>
-            <td>
+            <td class="table__shrink">
               {% with {date: revision.timestamp|localizeddate('long', 'short')} %}
                 <time datetime="{{ revision.timestamp|date('c') }}" class="relative-time" title="{{ date }}">
                   {{- date -}}

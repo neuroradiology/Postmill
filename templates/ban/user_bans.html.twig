@@ -17,27 +17,27 @@
     <table class="table">
       <thead>
         <tr>
-          <th>{{ 'label.username'|trans }}</th>
-          <th>{{ 'label.banned_by'|trans }}</th>
-          <th>{{ 'label.banned'|trans }}</th>
-          <th>{{ 'label.expires'|trans }}</th>
+          <th class="table__shrink">{{ 'label.username'|trans }}</th>
+          <th class="table__shrink">{{ 'label.banned_by'|trans }}</th>
+          <th class="table__shrink">{{ 'label.banned'|trans }}</th>
+          <th class="table__shrink">{{ 'label.expires'|trans }}</th>
           <th>{{ 'label.reason'|trans }}</th>
-          <th></th>
+          <th class="table__shrink"></th>
         </tr>
       </thead>
       <tbody>
         {% for ban in bans %}
           <tr>
-            <td>{{ user_link(ban.user) }}</td>
-            <td>{{ user_link(ban.bannedBy) }}</td>
-            <td>
+            <td class="table__shrink">{{ user_link(ban.user) }}</td>
+            <td class="table__shrink">{{ user_link(ban.bannedBy) }}</td>
+            <td class="table__shrink">
               {% with { date: ban.timestamp|localizeddate('long', 'short') } %}
                 <time datetime="{{ ban.timestamp|date('c') }}" title="{{ date }}" class="relative-time">
                   {{- date -}}
                 </time>
               {% endwith %}
             </td>
-            <td>
+            <td class="table__shrink">
               {% if ban.expiresAt %}
                 {% set date = ban.expiresAt|localizeddate('long', 'short') %}
                 <time datetime="{{ ban.expiresAt|date('c') }}" title="{{ date }}" class="relative-time">
@@ -48,7 +48,7 @@
               {% endif %}
             </td>
             <td>{{ ban.reason }}</td>
-            <td>
+            <td class="table__shrink">
               <a href="{{ path('unban_user', {username: ban.user.username}) }}" class="button button--inline">
                 {{- 'action.unban'|trans -}}
               </a>
