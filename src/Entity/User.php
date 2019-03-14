@@ -252,6 +252,13 @@ class User implements UserInterface, EquatableInterface {
      */
     private $enablePostPreviews = true;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default": true})
+     *
+     * @var bool
+     */
+    private $showThumbnails = true;
+
     public function __construct(string $username, string $password, \DateTime $created = null) {
         $this->setUsername($username);
         $this->password = $password;
@@ -629,6 +636,14 @@ class User implements UserInterface, EquatableInterface {
 
     public function setEnablePostPreviews(bool $enablePostPreviews): void {
         $this->enablePostPreviews = $enablePostPreviews;
+    }
+
+    public function showThumbnails(): bool {
+        return $this->showThumbnails;
+    }
+
+    public function setShowThumbnails(bool $showThumbnails): void {
+        $this->showThumbnails = $showThumbnails;
     }
 
     /**

@@ -314,6 +314,7 @@ label:
     user_associated_with_ip: User associated with IP
     let_forums_override_preferred_theme: Let forums override preferred theme
     search: Search for a post...
+    show_thumbnails: Show thumbnails
 
 log:
     comment_deletion: '%user% deleted comment by %author% in "%submission%"'
