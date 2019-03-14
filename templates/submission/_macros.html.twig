@@ -15,7 +15,8 @@
   {%- spaceless -%}
     {%- for type in types -%}
       <li class="tabs__tab {{ type == current ? 'tabs__tab--active active' }}">
-        <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? [])|merge({sortBy: type, t: time})) }}" class="tabs__link {{ type == current ? 'tabs__link--active' }}">
+        <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? [])|merge({sortBy: type, t: time})) }}"
+           class="tab tabs__link {{ type == current ? 'tab--active tabs__link--active' }}">
           {{- ('submissions.sort_by_'~type)|trans -}}
         </a>
       </li>
@@ -42,7 +43,8 @@
   {%- spaceless -%}
     {%- for time in times -%}
       <li class="tabs__tab {{ time == current ? 'tabs__tab--active active' }}">
-        <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? [])|merge({t: time})) }}" class="tabs__link {{ time == current ? 'tabs__link--active' }}">
+        <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? [])|merge({t: time})) }}"
+           class="tab tabs__link {{ time == current ? 'tab--active tabs__link--active' }}">
           {{- ('submissions.time_'~time)|trans -}}
         </a>
       </li>
