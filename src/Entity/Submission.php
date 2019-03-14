@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubmissionRepository")
@@ -35,7 +36,8 @@ class Submission extends Votable {
      * @ORM\Column(type="bigint")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
-     * @Groups({"read"})
+     *
+     * @Groups({"read", "submission:read", "abbreviated_relations"})
      *
      * @var int
      */
@@ -43,7 +45,8 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"read", "write"})
+     *
+     * @Groups({"read", "write", "submission:read"})
      *
      * @var string
      */
@@ -51,7 +54,8 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"read", "write"})
+     *
+     * @Groups({"read", "write", "submission:read"})
      *
      * @var string
      */
@@ -59,7 +63,8 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"read", "write"})
+     *
+     * @Groups({"read", "write", "submission:read"})
      *
      * @var string
      */
@@ -76,7 +81,8 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="datetimetz")
-     * @Groups({"read"})
+     *
+     * @Groups({"read", "submission:read"})
      *
      * @var \DateTime
      */
@@ -86,6 +92,8 @@ class Submission extends Votable {
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="Forum", inversedBy="submissions")
      *
+     * @Groups({"submission:read", "abbreviated_relations"})
+     *
      * @var Forum
      */
     private $forum;
@@ -93,6 +101,8 @@ class Submission extends Votable {
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User", inversedBy="submissions")
+     *
+     * @Groups({"submission:read"})
      *
      * @var User
      */
@@ -131,7 +141,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="boolean")
-     * @Groups({"read", "mod:write"})
+     * @Groups({"read", "mod:write", "submission:read"})
      *
      * @var bool
      */
@@ -147,7 +157,7 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="datetimetz", nullable=true)
-     * @Groups({"admin:read"})
+     * @Groups({"submission:read"})
      *
      * @var \DateTime|null
      */
@@ -155,7 +165,8 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
-     * @Groups({"admin:read"})
+     *
+     * @Groups({"submission:read", "admin:read"})
      *
      * @var bool
      */
@@ -163,7 +174,6 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="smallint", options={"default": 0})
-     * @Groups({"admin:read"})
      *
      * @var int
      */
@@ -171,11 +181,26 @@ class Submission extends Votable {
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
-     * @Groups({"admin:read"})
+     * @Groups({"submission:read"})
      *
      * @var bool
      */
     private $locked = false;
+
+    /**
+     * @Groups({"submission:read"})
+     */
+    protected $upvotes;
+
+    /**
+     * @Groups({"submission:read"})
+     */
+    protected $downvotes;
+
+    /**
+     * @Groups({"submission:read"})
+     */
+    protected $netScore;
 
     public function __construct(
         string $title,
@@ -246,6 +271,11 @@ class Submission extends Votable {
         return $this->comments;
     }
 
+    /**
+     * @Groups({"submission:read"})
+     *
+     * @return int
+     */
     public function getCommentCount(): int {
         return \count($this->comments);
     }
@@ -384,6 +414,16 @@ class Submission extends Votable {
 
     public function getUserFlag(): int {
         return $this->userFlag;
+    }
+
+    /**
+     * @Groups({"submission:read"})
+     * @SerializedName("userFlag")
+     *
+     * @return string|null
+     */
+    public function getReadableUserFlag(): ?string {
+        return UserFlags::toReadable($this->userFlag);
     }
 
     public function setUserFlag(int $userFlag) {

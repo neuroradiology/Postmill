@@ -1,22 +1,53 @@
 {% use '_layouts/submission.html.twig' %}
 
-{% macro submission(submission, options) %}
+{%- macro submission(submission, options) -%}
   {%- with {
+    open_external_links_in_new_tab: options.open_external_links_in_new_tab ?? app.user.openExternalLinksInNewTab ?? false,
     show_body: options.show_body ?? false,
     show_forum_name: options.show_forum_name ?? true,
+    show_thumbnails: options.show_thumbnails ?? app.user.showThumbnails ?? true,
     submission: submission
   } only -%}
     {{ block('submission') }}
   {%- endwith -%}
-{% endmacro -%}
+{%- endmacro -%}
 
-{%- macro submission_sort(current) -%}
+{%- macro submission_sort_generic(current, types, time) -%}
   {%- set attr = app.request.attributes -%}
   {%- spaceless -%}
-    {%- for type in ['hot', 'new', 'top', 'controversial', 'most_commented'] -%}
+    {%- for type in types -%}
       <li class="tabs__tab {{ type == current ? 'tabs__tab--active active' }}">
-        <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? [])|merge({sortBy: type})) }}" class="tabs__link {{ type == current ? 'tabs__link--active' }}">
+        <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? [])|merge({sortBy: type, t: time})) }}"
+           class="tab tabs__link {{ type == current ? 'tab--active tabs__link--active' }}">
           {{- ('submissions.sort_by_'~type)|trans -}}
+        </a>
+      </li>
+    {%- endfor -%}
+  {%- endspaceless -%}
+{%- endmacro -%}
+
+{%- macro submission_sort(current) -%}
+  {%- import _self as macros -%}
+
+  {# Sorting options are impacted by time filters, which is what the following is about #}
+
+  {# Hot and New shouldn't be time filtered, hence null . #}
+  {{- macros.submission_sort_generic(current, ['hot', 'new'], null) -}}
+
+  {# When changing sorting modes, we set it to 'all' #}
+  {{- macros.submission_sort_generic(current, ['top', 'controversial', 'most_commented'], 'all') -}}
+{%- endmacro -%}
+
+{%- macro submission_time(current) -%}
+  {%- set attr = app.request.attributes -%}
+  {%- set times = ['all', 'year', 'month', 'week', 'day'] -%}
+  {%- set current = current in times ? current : 'all' -%}
+  {%- spaceless -%}
+    {%- for time in times -%}
+      <li class="tabs__tab {{ time == current ? 'tabs__tab--active active' }}">
+        <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? [])|merge({t: time})) }}"
+           class="tab tabs__link {{ time == current ? 'tab--active tabs__link--active' }}">
+          {{- ('submissions.time_'~time)|trans -}}
         </a>
       </li>
     {%- endfor -%}

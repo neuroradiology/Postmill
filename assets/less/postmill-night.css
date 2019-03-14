@@ -10,17 +10,18 @@
   --mono-font-family: Roboto Mono, monospace;
   --mono-font-size: 14px;
 
-  --link: #fff;
-  --submission-link: var(--link);
+  --link: #faa;
+  --submission-link: #fff;
   --submission-link-visited: var(--text);
   --submission-link-sticky: var(--fg-green);
 
   --primary: #c00;
   --primary-alt: #a00;
   --primary-fg: #fff;
-  --accent: var(--bg-grey);
-  --accent-alt: #dedede;
+  --accent: #424242;
+  --accent-alt: #525252;
   --accent-fg: #fff;
+  --card: var(--bg-page);
   --sidebar-card: #010;
 
   --bg-red: #660000;
@@ -37,7 +38,7 @@
   --fg-green: #8f8;
   --fg-blue: #4af;
   --fg-grey: #777;
-  --border: #aaa;
+  --border: #666;
 }
 
 .select2-container {

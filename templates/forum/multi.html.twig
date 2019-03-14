@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% from 'submission/_macros.html.twig' import submission, submission_sort %}
+{% from 'submission/_macros.html.twig' import submission, submission_sort, submission_time %}
 
 {% block page_classes 'multi-forum-page' %}
 
@@ -12,6 +12,8 @@
 {% block body %}
   <nav class="tabs submission-sort">
     <ul class="tabs__bar">{{ submission_sort(sort_by) }}</ul>
+
+    {% include '_includes/time_filters.html.twig' with {sort_by: sort_by, time: app.request.query.get('t')} %}
   </nav>
 
   {% for submission in submissions %}

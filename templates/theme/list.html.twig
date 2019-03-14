@@ -20,22 +20,22 @@
     <thead>
       <tr>
         <th>{{ 'label.name'|trans }}</th>
-        <th>{{ 'label.last_revised'|trans }}</th>
-        <th></th>
+        <th class="table__shrink">{{ 'label.last_revised'|trans }}</th>
+        <th class="table__shrink"></th>
       </tr>
     </thead>
     <tbody>
       {% for theme in themes %}
         <tr>
           <td>{{ user_link(theme.author) }}/<strong>{{ theme.name }}</strong></td>
-          <td>
+          <td class="table__shrink">
             {% with {date: theme.latestRevision.modified|localizeddate('long', 'short')} %}
               <time datetime="{{ theme.latestRevision.modified|date('c') }}" title="{{ date }}" class="relative-time">
                 {{- date -}}
               </time>
             {% endwith %}
           </td>
-          <td>
+          <td class="table__shrink">
             {% if is_granted('edit', theme) %}
               <a href="{{ path('edit_theme_css', {name: theme.name, username: theme.author.username}) }}"
                  class="button button--inline">

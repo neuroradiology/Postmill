@@ -35,7 +35,7 @@ class Forum {
      * @ORM\Column(type="bigint")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
-     * @Groups({"read"})
+     * @Groups({"read", "abbreviated_relations"})
      *
      * @var int|null
      */
@@ -43,7 +43,7 @@ class Forum {
 
     /**
      * @ORM\Column(type="text", unique=true)
-     * @Groups({"read", "write"})
+     * @Groups({"read", "write", "abbreviated_relations"})
      *
      * @var string
      */

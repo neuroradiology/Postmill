@@ -32,9 +32,11 @@
   {% endspaceless %}
 
   <nav class="tabs submission-sort">
-    <ul class="tabs__bar">
+    <ul class="unlistify tabs__bar">
       {{- submission_sort(sort_by) -}}
     </ul>
+
+    {% include '_includes/time_filters.html.twig' with {sort_by: sort_by, time: app.request.query.get('t')} %}
   </nav>
 
   {% if submissions.isEmpty() %}

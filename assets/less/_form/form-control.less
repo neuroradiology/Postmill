@@ -1,0 +1,59 @@
+.form-control {
+  background-color: var(--bg-page); // todo
+  border: solid 1px var(--border);
+  color: var(--text);
+  display: block;
+  padding: 0.5rem;
+
+  input&:not([type]),
+  &[type="text"],
+  &[type="password"],
+  &[type="email"],
+  &[type="url"] {
+    -webkit-appearance: none; // disable ugly shade on iOS
+    border-radius: 0; // disable rounded corners on iOS
+    max-width: 100%;
+
+    &:not([size]) {
+      width: 100%;
+    }
+  }
+
+  &[type="date"],
+  &[type="time"] {
+    -webkit-appearance: none;
+    border-radius: 0;
+    min-height: ~'calc(1rem + var(--font-size) * var(--line-height))';
+    min-width: 5rem; // fix for iOS
+  }
+
+  select&:not([multiple]) {
+    height: ~'calc(1rem + var(--font-size) * var(--line-height))';
+  }
+
+  textarea& {
+    -webkit-appearance: none; // disable ugly shade on iOS
+    border-radius: 0; // disable rounded corners on iOS
+    min-height: ~'calc(1rem + var(--font-size) * var(--line-height))';
+    resize: vertical;
+    width: 100%;
+  }
+
+  &:focus {
+    border-color: var(--primary);
+    outline: none;
+  }
+
+  &:invalid {
+    box-shadow: unset; // remove default browser style
+  }
+
+  &[disabled] {
+    background-color: var(--bg-grey);
+    color: var(--fg-grey);
+  }
+
+  &[readonly]:focus {
+    border-color: var(--border);
+  }
+}

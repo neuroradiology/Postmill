@@ -213,6 +213,7 @@ help:
         when browsing the "featured" and "all" submission listings. You can
         still subscribe to and moderate forums you choose to hide.
     hidden_forums_no_comment_hiding: Comments posted to hidden forums will still be displayed in the "recent comments" listing.
+    required_field: This field is required.
 
 inbox:
     title: Inbox
@@ -314,6 +315,7 @@ label:
     user_associated_with_ip: User associated with IP
     let_forums_override_preferred_theme: Let forums override preferred theme
     search: Search for a post...
+    show_thumbnails: Show thumbnails
 
 log:
     comment_deletion: '%user% deleted comment by %author% in "%submission%"'
@@ -446,6 +448,11 @@ submissions:
     sort_by_top: Top
     sort_by_controversial: Controversial
     sort_by_most_commented: Most commented
+    time_all: All time
+    time_year: Past year
+    time_month: Past month
+    time_week: Past week
+    time_day: Past 24 hours
     total_votes: '{1} %count% point|[0,Inf[ %count% points'
     vote_stats: (+%up%, −%down%)
     edit_info: (edited %edited_at%)

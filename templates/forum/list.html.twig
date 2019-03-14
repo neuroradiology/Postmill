@@ -20,19 +20,19 @@
 {% block body %}
   {{ forum_list_header() }}
 
-  <table class="table table--fixed-columns forum-list">
+  <table class="table forum-list">
     <thead>
       <tr>
-        <th>{{ th('forum_list.name'|trans, 'by_name', sortBy) }}</th>
+        <th class="table__shrink">{{ th('forum_list.name'|trans, 'by_name', sortBy) }}</th>
         <th>{{ th('forum_list.title'|trans, 'by_title', sortBy) }}</th>
-        <th>{{ th('forum_list.submission_count'|trans, 'by_submissions', sortBy) }}</th>
-        <th>{{ th('forum_list.subscribers'|trans, 'by_subscribers', sortBy) }}</th>
+        <th class="table__shrink">{{ th('forum_list.submission_count'|trans, 'by_submissions', sortBy) }}</th>
+        <th class="table__shrink">{{ th('forum_list.subscribers'|trans, 'by_subscribers', sortBy) }}</th>
       </tr>
     </thead>
     <tbody>
       {% for forum in forums %}
         <tr>
-          <td>
+          <td class="table__shrink">
             <a href="{{ path('forum', {forum_name: forum.name}) }}"><strong>{{ forum.name }}</strong></a>
 
             {% if forum.featured %}
@@ -44,11 +44,11 @@
             {% endif %}
           </td>
           <td>{{ forum.title }}</td>
-          <td>{{ forum.submissions|length|localizednumber }}</td>
+          <td class="table__shrink">{{ forum.submissions|length|localizednumber }}</td>
           {% if is_granted('ROLE_USER') %}
             {% from 'forum/_macros.html.twig' import subscribe_button %}
             {% set subscribed = forum.subscribed(app.user) %}
-            <td>
+            <td class="table__shrink">
               <form action="{{ path(subscribed ? 'unsubscribe' : 'subscribe', {forum_name: forum.name}) }}"
                     method="POST"
                     class="subscribe-form"
@@ -58,7 +58,7 @@
               </form>
             </td>
           {% else %}
-            <td>{{ forum.subscriptions|length|localizednumber }}</td>
+            <td class="table__shrink">{{ forum.subscriptions|length|localizednumber }}</td>
           {% endif %}
         </tr>
       {% endfor %}

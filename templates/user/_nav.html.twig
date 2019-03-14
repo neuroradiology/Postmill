@@ -1,5 +1,5 @@
 <nav class="tabs user-nav">
-  <ul class="tabs__bar">
+  <ul class="unlistify tabs__bar">
     {% for tab in [
       { path: 'user', label: 'label.overview' },
       { path: 'user_submissions', label: 'user.submissions' },
@@ -7,7 +7,7 @@
     ] %}
       <li class="tabs__tab {{ tab.path == current ? 'tabs__tab--active' }}">
         <a href="{{ path(tab.path, {username: user.username}) }}"
-           class="tabs__link {{ tab.path == current ? 'tabs__link--active' }}">
+           class="tab tabs__link {{ tab.path == current ? 'tab--active tabs__link--active' }}">
           {{- tab.label|trans -}}
         </a>
       </li>

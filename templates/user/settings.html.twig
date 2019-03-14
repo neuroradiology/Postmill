@@ -3,11 +3,13 @@
 {% block title 'user_settings.title'|trans({'%username%': user.username}) %}
 {% block page_classes 'user-settings-page' %}
 
+{% form_theme form '_forms/aligned_form_theme.html.twig' %}
+
 {% block body %}
   <h1 class="page-heading">{{ block('title') }}</h1>
 
   {{ form_start(form) }}
-    <fieldset class="form__group">
+    <fieldset class="fieldset form__group">
       <legend class="form__group-header">{{ 'label.general'|trans }}</legend>
 
       {{ form_row(form.locale) }}
@@ -15,9 +17,11 @@
       {{ form_row(form.front_page) }}
 
       {{ form_row(form.openExternalLinksInNewTab) }}
+
+      {{ form_row(form.showThumbnails) }}
     </fieldset>
 
-    <fieldset class="form__group">
+    <fieldset class="fieldset form__group">
       <legend class="form__group-header">{{ 'label.posting'|trans }}</legend>
 
       {{ form_row(form.autoFetchSubmissionTitles) }}
@@ -25,7 +29,7 @@
       {{ form_row(form.enablePostPreviews) }}
     </fieldset>
 
-    <fieldset class="form__group">
+    <fieldset class="fieldset form__group">
       <legend class="form__group-header">{{ 'label.appearance'|trans }}</legend>
 
       {{ form_row(form.preferred_theme, {attr: {class: 'select2'}}) }}

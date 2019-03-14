@@ -47,7 +47,7 @@ class User implements UserInterface, EquatableInterface {
      * @ORM\Column(type="bigint")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
-     * @Groups({"read"})
+     * @Groups({"read", "abbreviated_relations"})
      *
      * @var int|null
      */
@@ -55,6 +55,8 @@ class User implements UserInterface, EquatableInterface {
 
     /**
      * @ORM\Column(type="text", unique=true)
+     *
+     * @Groups({"abbreviated_relations"})
      *
      * @var string
      */
@@ -255,6 +257,13 @@ class User implements UserInterface, EquatableInterface {
      * @var bool
      */
     private $enablePostPreviews = true;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": true})
+     *
+     * @var bool
+     */
+    private $showThumbnails = true;
 
     public function __construct(string $username, string $password, \DateTime $created = null) {
         $this->setUsername($username);
@@ -633,6 +642,14 @@ class User implements UserInterface, EquatableInterface {
 
     public function setEnablePostPreviews(bool $enablePostPreviews): void {
         $this->enablePostPreviews = $enablePostPreviews;
+    }
+
+    public function showThumbnails(): bool {
+        return $this->showThumbnails;
+    }
+
+    public function setShowThumbnails(bool $showThumbnails): void {
+        $this->showThumbnails = $showThumbnails;
     }
 
     /**

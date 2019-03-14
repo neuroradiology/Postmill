@@ -1,0 +1,7 @@
+{% from 'submission/_macros.html.twig' import submission_time %}
+
+{%- if (time != null and time != 'all') or (sort_by != 'hot' and sort_by != 'new') -%}
+  <ul class="unlistify tabs__bar">
+    {{- submission_time(time) -}}
+  </ul>
+{%- endif -%}

@@ -19,8 +19,10 @@
 
 {% block body %}
   <nav class="tabs submission-sort">
-    <ul class="tabs__bar">{{ submission_sort(sort_by) }}</ul>
-    <ul class="tabs__bar">{{ submission_filter(listing, sort_by) }}</ul>
+    <ul class="unlistify tabs__bar">{{ submission_sort(sort_by) }}</ul>
+    <ul class="unlistify tabs__bar">{{ submission_filter(listing, sort_by) }}</ul>
+
+    {%- include '_includes/time_filters.html.twig' with {sort_by: sort_by, time: app.request.query.get('t')} -%}
   </nav>
 
   {% block front_alerts '' %}
@@ -41,7 +43,7 @@
 {%- macro submission_filter(choice, sort_by) -%}
   {% with { active: choice == 'featured' } %}
     <li class="tabs__tab {{ active ? 'tabs__tab--active active' }}">
-      <a href="{{ path('featured', {sortBy: sort_by}) }}" class="tabs__link {{ active ? 'tabs__link--active' }}">
+      <a href="{{ path('featured', {sortBy: sort_by}) }}" class="tab tabs__link {{ active ? 'tab--active tabs__link--active' }}">
         {{- 'front.featured'|trans -}}
       </a>
     </li>
@@ -50,7 +52,7 @@
   {% if is_granted('ROLE_USER') %}
     {% with { active: choice == 'subscribed' } %}
       <li class="tabs__tab {{ active ? 'tabs__tab--active active' }}">
-        <a href="{{ path('subscribed', {sortBy: sort_by}) }}" class="tabs__link {{ active ? 'tabs__link--active' }}">
+        <a href="{{ path('subscribed', {sortBy: sort_by}) }}" class="tab tabs__link {{ active ? 'tab--active tabs__link--active' }}">
           {{- 'front.subscribed'|trans -}}
         </a>
       </li>
@@ -59,7 +61,7 @@
 
   {% with { active: choice == 'all' } %}
     <li class="tabs__tab {{ active ? 'tabs__tab--active active' }}">
-      <a href="{{ path('all', {sortBy: sort_by}) }}" class="tabs__link {{ active ? 'tabs__link--active' }}">
+      <a href="{{ path('all', {sortBy: sort_by}) }}" class="tab tabs__link {{ active ? 'tab--active tabs__link--active' }}">
         {{- 'front.all'|trans -}}
       </a>
     </li>
@@ -68,7 +70,7 @@
   {% if choice == 'moderated' or app.user and app.user.moderatorTokens|length > 0 %}
     {% with { active: choice == 'moderated' } %}
       <li class="tabs__tab {{ active ? 'tabs__tab--active active' }}">
-        <a href="{{ path('moderated', {sortBy: sort_by}) }}" class="tabs__link {{ active ? 'tabs__link--active' }}">
+        <a href="{{ path('moderated', {sortBy: sort_by}) }}" class="tab tabs__link {{ active ? 'tab--active tabs__link--active' }}">
           {{- 'nav.moderated'|trans -}}
         </a>
       </li>

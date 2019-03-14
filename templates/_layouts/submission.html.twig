@@ -29,14 +29,14 @@
 {%- block submission -%}
   {%- from '_macros/icon.html.twig' import icon -%}
   {%- from 'vote/_macros.html.twig' import vote -%}
-  {%- set open_external = submission.url is not empty and (app.user.openExternalLinksInNewTab ?? false) -%}
+  {%- set open_external = submission.url is not empty and open_external_links_in_new_tab -%}
   <article class="{{ block('submission_classes') }}">
     <div class="submission-row">
       <div class="submission-vote">
         {{- vote(submission, 'submission_vote') -}}
       </div>
 
-      {% if submission.image %}
+      {% if submission.image and show_thumbnails %}
         <div class="submission-image-container">
           <a href="{{ block('submission_url') }}" class="submission-image" {% if submission.url %}rel="nofollow noreferrer noopener" {% if open_external %}target="_blank"{% endif %}{% endif %}>
             <img src="{{ submission.image|imagine_filter('submission_thumbnail_1x') }}"

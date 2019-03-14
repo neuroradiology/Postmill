@@ -105,7 +105,7 @@ class ApplicationAvailabilityTest extends WebTestCase {
         yield ['/f/news/top.atom'];
         yield ['/f/news/controversial.atom'];
         yield ['/f/news/most_commented.atom'];
-        yield ['/f/news/1/comment/1'];
+        yield ['/f/news/1/-/comment/1'];
         yield ['/f/news/bans'];
         yield ['/f/news/moderation_log'];
         yield ['/forums'];
@@ -129,7 +129,7 @@ class ApplicationAvailabilityTest extends WebTestCase {
         yield ['/f/news/top', '/f/NeWs/top'];
         yield ['/f/news/controversial', '/f/NeWs/controversial'];
         yield ['/f/news/most_commented', '/f/NeWs/most_commented'];
-        yield ['/f/news/1/comment/1', '/f/NeWs/1/comment/1'];
+        yield ['/f/news/1/-/comment/1', '/f/NeWs/1/comment/1'];
         yield ['/f/news/hot.atom', '/f/news/hot/1.atom'];
         yield ['/f/news/new.atom', '/f/news/new/1.atom'];
     }

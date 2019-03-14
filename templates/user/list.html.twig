@@ -26,22 +26,22 @@
   <table class="table">
     <thead>
       <tr>
-        <th>{{ 'label.id'|trans }}</th>
+        <th class="table__shrink">{{ 'label.id'|trans }}</th>
         <th>{{ 'label.username'|trans }}</th>
         <th>{{ 'label.registration_date'|trans }}</th>
         <th>{{ 'label.role'|trans }}</th>
         <th>{{ 'label.moderates'|trans }}</th>
-        <th><abbr title="{{ 'label.submissions'|trans }}">{{ 'label.submissions_short'|trans }}</abbr></th>
-        <th><abbr title="{{ 'label.comments'|trans }}">{{ 'label.comments_short'|trans }}</abbr></th>
-        <th><abbr title="{{ 'label.submission_votes'|trans }}">{{ 'label.submission_votes_short'|trans }}</abbr></th>
-        <th><abbr title="{{ 'label.comment_votes'|trans }}">{{ 'label.comment_votes_short'|trans }}</abbr></th>
+        <th class="table__shrink"><abbr title="{{ 'label.submissions'|trans }}">{{ 'label.submissions_short'|trans }}</abbr></th>
+        <th class="table__shrink"><abbr title="{{ 'label.comments'|trans }}">{{ 'label.comments_short'|trans }}</abbr></th>
+        <th class="table__shrink"><abbr title="{{ 'label.submission_votes'|trans }}">{{ 'label.submission_votes_short'|trans }}</abbr></th>
+        <th class="table__shrink"><abbr title="{{ 'label.comment_votes'|trans }}">{{ 'label.comment_votes_short'|trans }}</abbr></th>
       </tr>
     </thead>
 
     <tbody>
       {% for user in users %}
         <tr>
-          <td>{{ user.id }}</td>
+          <td class="table__shrink">{{ user.id }}</td>
           <td>{{ user_link(user) }}</td>
           <td>
             {% with { date: user.created|localizeddate('long', 'short')} %}
@@ -56,22 +56,22 @@
               {{ count > 0 ? 'label.forums_count'|trans({'%count%': count}) : '-' }}
             {% endwith %}
           </td>
-          <td>
+          <td class="table__shrink">
             {% with { count: user.submissions|length } %}
               {{ count > 0 ? count|localizednumber : '-' }}
             {% endwith %}
           </td>
-          <td>
+          <td class="table__shrink">
             {% with { count: user.comments|length } %}
               {{ count > 0 ? count|localizednumber : '-' }}
             {% endwith %}
           </td>
-          <td>
+          <td class="table__shrink">
             {% with { count: user.submissionVotes|length } %}
               {{ count > 0 ? count|localizednumber : '-' }}
             {% endwith %}
           </td>
-          <td>
+          <td class="table__shrink">
             {% with { count: user.commentVotes|length } %}
               {{ count > 0 ? count|localizednumber : '-' }}
             {% endwith %}

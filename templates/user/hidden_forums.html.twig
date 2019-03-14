@@ -20,16 +20,16 @@
     <table class="table">
       <thead>
         <tr>
-          <th>{{ 'forum_list.name'|trans }}</th>
+          <th class="table__shrink">{{ 'forum_list.name'|trans }}</th>
           <th>{{ 'forum_list.title'|trans }}</th>
-          <th></th>
+          <th class="table__shrink"></th>
         </tr>
       </thead>
 
       <tbody>
       {% for forum in forums %}
         <tr>
-          <td>
+          <td class="table__shrink">
             <a href="{{ path('forum', {forum_name: forum.name}) }}"><strong>{{ forum.name }}</strong></a>
 
             {% if forum.featured %}
@@ -39,7 +39,7 @@
 
           <td>{{ forum.title }}</td>
 
-          <td>
+          <td class="table__shrink">
             <form action="{{ path('unhide_forum', {username: user.username, forum: forum.id}) }}" method="POST">
               <input type="hidden" name="token" value="{{ csrf_token('hide_forum') }}">
               <button class="button button--inline">{{ 'action.delete'|trans }}</button>

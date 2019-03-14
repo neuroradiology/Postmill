@@ -2,22 +2,25 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Exception\BannedFromForumException;
 use App\Entity\Exception\SubmissionLockedException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiSubresource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
  * @ORM\Table(name="comments")
+ *
  * @ApiResource(
- * 	attributes={
- * 		"normalization_context"={"groups"={"comment_read", "read", "abbreviated_user"}},
- * 	}
+ *     itemOperations={
+ *         "get": {
+ *             "normalization_context": {"groups": {"comment:read", "comment:read:api"}},
+ *         }
+ *     }
  * )
  */
 class Comment extends Votable {
@@ -25,7 +28,8 @@ class Comment extends Votable {
      * @ORM\Column(type="bigint")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
-     * @Groups({"read"})
+     *
+     * @Groups({"comment:read", "abbreviated_relations"})
      *
      * @var int
      */
@@ -33,7 +37,8 @@ class Comment extends Votable {
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"comment_read", "comment_write"})
+     *
+     * @Groups({"comment:read"})
      *
      * @var string
      */
@@ -41,7 +46,8 @@ class Comment extends Votable {
 
     /**
      * @ORM\Column(type="datetimetz")
-     * @Groups({"comment_read"})
+     *
+     * @Groups({"comment:read"})
      *
      * @var \DateTime
      */
@@ -50,7 +56,8 @@ class Comment extends Votable {
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
-     * @Groups({"comment_read"})
+     *
+     * @Groups({"comment:read"})
      *
      * @var User
      */
@@ -59,7 +66,8 @@ class Comment extends Votable {
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="Submission", inversedBy="comments")
-     * @Groups({"comment_read"})
+     *
+     * @Groups({"comment:read"})
      *
      * @var Submission
      */
@@ -67,7 +75,8 @@ class Comment extends Votable {
 
     /**
      * @ORM\ManyToOne(targetEntity="Comment", inversedBy="children")
-     * @Groups({"comment_read"})
+     *
+     * @Groups({"comment:read:api"})
      *
      * @var Comment|null
      */
@@ -75,8 +84,6 @@ class Comment extends Votable {
 
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="parent", cascade={"remove"})
-     * @Groups({"comment_read"})
-     * @ApiSubresource(maxDepth=1)
      *
      * @var Comment[]|Collection
      */
@@ -85,7 +92,6 @@ class Comment extends Votable {
     /**
      * @ORM\OneToMany(targetEntity="CommentVote", mappedBy="comment",
      *     fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @Groups({"comment_read"})
      *
      * @var CommentVote[]|Collection
      */
@@ -93,7 +99,8 @@ class Comment extends Votable {
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
-     * @Groups({"comment_read"})
+     *
+     * @Groups({"comment:read"})
      *
      * @var bool
      */
@@ -108,7 +115,8 @@ class Comment extends Votable {
 
     /**
      * @ORM\Column(type="datetimetz", nullable=true)
-     * @Groups({"comment_read"})
+     *
+     * @Groups({"comment:read"})
      *
      * @var \DateTime|null
      */
@@ -116,7 +124,8 @@ class Comment extends Votable {
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
-     * @Groups({"comment_read"})
+     *
+     * @Groups({"comment:read"})
      *
      * @var bool
      */
@@ -124,7 +133,6 @@ class Comment extends Votable {
 
     /**
      * @ORM\Column(type="smallint", options={"default": 0})
-     * @Groups({"comment_read"})
      *
      * @var int
      */
@@ -143,6 +151,22 @@ class Comment extends Votable {
      * @var CommentMention[]|Collection
      */
     private $mentions;
+
+    // dummy fields for applying groups to parent methods
+    /**
+     * @Groups({"comment:read"})
+     */
+    protected $upvotes;
+
+    /**
+     * @Groups({"comment:read"})
+     */
+    protected $downvotes;
+
+    /**
+     * @Groups({"comment:read"})
+     */
+    protected $netScore;
 
     public function __construct(
         string $body,
@@ -213,6 +237,16 @@ class Comment extends Votable {
     }
 
     /**
+     * @Groups({"comment:read:non-api"})
+     * @SerializedName("parent")
+     *
+     * @return int|null
+     */
+    public function getParentId(): ?int {
+        return $this->parent ? $this->parent->id : null;
+    }
+
+    /**
      * Get replies, ordered by descending net score.
      *
      * @return Comment[]
@@ -225,6 +259,15 @@ class Comment extends Votable {
         }
 
         return $children;
+    }
+
+    /**
+     * @Groups({"comment:read"})
+     *
+     * @return int
+     */
+    public function getReplyCount(): int {
+        return \count($this->children);
     }
 
     /**
@@ -297,6 +340,16 @@ class Comment extends Votable {
 
     public function getUserFlag(): int {
         return $this->userFlag;
+    }
+
+    /**
+     * @Groups({"comment:read:non-api"})
+     * @SerializedName("userFlag")
+     *
+     * @return string|null
+     */
+    public function getReadableUserFlag(): ?string {
+        return UserFlags::toReadable($this->userFlag);
     }
 
     public function setUserFlag(int $userFlag) {

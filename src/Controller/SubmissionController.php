@@ -42,6 +42,12 @@ final class SubmissionController extends AbstractController {
         ]);
     }
 
+    public function submissionJson(Forum $forum, Submission $submission) {
+        return $this->json($submission, 200, [], [
+            'groups' => ['submission:read', 'abbreviated_relations', 'submission:read:non-api'],
+        ]);
+    }
+
     /**
      * Show a single comment and its replies.
      *

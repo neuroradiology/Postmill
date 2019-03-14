@@ -78,6 +78,8 @@ class UserData implements UserInterface {
 
     private $enablePostPreviews;
 
+    private $showThumbnails;
+
     private $admin = false;
 
     public static function fromUser(User $user): self {
@@ -94,6 +96,7 @@ class UserData implements UserInterface {
         $self->biography = $user->getBiography();
         $self->autoFetchSubmissionTitles = $user->autoFetchSubmissionTitles();
         $self->enablePostPreviews = $user->enablePostPreviews();
+        $self->showThumbnails = $user->showThumbnails();
         $self->admin = $user->isAdmin();
 
         return $self;
@@ -116,6 +119,7 @@ class UserData implements UserInterface {
         $user->setBiography($this->biography);
         $user->setAutoFetchSubmissionTitles($this->autoFetchSubmissionTitles);
         $user->setEnablePostPreviews($this->enablePostPreviews);
+        $user->setShowThumbnails($this->showThumbnails);
         $user->setAdmin($this->admin);
     }
 
@@ -134,6 +138,7 @@ class UserData implements UserInterface {
             'openExternalLinksInNewTab',
             'autoFetchSubmissionTitles',
             'enablePostPreviews',
+            'showThumbnails',
         ];
 
         foreach ($settings as $setting) {
@@ -259,6 +264,14 @@ class UserData implements UserInterface {
 
     public function setEnablePostPreviews(bool $enablePostPreviews): void {
         $this->enablePostPreviews = $enablePostPreviews;
+    }
+
+    public function showThumbnails() {
+        return $this->showThumbnails;
+    }
+
+    public function setShowThumbnails($showThumbnails): void {
+        $this->showThumbnails = $showThumbnails;
     }
 
     public function isAdmin(): bool {

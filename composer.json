@@ -20,6 +20,7 @@
         "ext-json": "*",
         "ext-pdo_pgsql": "*",
         "api-platform/api-pack": "^1.2",
+        "api-platform/core": "^2.4-dev",
         "eightpoints/guzzle-bundle": "^7.3",
         "embed/embed": "^3.0",
         "ezyang/htmlpurifier": "^4.8",

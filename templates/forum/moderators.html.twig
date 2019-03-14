@@ -20,28 +20,28 @@
     <thead>
       <tr>
         <th>{{ 'forum_moderators.username'|trans }}</th>
-        <th>{{ 'forum_moderators.since'|trans }}</th>
-        <th>{{ 'forum_moderators.last_seen'|trans }}</th>
-        <th></th>
+        <th class="table__shrink">{{ 'forum_moderators.since'|trans }}</th>
+        <th class="table__shrink">{{ 'forum_moderators.last_seen'|trans }}</th>
+        <th class="table__shrink"></th>
       </tr>
     </thead>
     <tbody>
       {% for moderator in moderators %}
       <tr>
         <td><a href="{{ path('user', {username: moderator.user.username}) }}">{{ moderator.user.username }}</a></td>
-        <td>
+        <td class="table__shrink">
           <time datetime="{{ moderator.timestamp|date('c') }}" title="{{ moderator.timestamp|localizeddate('long', 'short') }}" class="relative-time">
             {{ moderator.timestamp|localizeddate('long', 'short') }}
           </time>
         </td>
-        <td>
+        <td class="table__shrink">
           {% if moderator.user.lastSeen is not null %}
           <time datetime="{{ moderator.user.lastSeen|date('c') }}" title="{{ moderator.user.lastSeen|localizeddate('long', 'short') }}" class="relative-time">
             {{ moderator.user.lastSeen|localizeddate('long', 'short') }}
           </time>
           {% endif %}
         </td>
-        <td>
+        <td class="table__shrink">
           {% if is_granted('remove', moderator) %}
             <form action="{{ path('remove_moderator', {forum_name: forum.name, moderator_id: moderator.id}) }}" method="post">
               <input type="hidden" name="token" value="{{ csrf_token('remove_moderator') }}">

@@ -431,6 +431,11 @@ submissions:
     sort_by_top: Top
     sort_by_controversial: Controversé
     sort_by_most_commented: Plus commentés
+    time_all: Depuis toujours
+    time_year: Dernière année
+    time_month: Dernier mois
+    time_week: Dernière semaine
+    time_day: Dernières 24 heures
     total_votes: '{1} %count% point|[0,Inf[ %count% points'
     vote_stats: (+%up%, −%down%)
     edit_info: (modifié %edited_at%)

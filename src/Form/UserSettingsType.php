@@ -84,6 +84,10 @@ final class UserSettingsType extends AbstractType {
                 'label' => 'label.show_post_previews',
                 'required' => false,
             ])
+            ->add('showThumbnails', CheckboxType::class, [
+                'label' => 'label.show_thumbnails',
+                'required' => false,
+            ])
             ->add('save', SubmitType::class);
     }
 

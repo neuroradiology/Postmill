@@ -94,7 +94,7 @@ final class WebhookListener implements EventSubscriberInterface {
                 $body = $this->serializer->serialize([
                     'event' => $webhook->getEvent(),
                     'subject' => $item['subject'],
-                ], 'json');
+                ], 'json', $item['context']);
 
                 yield new GuzzleRequest('POST', $webhook->getUrl(), $headers ?? [], $body);
             }
@@ -118,7 +118,9 @@ final class WebhookListener implements EventSubscriberInterface {
         $subject = $event->getSubject();
         $forum = $subject->getForum();
 
-        $this->addToQueue($forum, ForumWebhook::EVENT_NEW_SUBMISSION, $subject);
+        $this->addToQueue($forum, ForumWebhook::EVENT_NEW_SUBMISSION, $subject, [
+            'groups' => ['submission:read', 'abbreviated_relations'],
+        ]);
     }
 
     public function onEditSubmission(EntityModifiedEvent $event): void {
@@ -129,6 +131,8 @@ final class WebhookListener implements EventSubscriberInterface {
         $this->addToQueue($forum, ForumWebhook::EVENT_EDIT_SUBMISSION, [
             'before' => $event->getBefore(),
             'after' => $event->getAfter(),
+        ], [
+            'groups' => ['submission:read', 'abbreviated_relations'],
         ]);
     }
 
@@ -137,7 +141,9 @@ final class WebhookListener implements EventSubscriberInterface {
         $subject = $event->getSubject();
         $forum = $subject->getSubmission()->getForum();
 
-        $this->addToQueue($forum, ForumWebhook::EVENT_NEW_COMMENT, $subject);
+        $this->addToQueue($forum, ForumWebhook::EVENT_NEW_COMMENT, $subject, [
+            'groups' => ['comment:read', 'abbreviated_relations'],
+        ]);
     }
 
     public function onEditComment(EntityModifiedEvent $event): void {
@@ -148,6 +154,8 @@ final class WebhookListener implements EventSubscriberInterface {
         $this->addToQueue($forum, ForumWebhook::EVENT_EDIT_COMMENT, [
             'before' => $event->getBefore(),
             'after' => $event->getAfter(),
+        ], [
+            'groups' => ['comment:read', 'abbreviated_relations'],
         ]);
     }
 
@@ -163,12 +171,12 @@ final class WebhookListener implements EventSubscriberInterface {
         return $queue;
     }
 
-    private function addToQueue(Forum $forum, string $eventName, $subject): void {
+    private function addToQueue(Forum $forum, string $eventName, $subject, array $context): void {
         $webhooks = $forum->getWebhooksByEvent($eventName);
         $queue = $this->getQueue();
 
         foreach ($webhooks as $webhook) {
-            $queue->push(['webhook' => $webhook, 'subject' => $subject]);
+            $queue->push(['webhook' => $webhook, 'subject' => $subject, 'context' => $context]);
         }
     }
 
