@@ -20,7 +20,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *         "get": {
  *             "normalization_context": {"groups": {"comment:read", "comment:read:api"}},
  *         }
- *     }
+ *     },
+ *     collectionOperations={}
  * )
  */
 class Comment extends Votable {
