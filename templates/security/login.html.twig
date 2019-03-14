@@ -15,17 +15,19 @@
       </ul>
     {% endif %}
 
-    <div class="form__row">
-      <label class="form__label" for="login-username">{{ 'login_form.username'|trans }}</label>
-      <input autofocus type="text" name="_username" autocomplete="off" id="login-username" required>
+    <div class="form-row form-row--single-line form__row">
+      <label class="form-row__align text-align-right form__label" for="login-username">{{ 'login_form.username'|trans }}</label>
+      <input class="form-control" autofocus type="text" name="_username" autocomplete="off" id="login-username" required>
     </div>
 
-    <div class="form__row">
-      <label class="form__label" for="login-password">{{ 'login_form.password'|trans }}</label>
-      <input type="password" name="_password" autocomplete="off" id="login-password" required>
+    <div class="form-row form-row--single-line form__row">
+      <label class="form-row__align text-align-right form__label" for="login-password">{{ 'login_form.password'|trans }}</label>
+      <input class="form-control" type="password" name="_password" autocomplete="off" id="login-password" required>
     </div>
 
-    <div class="form__row form__button-row">
+    <div class="form-row form-row--single-line form__row form__button-row">
+      <span class="form-row__align" role="presentation"></span>
+
       <button type="submit" class="button">{{ 'login_form.log_in'|trans }}</button>
 
       {% if can_reset_password %}

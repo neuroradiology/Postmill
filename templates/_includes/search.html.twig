@@ -9,11 +9,11 @@
 
   <form action="{{ url('external_search') }}" method="POST" target="_blank" class="sidebar__search form">
     {% if forum_path is defined %}
-      <input type="hidden" name="forum" value="{{ forum_path }}" />
+      <input class="form-control" type="hidden" name="forum" value="{{ forum_path }}" />
     {% endif %}
 
     <div class="form__row">
-      <input type="text" name="query" placeholder="{{ 'label.search'|trans }}" />
+      <input class="form-control" type="text" name="query" placeholder="{{ 'label.search'|trans }}" />
     </div>
     
     <div class="form__help">

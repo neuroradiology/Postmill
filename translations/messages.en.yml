@@ -213,6 +213,7 @@ help:
         when browsing the "featured" and "all" submission listings. You can
         still subscribe to and moderate forums you choose to hide.
     hidden_forums_no_comment_hiding: Comments posted to hidden forums will still be displayed in the "recent comments" listing.
+    required_field: This field is required.
 
 inbox:
     title: Inbox

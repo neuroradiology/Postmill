@@ -1,36 +1,12 @@
 @import (reference) '../_mixins';
+@import (reference) '../_variables';
 
 //
 // Standard, vertical, non-weird forms
 //
 
+// DEPRECATED
 .form {
-  button,
-  input,
-  select,
-  textarea {
-    display: inline-block;
-  }
-
-  .text-inputs({
-    background-color: var(--bg-page);
-    border: solid 1px var(--border);
-    border-radius: 2px;
-    line-height: 1.35;
-    color: var(--text);
-    padding: 0.5rem;
-
-    &:focus {
-      border: solid 1px var(--primary);
-      outline: none;
-    }
-
-    &[disabled] {
-      background-color: var(--bg-grey);
-      color: var(--fg-grey);
-    }
-  });
-
   &__errors {
     margin: 0;
     padding: 0;
@@ -47,30 +23,14 @@
     max-width: 40rem;
     margin-bottom: 1rem;
 
-    .text-inputs({
-      // Make text type inputs fill the entire row
-      width: 100%;
-    });
-
     &--markdown {
       margin-bottom: 0;
     }
   }
 
-  &__group {
-    border: solid 1px var(--border);
-    margin-bottom: 1rem;
-    padding: 0 1rem;
-  }
-
   &__help {
     color: var(--text-muted);
     font-size: 0.80rem;
-  }
-
-  &__label {
-    display: inline-block;
-    margin-right: 1ex;
   }
 
   &__markdown-help {
@@ -80,19 +40,16 @@
   }
 
   &__button-row {
+    align-items: stretch !important;
     display: flex;
     min-width: 0;
 
-    @media screen and (max-width: 767px) {
+    @media not screen and (min-width: @desktop-min-width) {
       flex-direction: column;
     }
 
     .button {
-      margin: 0 1rem 0 0;
-
-      @media screen and (max-width: 767px) {
-        margin: 0 0 1rem;
-      }
+      margin-bottom: 1rem;
     }
   }
 }
