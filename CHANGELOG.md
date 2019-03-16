@@ -1,5 +1,32 @@
 # Change Log
 
+## v1.1.0 (2019-03-16)
+
+* Add ability for users to hide forums.
+* Add ability to delete wiki pages.
+* Add ability to filter submissions by time.
+* Add ability to "mention"/"ping" users.
+* Add docker-compose configuration for development.
+* Add progress spinner to votes, and show failure state.
+* Add "recent comments" link to site nav.
+* Add search bar for searching via DuckDuckGo.
+* Configure and parse Markdown via an event system.
+* Don't allow editing soft-deleted comments.
+* Add preference for hiding thumbnails.
+* Fix instances where long user-inputted text could break the width of the page.
+* Fix unwanted redirects when a user is authenticated by REMEMBERME cookie only.
+* Improve serialized submissions/comments, used in webhooks.
+* Improve URL hierarchy for submission & user routes.
+* Rate-limit login attempts, more severe rate-limiting for submissions,
+  add rate-limiting to comments.
+* Restyle tabs, tables, dropdown menus, forms, votes.
+* Show ASCII art on some empty pages.
+* Update front-end assets, and the accompanying build tools.
+* Update to Symfony 4.2.
+* Use CSS variables for `font-family`, `line-height`, and colour values.
+* Use sprite sheets for SVG icons.
+* Warn admins that attempt to edit credentials of other users.
+
 ## v1.0.2 (2018-09-18)
 
 * Fix infinite redirect loop that resulted from a BC break in Symfony.
