@@ -17,7 +17,9 @@
 
 {% block sidebar %}
   <section class="sidebar__section sidebar__section--forum-meta forum-meta">
-    <h1 class="sidebar__title forum-title"><a href="{{ path('forum', {forum_name: forum.name}) }}">{{ forum.title }}</a></h1>
+    <h1 class="sidebar__title forum-title break-text">
+      <a href="{{ path('forum', {forum_name: forum.name}) }}">{{ forum.title }}</a>
+    </h1>
 
     {% if is_granted('ROLE_USER') %}
       {% from 'forum/_macros.html.twig' import subscribe_button %}
@@ -35,7 +37,9 @@
     {% endif %}
 
     {% if forum.sidebar is not empty %}
-      <div class="forum-sidebar-content">{{ forum.sidebar|cached_markdown({ context: 'forum_sidebar', forum: forum })|raw }}</div>
+      <div class="forum-sidebar-content break-text">
+        {{- forum.sidebar|cached_markdown({ context: 'forum_sidebar', forum: forum })|raw -}}
+      </div>
     {% endif %}
   </section>
 
@@ -123,7 +127,7 @@
       <h1 class="sidebar__title"><a href="{{ path('forum_moderators', {forum_name: forum.name}) }}">{{ 'forum.moderators'|trans }}</a></h1>
       <ul>
         {% for moderator in forum.moderators %}
-          <li>
+          <li class="break-text">
             <a href="{{ path('user', {username: moderator.user.username}) }}">
               {{- moderator.user.username -}}
             </a>

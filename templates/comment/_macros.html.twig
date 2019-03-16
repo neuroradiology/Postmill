@@ -56,7 +56,7 @@
       </div>
 
       <div class="comment__main comment-inner">
-        <h1 class="comment__info comment-info">
+        <h1 class="comment__info comment-info break-text">
           {{ 'comments.info'|trans({
             '%user%': block('comment_info_user'),
             '%timestamp%': block('comment_info_timestamp'),
@@ -71,7 +71,7 @@
           {% endif %}
         </h1>
 
-        <div class="comment__body comment-body">
+        <div class="comment__body comment-body break-text">
           {{ comment.body|cached_markdown({ context: 'comment', comment: comment })|raw }}
         </div>
 
@@ -101,7 +101,7 @@
 {% block comment_context %}
   {% from 'user/_macros.html.twig' import user_link %}
   {% with { submission: comment.submission, forum: comment.submission.forum } %}
-    <div class="comment__context">
+    <div class="comment__context break-text">
       {% if comment.parent %}
         <p>{{ 'comments.context.comment_reply'|trans({
           '%comment_author%': user_link(comment.parent.user, {prefix: true}),

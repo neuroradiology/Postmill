@@ -51,7 +51,7 @@
 
       <div class="submission-inner">
         <header class="submission-header">
-          <h1 class="submission__title submission-title">
+          <h1 class="submission__title break-text submission-title">
             <a href="{{ block('submission_url') }}" class="submission__link submission-link" {% if submission.url %}rel="nofollow noreferrer noopener" {% if open_external %}target="{{ open_external ? '_blank' }}"{% endif %}{% endif %}>
               {{- submission.title -}}
             </a>
@@ -105,7 +105,7 @@
 
         {%- if show_body -%}
           {% if submission.body is not null %}
-            <div class="submission__body submission-body">
+            <div class="submission__body break-text submission-body">
               {{- submission.body|cached_markdown({ context: 'submission', submission: submission })|raw -}}
             </div>
           {% endif %}

@@ -4,7 +4,7 @@
 
 {% block sidebar %}
   <section class="sidebar__section user-bio">
-    <h1 class="sidebar__title user-bio__title">
+    <h1 class="sidebar__title user-bio__title break-text">
       <a href="{{ path('user', {username: user.username}) }}" class="user-bio__user-link">{{ user.username }}</a>
     </h1>
 
@@ -88,7 +88,7 @@
 
   {% if user.moderatorTokens|length > 0 %}
     <section class="sidebar__section sidebar__section--user-moderator-info">
-      <h1 class="sidebar__title">{{ 'user.moderates'|trans({'%username%': user.username}) }}</h1>
+      <h1 class="sidebar__title break-text">{{ 'user.moderates'|trans({'%username%': user.username}) }}</h1>
       <ul>
         {% for token in user.moderatorTokens %}
           <li><a href="{{ path('forum', {forum_name: token.forum.name}) }}">{{ token.forum.name }}</a></li>
