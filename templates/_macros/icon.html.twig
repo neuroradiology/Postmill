@@ -1,5 +1,5 @@
 {% macro icon(name, alt_text = '') -%}
-  {%- spaceless -%}
+  {%- filter spaceless -%}
     <span class="icon {{ alt_text ? 'icon--with-alt-text' }}">
       {%- if alt_text is not empty -%}
         {#- Attempt to display an empty SVG. If this fails, the alt text will
@@ -17,5 +17,5 @@
       {%- endif -%}
       <svg width="16" height="16"><use xlink:href="#{{ name }}"/></svg>
     </span>
-  {%- endspaceless -%}
+  {%- endfilter -%}
 {%- endmacro %}

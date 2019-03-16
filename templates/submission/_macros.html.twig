@@ -14,7 +14,7 @@
 
 {%- macro submission_sort_generic(current, types, time) -%}
   {%- set attr = app.request.attributes -%}
-  {%- spaceless -%}
+  {%- filter spaceless -%}
     {%- for type in types -%}
       <li class="tabs__tab {{ type == current ? 'tabs__tab--active active' }}">
         <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? [])|merge({sortBy: type, t: time})) }}"
@@ -23,7 +23,7 @@
         </a>
       </li>
     {%- endfor -%}
-  {%- endspaceless -%}
+  {%- endfilter -%}
 {%- endmacro -%}
 
 {%- macro submission_sort(current) -%}
@@ -42,7 +42,7 @@
   {%- set attr = app.request.attributes -%}
   {%- set times = ['all', 'year', 'month', 'week', 'day'] -%}
   {%- set current = current in times ? current : 'all' -%}
-  {%- spaceless -%}
+  {%- filter spaceless -%}
     {%- for time in times -%}
       <li class="tabs__tab {{ time == current ? 'tabs__tab--active active' }}">
         <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? [])|merge({t: time})) }}"
@@ -51,5 +51,5 @@
         </a>
       </li>
     {%- endfor -%}
-  {%- endspaceless -%}
+  {%- endfilter -%}
 {%- endmacro -%}

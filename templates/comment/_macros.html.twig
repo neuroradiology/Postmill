@@ -184,7 +184,7 @@
 {%- endblock -%}
 
 {%- block comment_nav_permalink -%}
-  {%- spaceless -%}
+  {%- filter spaceless -%}
     <li>
       <a href="{{ path('comment', {
         forum_name: comment.submission.forum.name,
@@ -192,11 +192,11 @@
         comment_id: comment.id
       }) }}" class="comment__permalink">{{ 'comments.permalink'|trans }}</a>
     </li>
-  {%- endspaceless -%}
+  {%- endfilter -%}
 {%- endblock -%}
 
 {%- block comment_nav_parent -%}
-  {%- spaceless -%}
+  {%- filter spaceless -%}
     {%- if comment.parent -%}
       <li>
         <a href="{{ path('comment', {
@@ -206,7 +206,7 @@
         }) }}" class="comment__parent-link">{{ 'comments.parent'|trans }}</a>
       </li>
     {%- endif -%}
-  {%- endspaceless -%}
+  {%- endfilter -%}
 {%- endblock -%}
 
 {# Forms are used here because we need to support JS-less browsing and because
@@ -223,7 +223,7 @@
 {%- endblock -%}
 
 {%- block comment_nav_delete_softdelete -%}
-  {%- spaceless -%}
+  {%- filter spaceless -%}
     <li>
       <form action="{{ path('softdelete_comment', {
         forum_name: comment.submission.forum.name,
@@ -234,11 +234,11 @@
         <button type="submit" class="comment__soft-delete-button confirm-comment-delete">{{ 'comments.delete'|trans }}</button>
       </form>
     </li>
-  {%- endspaceless -%}
+  {%- endfilter -%}
 {%- endblock -%}
 
 {%- block comment_nav_delete_thread -%}
-  {%- spaceless -%}
+  {%- filter spaceless -%}
     <li>
       <form action="{{ path('delete_comment', {
         forum_name: comment.submission.forum.name,
@@ -252,11 +252,11 @@
         </button>
       </form>
     </li>
-  {%- endspaceless -%}
+  {%- endfilter -%}
 {%- endblock -%}
 
 {%- block comment_nav_edit -%}
-  {%- spaceless -%}
+  {%- filter spaceless -%}
     {%- if is_granted('edit', comment) -%}
       <li>
         <a href="{{ path('edit_comment', {
@@ -268,31 +268,31 @@
         </a>
       </li>
     {%- endif -%}
-  {%- endspaceless -%}
+  {%- endfilter -%}
 {%- endblock -%}
 
 {%- block comment_nav_ban -%}
   {%- if is_granted('moderator', comment.submission.forum) -%}
-    {%- spaceless -%}
+    {%- filter spaceless -%}
       <li>
         <a href="{{ path('forum_ban', {forum_name: comment.submission.forum.name, username: comment.user.username}) }}"
            class="comment__ban-link">
           {{- 'action.ban'|trans -}}
         </a>
       </li>
-    {%- endspaceless -%}
+    {%- endfilter -%}
   {%- endif -%}
 {%- endblock -%}
 
 {%- block comment_nav_ip_ban -%}
   {%- if is_granted('ROLE_ADMIN') %}
-    {%- spaceless -%}
+    {%- filter spaceless -%}
       <li>
         <a href="{{ path('ban_user', {'username': comment.user.username}) }}"
            class="comment__ip-ban-link">
           {{- 'action.global_ban'|trans -}}
         </a>
       </li>
-    {%- endspaceless -%}
+    {%- endfilter -%}
   {%- endif -%}
 {%- endblock -%}

@@ -14,7 +14,7 @@
   {%- from '_macros/icon.html.twig' import icon -%}
 
   {%- set user_choice = is_granted('ROLE_USER') ? entity.userChoice(app.user) : null -%}
-  {%- spaceless -%}
+  {%- filter spaceless -%}
     <form action="{{ path(route, {id: entity.id}) }}" method="post"
           class="vote
                 {{- user_choice == upvoted ? ' vote--user-upvoted' }}
@@ -41,5 +41,5 @@
         <span class="inner" aria-hidden="true">{{ icon('down', 'down') }}</span>
       </button>
     </form>
-  {%- endspaceless -%}
+  {%- endfilter -%}
 {%- endblock -%}
