@@ -21,15 +21,15 @@ $(function () {
 
         Promise.all([
             import('highlight.js/lib/highlight'),
-            import(`highlight.js/lib/languages/${language}`),
+            import(`highlight.js/lib/languages/${language}.js`),
             import(`highlight.js/styles/${theme}.css`),
         ]).then(imports => {
             const [hljs, definition] = imports;
 
-            hljs.registerLanguage(language, definition);
+            console.log(imports, hljs, definition);
+
+            hljs.registerLanguage(definition);
             hljs.highlightBlock(this);
-        }).catch(e => {
-            console && console.log(e);
         });
     });
 });

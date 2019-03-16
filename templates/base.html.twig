@@ -67,9 +67,7 @@
         <script src="{{ path('fos_js_routing_js', {callback: 'fos.Router.setData'}) }}"></script>
       {% endif %}
 
-      <script src="{{ preload(asset('build/manifest.js')) }}"></script>
-      <script src="{{ preload(asset('build/vendor.js')) }}"></script>
-      <script src="{{ preload(asset('build/main.js')) }}"></script>
+      {{ encore_entry_script_tags('main') }}
 
       {% if app.environment != 'dev' or app.request.query.has('static_assets') %}
         <script src="{{ preload(asset('js/translations/config.js', 'static_asset')) }}"></script>
