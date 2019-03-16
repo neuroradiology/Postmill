@@ -1,10 +1,29 @@
 stages:
+    - audit
     - build-assets
     - test
+
+audit-php:
+    stage: audit
+    image: php:7.3
+    allow_failure: true
+    before_script:
+        - curl -sS https://get.sensiolabs.org/security-checker.phar -o check.phar
+    script:
+        - php check.phar security:check composer.lock
+
+audit-node:
+    stage: audit
+    image: node:8
+    allow_failure: true
+    script:
+        - yarn audit
 
 .build-assets: &build-assets
     stage: build-assets
     image: node:8
+    except:
+        - schedules
     cache:
         key: ${CI_COMMIT_REF_SLUG}
         paths:
@@ -32,6 +51,8 @@ build-assets:prod:
         key: ${CI_COMMIT_REF_SLUG}
         paths:
             - vendor/
+    except:
+        - schedules
     dependencies:
         - build-assets:prod
     services:
