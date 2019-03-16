@@ -137,6 +137,7 @@ flash:
     webhook_added: The webhook was added successfully.
     webhook_edited: The webhook was edited successfully.
     wiki_page_deleted: The wiki page has been deleted.
+    editing_credentials_of_other_user: You are editing the credentials of another user. This can prevent them from logging in.
 
 forum:
     moderators: Moderators
