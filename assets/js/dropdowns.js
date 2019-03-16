@@ -2,9 +2,11 @@
 
 import $ from 'jquery';
 
+const KEY_ESC = 27;
+const KEY_HOME = 36;
+const KEY_END = 35;
 const KEY_UP = 38;
 const KEY_DOWN = 40;
-const KEY_ESC = 27;
 
 const FOCUSABLE_ELEMENTS = `> .dropdown__toggle,
 > .dropdown__menu a[href],
@@ -81,6 +83,18 @@ function globalKeyDownHandler(event) {
         event.originalEvent.preventDefault();
         event.originalEvent.stopPropagation();
         moveInList($dropdown, -1);
+
+        break;
+    case KEY_HOME:
+        event.originalEvent.preventDefault();
+        event.originalEvent.stopPropagation();
+        moveInList($dropdown, Infinity);
+
+        break;
+    case KEY_END:
+        event.originalEvent.preventDefault();
+        event.originalEvent.stopPropagation();
+        moveInList($dropdown, -Infinity);
 
         break;
     }
