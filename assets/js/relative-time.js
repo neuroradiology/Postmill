@@ -1,9 +1,7 @@
 'use strict';
 
 import $ from 'jquery';
-import distanceInWords from 'date-fns/distance_in_words';
-import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
-import isBefore from 'date-fns/is_before';
+import { distanceInWords, distanceInWordsToNow, isBefore } from 'date-fns';
 import Translator from 'bazinga-translator';
 
 function makeTimesRelative(locale) {
@@ -33,7 +31,7 @@ function makeTimesRelative(locale) {
 function loadLocaleAndMakeTimesRelative(lang) {
     lang = lang.toLowerCase().replace('-', '_');
 
-    import(`date-fns/locale/${lang}`).then(locale => {
+    import(`date-fns/locale/${lang}/index.js`).then(locale => {
         makeTimesRelative(locale);
     }).catch(error => {
         if (lang.indexOf('_') !== -1) {

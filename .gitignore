@@ -13,11 +13,9 @@ tags
 *.bak
 *.phar
 .DS_Store
-/node_modules/
 docker-compose.override.yml
 
 # Built assets and uploaded files
-/public/build/
 /public/js/
 /public/media/
 /public/submission_images/
@@ -54,3 +52,10 @@ docker-compose.override.yml
 ###> symfony/web-server-bundle ###
 .web-server-pid
 ###< symfony/web-server-bundle ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###

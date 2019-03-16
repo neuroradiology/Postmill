@@ -28,9 +28,8 @@ services:
             - ./.git:/app/.git:ro
             - ./:/app
     assets:
-        image: node:10-alpine
-        command: ["sh", "-c", "npm install && npm run watch"]
+        build: docker/node
+        command: ["sh", "-c", "yarn && yarn run watch"]
         volumes:
             - ./.git:/app/.git:ro
             - ./:/app:rw
-        working_dir: /app

@@ -5,6 +5,7 @@ import $ from 'jquery';
 const languageAliases = {
     'html': 'xml',
     'c': 'cpp',
+    'js': 'javascript'
 };
 
 $(function () {
@@ -21,15 +22,18 @@ $(function () {
 
         Promise.all([
             import('highlight.js/lib/highlight'),
-            import(`highlight.js/lib/languages/${language}`),
+            import(`highlight.js/lib/languages/${language}.js`),
             import(`highlight.js/styles/${theme}.css`),
         ]).then(imports => {
-            const [hljs, definition] = imports;
+            const [
+                { default: hljs },
+                { default: definition}
+            ] = imports;
+
+            console.log(imports, hljs, definition);
 
             hljs.registerLanguage(language, definition);
             hljs.highlightBlock(this);
-        }).catch(e => {
-            console && console.log(e);
         });
     });
 });
