@@ -44,10 +44,10 @@ function moveInList($dropdown, amount) {
     const $elements = $dropdown.find(FOCUSABLE_ELEMENTS);
     let i = $elements.index($(':focus')) + amount;
 
-    if (i < 0) {
-        i = $elements.length - 1;
-    } else if (i < 0) {
+    if (i >= $elements.length) {
         i = 0;
+    } else if (i < 0) {
+        i = $elements.length - 1;
     }
 
     $elements.get(i).focus();
