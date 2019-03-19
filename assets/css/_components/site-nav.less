@@ -1,119 +1,94 @@
 @import (reference) '../_variables';
 
-@media screen and (min-width: @desktop-min-width) {
-  .site-nav {
-    background-color: var(--primary);
-    display: flex;
-    margin-bottom: 1rem;
-    padding: 0 1rem;
+.site-nav {
+  background-color: var(--primary);
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
 
-    &__mobile-toggle {
+  @media screen and (min-width: @desktop-min-width) {
+    flex-direction: row;
+    padding: 0 1rem;
+  }
+
+  &__logo,
+  &__mobile-toggle,
+  &__link {
+    color: var(--primary-fg);
+    display: block;
+    font-size: @nav-font-size;
+    white-space: nowrap;
+  }
+
+  &__logo {
+    font-weight: bold;
+    padding: 1rem;
+  }
+
+  &__mobile-toggle {
+    padding: 1rem;
+
+    &--has-notifications {
+      background-color: var(--notification);
+    }
+
+    @media screen and (min-width: @desktop-min-width) {
       display: none;
     }
+  }
 
-    &__logo,
-    &__link {
-      color: var(--primary-fg);
-      display: block;
-      font-size: @nav-font-size;
+  &__link {
+    padding: 0.5rem 1rem;
+
+    @media screen and (min-width: @desktop-min-width) {
       padding: 1rem;
-      white-space: nowrap;
     }
+  }
 
-    &__logo {
-      font-weight: bold;
-    }
+  // holds logo and mobile toggle
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
 
-    &__inner {
+  // holds the menus, hidden on mobile until toggled
+  &__inner {
+    display: none;
+
+    &--mobile-visible {
       display: flex;
+      flex-direction: column;
+    }
+
+    @media screen and (min-width: @desktop-min-width) {
+      display: flex;
+      flex-direction: row;
       justify-content: space-between;
       width: 100%;
     }
+  }
 
-    &__menu {
-      display: flex;
-      padding: 0;
-      margin: 0;
-    }
+  // one on each side
+  &__menu {
+    display: flex;
+    flex-direction: column;
 
-    &__item {
-      display: block;
-
-      &--has-notifications {
-        background: var(--notification);
-      }
-
-      // todo: BEM
-      &.dropdown-container {
-        &.expanded,
-        &:not(.js):hover {
-          background: var(--primary-alt);
-        }
-      }
+    @media screen and (min-width: @desktop-min-width) {
+      flex-direction: row;
     }
   }
-}
 
-// mobile
+  // menu item
+  &__item {
+    display: block;
 
-@media screen and (max-width: (@desktop-min-width - 1px)) {
-  .site-nav {
-    background-color: var(--primary);
-    margin-bottom: 1rem;
-
-    &__logo {
-      font-weight: bold;
-    }
-
-    &__logo,
-    &__mobile-toggle,
-    &__link {
-      color: var(--primary-fg);
-      font-size: @nav-font-size;
-      padding: 1rem;
-    }
-
-    &__mobile-toggle {
-      &--has-notifications {
-        background: var(--notification);
-      }
-    }
-
-    &__header {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    &__menu {
-      margin: 0;
-      padding: 0;
-    }
-
-    &__item {
-      &--has-notifications {
-        background: var(--notification);
-      }
-
-      &.dropdown-container {
-        &.expanded,
-        &:not(.js):hover {
-          background: var(--primary-alt);
-        }
-      }
-    }
-
-    &__link {
-      display: block;
-    }
-
-    &__inner {
-      background-color: var(--primary-alt);
-      display: none;
-
-      &--mobile-visible {
-        display: block;
-      }
+    &--has-notifications {
+      background-color: var(--notification);
     }
   }
-}
 
+  .no-js &__item.dropdown:hover > .dropdown__toggle,
+  .js &__item.dropdown--expanded > .dropdown__toggle {
+    background-color: var(--primary-alt);
+  }
+}

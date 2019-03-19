@@ -10,7 +10,7 @@
 
   <div class="site-nav__inner">
     {# left portion of site nav #}
-    <ul class="site-nav__menu">
+    <ul class="site-nav__menu unlistify">
       <li class="site-nav__item">
         <a href="{{ path('forum_list') }}" class="site-nav__link">{{ 'nav.forums'|trans }}</a>
       </li>
@@ -39,7 +39,7 @@
     </ul>
 
     {# right portion of site nav #}
-    <ul class="site-nav__menu right-nav">
+    <ul class="site-nav__menu unlistify">
       {% if not is_granted('ROLE_USER') %}
         <li class="site-nav__item">
           <a href="{{ path('login') }}" class="site-nav__link">{{ 'nav.log_in'|trans }}</a>
