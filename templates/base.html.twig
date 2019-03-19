@@ -75,6 +75,11 @@
       {% else %}
         <script src="{{ path('bazinga_jstranslation_js') }}"></script>
       {% endif %}
+
+      {% if app.request.locale != 'en' %}
+        {# load fallback locale #}
+        <script src="{{ preload(asset('js/translations/en.js', 'static_asset')) }}"></script>
+      {% endif %}
     {% endblock %}
 
     {% block svg_sprites %}

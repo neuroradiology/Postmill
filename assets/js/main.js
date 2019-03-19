@@ -9,6 +9,7 @@ $('html').removeClass('no-js').addClass('js');
 
 // actually initialise stuff
 import './alerts';
+import './comment-count';
 import './commenting';
 import './delete';
 import './dropdowns';
