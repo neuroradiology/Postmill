@@ -1,30 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block head %}
+  {{ parent() }}
   {% include '_includes/meta_pagination.html.twig' with {pager: notifications} %}
 {% endblock %}
 
-{% block page_classes %}
-  inbox-page
-{% endblock %}
-
-{% block title %}
-  {{ 'inbox.title'|trans }}
-{% endblock %}
+{% block title 'title.notifications'|trans %}
 
 {% block body %}
-  <h1 class="page-heading">{{ 'inbox.title'|trans }}</h1>
+  {{ include('user/_inbox_nav.html.twig', {active: 'notifications'}, with_context=false) }}
+
+  <h1 class="page-heading">{{ block('title') }}</h1>
 
   {% if notifications|length > 0 %}
-    <form action="{{ path('clear_inbox', { max: notifications|first.id }) }}" method="POST" class="form">
-      <input type="hidden" name="token" value="{{ csrf_token('clear_inbox') }}">
+    <form action="{{ path('clear_notifications', { max: notifications|first.id }) }}" method="POST" class="form">
+      <input type="hidden" name="token" value="{{ csrf_token('clear_notifications') }}">
       <div class="form__row">
-        <button type="submit" class="button">{{ 'inbox.clear_inbox'|trans }}</button>
+        <button type="submit" class="button">{{ 'action.clear_all'|trans }}</button>
       </div>
     </form>
   {% else %}
     <p class="no-entries">
-      <small class="dimmed">{{ 'inbox.empty'|trans }}</small>
+      <small class="dimmed">{{ 'flash.no_entries_to_display'|trans }}</small>
     </p>
   {% endif %}
 
@@ -95,7 +92,7 @@
   <form action="{{ path('clear_notification', { id: notification.id }) }}" method="POST">
     <input type="hidden" name="token" value="{{ csrf_token('clear_notification') }}">
       <div>
-        <button type="submit" class="clear-notification-button">Clear notification</button>
+        <button type="submit" class="clear-notification-button">{{ 'action.clear'|trans }}</button>
       </div>
   </form>
 {% endblock %}

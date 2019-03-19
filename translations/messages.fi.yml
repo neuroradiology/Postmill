@@ -75,7 +75,6 @@ flash:
     forum_deleted: Foorumi ja kaikki sen sisältö on poistettu.
     forum_updated: Muutokset tallennettu.
     forum_moderator_added: Käyttäjä on ylennetty moderaattoriksi.
-    inbox_cleared: Postilaatikko tyhjennetty.
     reset_password_email_sent: Nollaussähköpostiviesti on lähetetty antamaasi osoitteeseen.
     submission_deleted: Lisäys poistettu.
     submission_edited: Lisäystä muokattu.
@@ -132,9 +131,6 @@ front:
     subscribed: Tilatut
 
 inbox:
-    title: Postilaatikko
-    clear_inbox: Tyhjennä postilaatikko
-    empty: Postilaatikko on tyhjä.
     message_reply_head: 'VS: %title%'
 
 label:
@@ -177,7 +173,6 @@ nav:
     my_account: Tunnukseni
     user_settings: Käyttäjäasetukset
     forums: Foorumit
-    inbox_count: Postilaatikko (%count%)
     messages: Viestit
     wiki: Wiki
     next: Seuraava

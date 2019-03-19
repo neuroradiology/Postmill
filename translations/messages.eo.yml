@@ -95,7 +95,6 @@ flash:
     forum_deleted: La diskutejo kaj ties enhavo foriĝis.
     forum_updated: La redaktoj konserviĝis.
     forum_moderator_added: La uzanto fariĝis kontrolanto
-    inbox_cleared: La enirkesto vakiĝis.
     notification_cleared: La avizo estis sukcese vakigita.
     reset_password_email_sent: Restariga retletero sendiĝis al la adreso, kiun vi specifis.
     theme_created: Via estoso estis ĵus kreita.
@@ -193,9 +192,6 @@ help:
     will_appear_in_the_url: Ĝi aperos en la URL
 
 inbox:
-    title: Enirkesto
-    clear_inbox: Malplenigi enirkeston
-    empty: La enirkesto estas malplena.
     message_reply_head: 'Re: %title%'
 
 item:
@@ -335,7 +331,6 @@ nav:
     my_account: Mia konto
     user_settings: Uzanto-agordoj
     forums: Diskutejoj
-    inbox_count: Enirkesto (%count%)
     messages: Mesaĝoj
     wiki: Vikio
     next: Sekva

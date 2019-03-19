@@ -89,7 +89,6 @@ flash:
     forum_deleted: Το φόρουμ και όλο το περιεχόμενό του έχουν αφαιρεθεί.
     forum_updated: Οι αλλαγές έχουν αποθηκευτεί.
     forum_moderator_added: Ο χρήστης έχει γίνει συντονιστής.
-    inbox_cleared: Το inbox εκκαθαρίστηκε.
     reset_password_email_sent: Ένα μήνυμα επαναφοράς στάλθηκε στη διεύθυνση που καθορίσατε.
     theme_created: Το φύλλο στυλ σας έχει δημιουργηθεί.
     theme_updated: Το φύλλο στυλ σας έχει αναβαθμιστεί.
@@ -183,9 +182,6 @@ help:
     append_to_default_style: Αφήστε αυτό το στοιχείο εκτός εάν το CSS σας παρέχει ένα πλήρες φύλλο στυλ για ολόκληρη την ιστοσελίδα.
 
 inbox:
-    title: Inbox
-    clear_inbox: Διαγράψτε το Inbox.
-    empty: Το inbox είναι άδειο.
     message_reply_head: 'Re: %τίτλος%'
 
 label:
@@ -288,7 +284,6 @@ nav:
     my_account: Ο λογαριασμός μου
     user_settings: Προτιμήσεις χρήστη
     forums: Φόρουμ
-    inbox_count: Inbox (%count%)
     messages: Μηνύματα
     wiki: Wiki
     next: Επόμενο

@@ -74,7 +74,6 @@ flash:
     forum_deleted: Het forum en al zijn inhoud zijn verwijderd.
     forum_updated: De veranderingen zijn opgeslagen.
     forum_moderator_added: De gebruiker is bevorderd tot moderator.
-    inbox_cleared: Je inbox is leeggemaakt.
     reset_password_email_sent: Een e-mail met een link is gestuurd naar het e-mailadres dat je hebt opgegeven.
     submission_deleted: De inzending is verwijderd.
     submission_edited: De inzending is bewerkt.
@@ -127,9 +126,6 @@ front:
     featured: Uitgelicht
 
 inbox:
-    title: Inbox
-    clear_inbox: Maak inbox leeg
-    empty: Je hebt geen nieuwe berichten.
     message_reply_head: 'Antw.: %title'
 
 label:
@@ -166,7 +162,6 @@ nav:
     my_account: Mijn account
     user_settings: Gebruikersinstellingen
     forums: Fora
-    inbox_count: Inbox (%count%)
     next: Volgende
     previous: Vorige
 

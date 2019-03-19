@@ -87,7 +87,6 @@ flash:
     forum_deleted: O fórum e todo o seu conteúdo foi apagado.
     forum_updated: As alterações foram salvas.
     forum_moderator_added: O usuário foi promovido a moderador.
-    inbox_cleared: A caixa de entrada foi limpa.
     reset_password_email_sent: Um email de recuperação foi enviado ao enderço que você especificou.
     theme_created: Seu tema foi criado.
     theme_updated: O tema foi atualizado.
@@ -179,9 +178,6 @@ help:
     append_to_default_style_inheritance_warning: Ativar isto não tem nehum efeito ao extender um tema existente.
 
 inbox:
-    title: Caixa de entrada
-    clear_inbox: Limpar caixa de entrada
-    empty: Caixa de entrada vazia.
     message_reply_head: 'Re: %title%'
 
 label:
@@ -279,7 +275,6 @@ nav:
     my_account: Minha conta
     user_settings: Cofigurações de usuário
     forums: Fórums
-    inbox_count: Caixa de entrada (%count%)
     messages: Mensagens
     wiki: Wiki
     next: Próximo
