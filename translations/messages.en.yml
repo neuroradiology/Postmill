@@ -385,6 +385,7 @@ nav:
     webhooks: Webhooks
     add_webhook: Add webhook
     hidden_forums: Hidden forums
+    recent_comments: Recent comments
 
 placeholder:
     default: (default)
@@ -484,6 +485,7 @@ title:
     block_list: Block list
     blocking_user: Blocking %user%
     recent_comments: Recent comments
+    recent_comments_forum: Recent comments in %forum%
     history_for_theme: Showing history for theme %theme%
     viewing_theme_source: Viewing source of %theme%
     messages: Messages

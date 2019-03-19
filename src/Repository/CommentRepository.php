@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Entity\Forum;
 use App\Entity\Submission;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -49,6 +50,30 @@ class CommentRepository extends ServiceEntityRepository {
     public function findRecentPaginated(int $page, int $maxPerPage = 25) {
         $query = $this->createQueryBuilder('c')
             ->where('c.softDeleted = FALSE')
+            ->orderBy('c.id', 'DESC');
+
+        $pager = new Pagerfanta(new DoctrineORMAdapter($query, false, false));
+        $pager->setMaxPerPage($maxPerPage);
+        $pager->setCurrentPage($page);
+
+        $this->hydrateComments(\iterator_to_array($pager));
+
+        return $pager;
+    }
+
+    /**
+     * @param Forum $forum
+     * @param int $page
+     * @param int $maxPerPage
+     *
+     * @return Pagerfanta|Comment[]
+     */
+    public function findRecentPaginatedInForum(Forum $forum, int $page, int $maxPerPage = 25) {
+        $query = $this->createQueryBuilder('c')
+            ->join('c.submission', 's')
+            ->where('s.forum = :forum')
+            ->setParameter('forum', $forum)
+            ->andWhere('c.softDeleted = FALSE')
             ->orderBy('c.id', 'DESC');
 
         $pager = new Pagerfanta(new DoctrineORMAdapter($query, false, false));

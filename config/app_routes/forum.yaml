@@ -36,6 +36,13 @@ delete_forum:
     path: /f/{forum_name}/delete
     methods: [GET, POST]
 
+forum_comments:
+    controller: App\Controller\ForumController::comments
+    defaults: { page: 1 }
+    path: /f/{forum_name}/comments/{page}
+    methods: [GET]
+    requirements: { page: \d+ }
+
 forum_appearance:
     controller: App\Controller\ForumController::appearance
     path: /f/{forum_name}/appearance

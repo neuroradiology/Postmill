@@ -16,6 +16,7 @@ use App\Form\Model\ForumWebhookData;
 use App\Form\Model\ModeratorData;
 use App\Form\ModeratorType;
 use App\Form\PasswordConfirmType;
+use App\Repository\CommentRepository;
 use App\Repository\ForumBanRepository;
 use App\Repository\ForumCategoryRepository;
 use App\Repository\ForumLogEntryRepository;
@@ -198,6 +199,13 @@ final class ForumController extends AbstractController {
 
         return $this->render('forum/delete.html.twig', [
             'form' => $form->createView(),
+            'forum' => $forum,
+        ]);
+    }
+
+    public function comments(CommentRepository $comments, Forum $forum, int $page): Response {
+        return $this->render('forum/comments.html.twig', [
+            'comments' => $comments->findRecentPaginatedInForum($forum, $page),
             'forum' => $forum,
         ]);
     }
