@@ -40,7 +40,7 @@ class UserControllerTest extends WebTestCase {
         $client->submit($form);
 
         $client = $this->createZachClient();
-        $crawler = $client->request('GET', '/inbox');
+        $crawler = $client->request('GET', '/notifications');
 
         $this->assertContains(
             'You will be notified about this comment.',
@@ -59,7 +59,7 @@ class UserControllerTest extends WebTestCase {
         $client->submit($form);
 
         $client = $this->createZachClient();
-        $crawler = $client->request('GET', '/inbox');
+        $crawler = $client->request('GET', '/notifications');
 
         $this->assertContains(
             'You will be notified about this comment.',

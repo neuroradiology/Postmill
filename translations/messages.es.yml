@@ -99,7 +99,6 @@ flash:
     forum_deleted: El foro y todos sus contenidos han sido borrados.
     forum_updated: Los cambios han sido guardados.
     forum_moderator_added: La usuaria ha sido ascendida a moderadora.
-    inbox_cleared: La bandeja de entrada ha sido limpiada.
     notification_cleared: La notificación fue eliminada exitosamente.
     reset_password_email_sent: Un correo de recuperación ha sido enviado a la dirección que especificó.
     theme_created: Tu tema ha sido creado.
@@ -198,7 +197,6 @@ help:
     will_appear_in_the_url: Aparecerá en la URL.
 
 inbox:
-    empty: Su bandeja de entrada esta vacía
     message_reply_head: 'Re: %title%'
 
 item:
@@ -337,7 +335,6 @@ nav:
     my_account: Mi cuenta
     user_settings: Opciones de usuario
     forums: Foros
-    inbox_count: Bandeja de Entrada (%count%)
     messages: Mensajes
     wiki: Wiki
     next: Siguiente

@@ -337,11 +337,11 @@ final class UserController extends AbstractController {
      *
      * @return Response
      */
-    public function inbox(int $page) {
+    public function notifications(int $page) {
         /* @var User $user */
         $user = $this->getUser();
 
-        return $this->render('user/inbox.html.twig', [
+        return $this->render('user/notifications.html.twig', [
             'notifications' => $user->getPaginatedNotifications($page),
         ]);
     }
@@ -356,22 +356,22 @@ final class UserController extends AbstractController {
      *
      * @return Response
      */
-    public function clearInbox(Request $request, NotificationRepository $nr, EntityManager $em, string $_format) {
-        $this->validateCsrf('clear_inbox', $request->request->get('token'));
+    public function clearNotifications(Request $request, NotificationRepository $nr, EntityManager $em, string $_format) {
+        $this->validateCsrf('clear_notifications', $request->request->get('token'));
 
         $user = $this->getUser();
         $max = $request->query->getInt('max', null);
 
-        $nr->clearInbox($user, $max);
+        $nr->clearNotifications($user, $max);
         $em->flush();
 
         if ($_format === 'json') {
-            return $this->json(['message' => 'The inbox was successfully cleared.']);
+            return $this->json(['message' => 'The notifications were successfully cleared.']);
         }
 
-        $this->addFlash('notice', 'flash.inbox_cleared');
+        $this->addFlash('notice', 'flash.notifications_cleared');
 
-        return $this->redirectToRoute('inbox');
+        return $this->redirectToRoute('notifications');
     }
 
     /**
@@ -399,7 +399,7 @@ final class UserController extends AbstractController {
 
         $this->addFlash('notice', 'flash.notification_cleared');
 
-        return $this->redirectToRoute('inbox');
+        return $this->redirectToRoute('notifications');
     }
 
     /**

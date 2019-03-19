@@ -73,7 +73,6 @@ flash:
     forum_deleted: Forumet og all dets innhold har blitt slettet.
     forum_updated: Endringene har blitt lagret.
     forum_moderator_added: Brukeren har blitt lagt til som moderator.
-    inbox_cleared: Innboksen ble tømt.
     user_account_registered: Din konto har blitt registrert.
     reset_password_email_sent: En epost har blitt sendt til adressen du oppga.
     theme_created: Temaet ditt har blitt opprettet.
@@ -132,7 +131,6 @@ front:
     subscribed: Abonnert
 
 inbox:
-    empty: Innboksen er tom.
     message_reply_head: 'Sv: %title%'
 
 label:
@@ -174,7 +172,6 @@ nav:
     my_account: Min brukerkonto
     user_settings: Brukerinnstillinger
     forums: Forumliste
-    inbox_count: Innboks (%count%)
     messages: Meldinger
     next: Neste
     previous: Forrige

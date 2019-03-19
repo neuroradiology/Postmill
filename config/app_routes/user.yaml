@@ -80,17 +80,24 @@ mark_user_untrusted:
     path: /user/{username}/mark_as_untrusted
     methods: [POST]
 
-inbox:
-    controller: App\Controller\UserController::inbox
-    defaults: { page: 1 }
+inbox: # legacy redirect
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+    defaults: { page: 1, route: notifications }
     path: /inbox/{page}
     methods: [GET]
     requirements: { page: \d+ }
 
-clear_inbox:
-    controller: App\Controller\UserController::clearInbox
+notifications:
+    controller: App\Controller\UserController::notifications
+    defaults: { page: 1 }
+    path: /notifications/{page}
+    methods: [GET]
+    requirements: { page: \d+ }
+
+clear_notifications:
+    controller: App\Controller\UserController::clearNotifications
     defaults: { _format: html }
-    path: /clear_inbox.{_format}
+    path: /clear_notifications.{_format}
     methods: [POST]
     requirements: { _format: html|json }
 

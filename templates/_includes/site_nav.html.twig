@@ -49,11 +49,13 @@
           <a href="{{ path('registration') }}" class="site-nav__link">{{ 'nav.register'|trans }}</a>
         </li>
       {% else %}
-        {# notifications #}
         {% if notification_count > 0 %}
           <li class="site-nav__item site-nav__item--has-notifications">
-            <a href="{{ path('inbox') }}" class="site-nav__link">
-              {{- 'nav.inbox_count'|trans({'%count%': '<strong>%s</strong>'|format(notification_count|localizednumber)})|raw -}}
+            <a href="{{ path('notifications') }}"
+               class="site-nav__link no-underline"
+               title="{{ 'nav.notifications_count'|trans({'%count%': notification_count|localizednumber}) }}">
+              {{ icon('envelope-open') }}
+              <small class="no-underline__exempt" aria-hidden="true">{{ notification_count|localizednumber }}</small>
             </a>
           </li>
         {% endif %}

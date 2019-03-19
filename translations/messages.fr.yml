@@ -101,7 +101,6 @@ flash:
     forum_deleted: Le forum et son contenu a été supprimé.
     forum_updated: Les changements ont été sauvegardés.
     forum_moderator_added: L'utilisateur a été promu modérateur.
-    inbox_cleared: La boîte de réception a été vidée.
     notification_cleared: La notification a été effacée avec succès.
     reset_password_email_sent: Un courrier électronique pour réinitialiser votre compte à été envoyé à l'adresse spécifiée.
     theme_created: Votre thème a été créé.
@@ -201,7 +200,6 @@ help:
     search_external_message: Votre requête sera redirigée vers DuckDuckGo.
 
 inbox:
-    empty: La boîte de réception est vide.
     message_reply_head: 'Re: %title%'
 
 item:
@@ -340,7 +338,6 @@ nav:
     user_settings: Réglages
     forums: Forums
     comments: Commentaires récents
-    inbox_count: Boîte de réception (%count%)
     messages: Messages
     wiki: Wiki
     next: Suivant

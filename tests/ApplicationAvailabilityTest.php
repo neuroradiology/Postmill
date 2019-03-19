@@ -153,7 +153,7 @@ class ApplicationAvailabilityTest extends WebTestCase {
         yield ['/f/news/appearance'];
         yield ['/f/news/add_moderator'];
         yield ['/f/news/delete'];
-        yield ['/inbox'];
+        yield ['/notifications'];
         yield ['/submit'];
         yield ['/submit/news'];
         yield ['/user/emma/block_list'];

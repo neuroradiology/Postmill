@@ -70,7 +70,6 @@ flash:
     forum_deleted: Das Forum und alle Inhalte wurden gelöscht.
     forum_updated: Die Änderungen wurden gespeichert.
     forum_moderator_added: Dieser Benutzer wurde zum Moderator ernannt.
-    inbox_cleared: Der Posteingang wurde geleert.
     reset_password_email_sent: Eine Anfrage zum Zurücksetzen des Passworts wurde an die angegebene Email Adresse gesendet
     submission_deleted: Die Einreichung wurde gelöscht.
     submission_edited: Die Einreichung wurde bearbeitet.
@@ -117,9 +116,6 @@ front:
     all: Alle
     featured: Empfohlen
 
-inbox:
-    empty: Der Posteingang ist leer.
-
 label:
     ip_address: IP Adresse
     reason_for_banning: Grund für Sperrung
@@ -147,7 +143,6 @@ nav:
     my_account: Mein Account
     user_settings: Einstellungen
     forums: Foren
-    inbox_count: Posteingang (%count%)
     next: Nächste
     previous: Vorherige
 

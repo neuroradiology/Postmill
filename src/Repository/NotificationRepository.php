@@ -18,7 +18,7 @@ class NotificationRepository extends ServiceEntityRepository {
      *
      * @return int numbers of rows cleared
      */
-    public function clearInbox(User $user, int $max = null) {
+    public function clearNotifications(User $user, int $max = null) {
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->delete(Notification::class, 'n')
             ->where('n.user = ?1')
@@ -43,7 +43,7 @@ class NotificationRepository extends ServiceEntityRepository {
             ->where('n.user = ?1')
             ->setParameter(1, $user)
             ->andWhere('n.id = ?2')
-            ->setparameter(2, $notificationId);
+            ->setParameter(2, $notificationId);
 
         return $qb->getQuery()->execute();
     }
