@@ -127,8 +127,6 @@ front:
     featured: Uitgelicht
 
 inbox:
-    title: Inbox
-    clear_inbox: Maak inbox leeg
     empty: Je hebt geen nieuwe berichten.
     message_reply_head: 'Antw.: %title'
 

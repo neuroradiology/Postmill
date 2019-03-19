@@ -35,6 +35,8 @@ action:
     search: Search
     hide: Hide
     unhide: Unhide
+    clear: Clear
+    clear_all: Clear all
 
 add_moderator:
     title: Add moderator to %forum%
@@ -217,8 +219,6 @@ help:
     required_field: This field is required.
 
 inbox:
-    title: Inbox
-    clear_inbox: Clear inbox
     empty: The inbox is empty.
     message_reply_head: 'Re: %title%'
 
@@ -386,6 +386,7 @@ nav:
     add_webhook: Add webhook
     hidden_forums: Hidden forums
     recent_comments: Recent comments
+    inbox: Inbox
 
 placeholder:
     default: (default)
@@ -509,6 +510,7 @@ title:
     search_site: Search the site
     search_forum: Search this forum
     hidden_forums: Hidden forums
+    notifications: Notifications
 
 user:
     submissions: Submissions

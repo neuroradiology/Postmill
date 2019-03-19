@@ -118,8 +118,6 @@ front:
     featured: Empfohlen
 
 inbox:
-    title: Posteingang
-    clear_inbox: Posteingang leeren
     empty: Der Posteingang ist leer.
 
 label:

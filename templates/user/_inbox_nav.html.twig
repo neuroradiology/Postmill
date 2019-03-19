@@ -1,0 +1,16 @@
+{% set links = {
+  inbox: { path: path('inbox'), label: 'nav.inbox'|trans },
+  messages: { path: path('message_list'), label: 'nav.messages'|trans },
+} %}
+
+<nav class="tabs">
+  <ul class="tabs__bar unlistify">
+    {% for name, link in links %}
+      <li class="tabs__tab {{ active == name ? 'tabs_tab--active' }}">
+        <a href="{{ link.path }}" class="tab tabs__link {{ active == name ? 'tab--active tabs__link--active' }}">
+          {{- link.label -}}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>

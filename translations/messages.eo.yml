@@ -193,8 +193,6 @@ help:
     will_appear_in_the_url: Ĝi aperos en la URL
 
 inbox:
-    title: Enirkesto
-    clear_inbox: Malplenigi enirkeston
     empty: La enirkesto estas malplena.
     message_reply_head: 'Re: %title%'
 

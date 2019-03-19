@@ -132,8 +132,6 @@ front:
     subscribed: Abonnert
 
 inbox:
-    title: Innboks
-    clear_inbox: Tøm innboks
     empty: Innboksen er tom.
     message_reply_head: 'Sv: %title%'
 

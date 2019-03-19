@@ -1,25 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block head %}
+  {{ parent() }}
   {% include '_includes/meta_pagination.html.twig' with {pager: notifications} %}
 {% endblock %}
 
-{% block page_classes %}
-  inbox-page
-{% endblock %}
+{% block page_classes 'inbox-page' %}
 
-{% block title %}
-  {{ 'inbox.title'|trans }}
-{% endblock %}
+{% block title 'inbox.title'|trans %}
 
 {% block body %}
-  <h1 class="page-heading">{{ 'inbox.title'|trans }}</h1>
+  {{ include('user/_inbox_nav.html.twig', {active: 'inbox'}, with_context=false) }}
+
+  <h1 class="page-heading">{{ 'title.notifications'|trans }}</h1>
 
   {% if notifications|length > 0 %}
     <form action="{{ path('clear_inbox', { max: notifications|first.id }) }}" method="POST" class="form">
       <input type="hidden" name="token" value="{{ csrf_token('clear_inbox') }}">
       <div class="form__row">
-        <button type="submit" class="button">{{ 'inbox.clear_inbox'|trans }}</button>
+        <button type="submit" class="button">{{ 'action.clear_all'|trans }}</button>
       </div>
     </form>
   {% else %}

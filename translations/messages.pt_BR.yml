@@ -179,8 +179,6 @@ help:
     append_to_default_style_inheritance_warning: Ativar isto não tem nehum efeito ao extender um tema existente.
 
 inbox:
-    title: Caixa de entrada
-    clear_inbox: Limpar caixa de entrada
     empty: Caixa de entrada vazia.
     message_reply_head: 'Re: %title%'
 

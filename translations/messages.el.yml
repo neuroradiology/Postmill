@@ -183,8 +183,6 @@ help:
     append_to_default_style: Αφήστε αυτό το στοιχείο εκτός εάν το CSS σας παρέχει ένα πλήρες φύλλο στυλ για ολόκληρη την ιστοσελίδα.
 
 inbox:
-    title: Inbox
-    clear_inbox: Διαγράψτε το Inbox.
     empty: Το inbox είναι άδειο.
     message_reply_head: 'Re: %τίτλος%'
 

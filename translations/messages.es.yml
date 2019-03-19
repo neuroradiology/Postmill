@@ -198,8 +198,6 @@ help:
     will_appear_in_the_url: Aparecerá en la URL.
 
 inbox:
-    title: Bandeja de entrada
-    clear_inbox: Limpiar bandeja
     empty: Su bandeja de entrada esta vacía
     message_reply_head: 'Re: %title%'
 

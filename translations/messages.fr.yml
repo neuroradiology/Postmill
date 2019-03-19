@@ -201,8 +201,6 @@ help:
     search_external_message: Votre requête sera redirigée vers DuckDuckGo.
 
 inbox:
-    title: Boîte de réception
-    clear_inbox: Vider la boîte de réception
     empty: La boîte de réception est vide.
     message_reply_head: 'Re: %title%'
 

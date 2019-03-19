@@ -132,8 +132,6 @@ front:
     subscribed: Tilatut
 
 inbox:
-    title: Postilaatikko
-    clear_inbox: Tyhjennä postilaatikko
     empty: Postilaatikko on tyhjä.
     message_reply_head: 'VS: %title%'
 
