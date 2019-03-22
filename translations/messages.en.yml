@@ -197,6 +197,8 @@ heading:
     category: 'Category: %category%'
     hide_this_forum: Hide this forum
     you_were_mentioned: You were mentioned by %user%
+    search: Search
+    search_results: '{0} No results for %query%|{1} 1 result for %query%:|]1,Inf[ %count% results for %query%:'
 
 help:
     delete_forum_warning: All content on this forum will be irreversibly deleted!
@@ -316,6 +318,7 @@ label:
     let_forums_override_preferred_theme: Let forums override preferred theme
     search: Search for a post...
     show_thumbnails: Show thumbnails
+    search_query: Search query
 
 log:
     comment_deletion: '%user% deleted comment by %author% in "%submission%"'

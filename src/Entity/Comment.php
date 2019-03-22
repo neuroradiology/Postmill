@@ -142,6 +142,11 @@ class Comment extends Votable {
     private $mentions;
 
     /**
+     * @ORM\Column(type="tsvector", nullable=true)
+     */
+    private $searchDoc;
+
+    /**
      * @Groups({"comment:read"})
      */
     protected $upvotes;

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'heading.search'|trans %}
+
+{% block body %}
+  <h1 class="page-heading">{{ block('title') }}</h1>
+
+  <form action="{{ path('search') }}" method="GET" class="form">
+    <div class="form-row form-row--single-line form__row">
+      <label for="query" class="form-row__align text-align-right">{{ 'label.search_query'|trans }}</label>
+      <input name="q" type="search" value="{{ query }}" id="query" class="form-control">
+    </div>
+
+    <div class="form-row form-row--single-line form__row form__button-row">
+      <span class="form-row__align" role="presentation"></span>
+      <button class="button">{{ 'action.search'|trans }}</button>
+    </div>
+  </form>
+
+  {% if query is not empty %}
+  <h2>{{ 'heading.search_results'|trans({
+      '%query%': '<em>%s</em>'|format(query|e),
+      '%count%': results|length
+    })|raw }}</h2>
+  {% endif %}
+
+  {% if results is not empty %}
+    <ol>
+      {% for result in results %}
+        <li>
+          <p>{{ result.headline|trim|raw }}</p>
+          {% with { url: url('submission_shortcut', { id: result.id }) } %}
+            <p><a href="{{ url }}">{{ url }}</a></p>
+          {% endwith %}
+        </li>
+      {% endfor %}
+    </ol>
+  {% endif %}
+{% endblock %}

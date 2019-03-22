@@ -49,7 +49,7 @@ class Submission extends Votable {
      *
      * @Groups({"submission:read"})
      *
-     * @var string
+     * @var string|null
      */
     private $url;
 
@@ -58,7 +58,7 @@ class Submission extends Votable {
      *
      * @Groups({"submission:read"})
      *
-     * @var string
+     * @var string|null
      */
     private $body;
 
@@ -177,6 +177,13 @@ class Submission extends Votable {
      * @var bool
      */
     private $locked = false;
+
+    /**
+     * @ORM\Column(type="tsvector", nullable=true)
+     *
+     * @var string
+     */
+    private $searchDoc;
 
     /**
      * @Groups({"submission:read"})
