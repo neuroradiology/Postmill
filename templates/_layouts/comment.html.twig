@@ -41,7 +41,7 @@
         </nav>
 
         {% if show_form and is_granted('ROLE_USER') %}
-          {% from _self import comment_form %}
+          {% from 'comment/_macros.html.twig' import comment_form %}
           {{ comment_form(comment.submission, comment) }}
         {% endif %}
       </div>
