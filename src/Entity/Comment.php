@@ -12,7 +12,9 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
- * @ORM\Table(name="comments")
+ * @ORM\Table(name="comments", indexes={
+ *     @ORM\Index(name="comments_search_idx", columns={"search_doc"})
+ * })
  */
 class Comment extends Votable {
     /**
@@ -140,6 +142,11 @@ class Comment extends Votable {
      * @var CommentMention[]|Collection
      */
     private $mentions;
+
+    /**
+     * @ORM\Column(type="tsvector", nullable=true)
+     */
+    private $searchDoc;
 
     /**
      * @Groups({"comment:read"})

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\SearchRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 final class SearchController extends AbstractController {
@@ -12,6 +13,19 @@ final class SearchController extends AbstractController {
 
     public function __construct(bool $enableExternalSearch) {
         $this->enableExternalSearch = $enableExternalSearch;
+    }
+
+    public function search(Request $request, SearchRepository $search) {
+        $searchOptions = $search->parseRequest($request);
+
+        if ($searchOptions) {
+            $results = $search->search($searchOptions);
+        }
+
+        return $this->render('search/results.html.twig', [
+            'query' => $searchOptions['query'] ?? null,
+            'results' => $results ?? [],
+        ]);
     }
 
     public function external(Request $request) {

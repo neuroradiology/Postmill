@@ -13,7 +13,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubmissionRepository")
  * @ORM\Table(name="submissions", indexes={
- *     @ORM\Index(name="submissions_ranking_id_idx", columns={"ranking", "id"})
+ *     @ORM\Index(name="submissions_ranking_id_idx", columns={"ranking", "id"}),
+ *     @ORM\Index(name="submissions_search_idx", columns={"search_doc"}),
  * })
  */
 class Submission extends Votable {
@@ -49,7 +50,7 @@ class Submission extends Votable {
      *
      * @Groups({"submission:read"})
      *
-     * @var string
+     * @var string|null
      */
     private $url;
 
@@ -58,7 +59,7 @@ class Submission extends Votable {
      *
      * @Groups({"submission:read"})
      *
-     * @var string
+     * @var string|null
      */
     private $body;
 
@@ -177,6 +178,13 @@ class Submission extends Votable {
      * @var bool
      */
     private $locked = false;
+
+    /**
+     * @ORM\Column(type="tsvector", nullable=true)
+     *
+     * @var string
+     */
+    private $searchDoc;
 
     /**
      * @Groups({"submission:read"})
