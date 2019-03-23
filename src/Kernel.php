@@ -58,7 +58,3 @@ class Kernel extends BaseKernel {
         $container->addCompilerPass(new VersionPass());
     }
 }
-
-// hack: see workarounds.md
-class_alias('App\Entity\User', 'Raddit\AppBundle\Entity\User');
-class_alias('App\Entity\User', 'AppBundle\Entity\User');
