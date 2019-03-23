@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
 
+{% from 'submission/_macros.html.twig' import submission %}
+{% from 'comment/_macros.html.twig' import comment %}
+
 {% block title 'heading.search'|trans %}
 
 {% block body %}
@@ -24,16 +27,15 @@
     })|raw }}</h2>
   {% endif %}
 
-  {% if results is not empty %}
-    <ol>
-      {% for result in results %}
-        <li>
-          <p>{{ result.headline|trim|raw }}</p>
-          {% with { url: url('submission_shortcut', { id: result.id }) } %}
-            <p><a href="{{ url }}">{{ url }}</a></p>
-          {% endwith %}
-        </li>
-      {% endfor %}
-    </ol>
-  {% endif %}
+  {% for result in results %}
+    {% if result.entity == 'comment' %}
+      {{ comment(result[0], { show_context: true }) }}
+    {% elseif result.entity == 'submission' %}
+      {{ submission(result[0], { show_body: true }) }}
+    {% endif %}
+  {% else %}
+    {% if query is not empty %}
+      <p><small class="dimmed">{{ 'flash.no_entries_to_display'|trans }}</small></p>
+    {% endif %}
+  {% endfor %}
 {% endblock %}

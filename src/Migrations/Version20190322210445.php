@@ -32,6 +32,8 @@ EOSQL
         );
         $this->addSql('CREATE TRIGGER submissions_search_update BEFORE INSERT OR UPDATE ON submissions FOR EACH ROW EXECUTE PROCEDURE submissions_search_trigger()');
         $this->addSql('CREATE TRIGGER comments_search_update BEFORE INSERT OR UPDATE ON comments FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(search_doc, \'pg_catalog.english\', body)');
+        $this->addSql('CREATE INDEX submissions_search_idx ON submissions USING GIN (search_doc)');
+        $this->addSql('CREATE INDEX comments_search_idx ON comments USING GIN (search_doc)');
         $this->addSql('UPDATE submissions SET id = id');
         $this->addSql('UPDATE comments SET id = id');
     }
