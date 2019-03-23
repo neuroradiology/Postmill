@@ -85,7 +85,6 @@ build-assets:prod:
         - bin/console lint:yaml config
         - bin/console lint:twig templates
         - bin/console lint:yaml translations
-        - bin/console security:check
         - php composer.phar validate --strict
 
 test:7.1:

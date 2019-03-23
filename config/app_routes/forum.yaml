@@ -51,7 +51,7 @@ forum_appearance:
 forum_bans:
     controller: App\Controller\ForumController::bans
     defaults: { page: 1 }
-    path: /f/{forum_name}/bans
+    path: /f/{forum_name}/bans/{page}
     methods: [GET]
     requirements: { page: \d+ }
 
@@ -146,6 +146,7 @@ forum_edit_webhook:
     controller: App\Controller\ForumController::editWebhook
     methods: [GET, POST]
     path: /f/{forum_name}/edit_webhook/{webhook_id}
+    requirements: { webhook_id: "%uuid_regex%" }
 
 forum_remove_webhook:
     controller: App\Controller\ForumController::removeWebhook

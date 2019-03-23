@@ -206,7 +206,6 @@ class SubmissionRepository extends ServiceEntityRepository {
 
     private function isValidTime($time): bool {
         return \in_array($time, [
-            '',
             self::TIME_ALL,
             self::TIME_YEAR,
             self::TIME_MONTH,

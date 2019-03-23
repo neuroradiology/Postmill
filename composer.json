@@ -85,8 +85,7 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "fos:js-routing:dump --target=public/js/routing.js": "symfony-cmd",
-            "bazinga:js-translation:dump public/js --merge-domains --format=js": "symfony-cmd",
-            "security-checker security:check": "script"
+            "bazinga:js-translation:dump public/js --merge-domains --format=js": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"
