@@ -80,6 +80,10 @@ class UserData implements UserInterface {
 
     private $showThumbnails;
 
+    private $notifyOnReply;
+
+    private $notifyOnMentions;
+
     private $admin = false;
 
     public static function fromUser(User $user): self {
@@ -97,6 +101,8 @@ class UserData implements UserInterface {
         $self->autoFetchSubmissionTitles = $user->autoFetchSubmissionTitles();
         $self->enablePostPreviews = $user->enablePostPreviews();
         $self->showThumbnails = $user->showThumbnails();
+        $self->notifyOnReply = $user->getNotifyOnReply();
+        $self->notifyOnMentions = $user->getNotifyOnMentions();
         $self->admin = $user->isAdmin();
 
         return $self;
@@ -120,6 +126,8 @@ class UserData implements UserInterface {
         $user->setAutoFetchSubmissionTitles($this->autoFetchSubmissionTitles);
         $user->setEnablePostPreviews($this->enablePostPreviews);
         $user->setShowThumbnails($this->showThumbnails);
+        $user->setNotifyOnReply($this->notifyOnReply);
+        $user->setNotifyOnMentions($this->notifyOnMentions);
         $user->setAdmin($this->admin);
     }
 
@@ -139,6 +147,8 @@ class UserData implements UserInterface {
             'autoFetchSubmissionTitles',
             'enablePostPreviews',
             'showThumbnails',
+            'notifyOnReply',
+            'notifyOnMentions',
         ];
 
         foreach ($settings as $setting) {
@@ -272,6 +282,22 @@ class UserData implements UserInterface {
 
     public function setShowThumbnails($showThumbnails): void {
         $this->showThumbnails = $showThumbnails;
+    }
+
+    public function getNotifyOnReply(): ?bool {
+        return $this->notifyOnReply;
+    }
+
+    public function setNotifyOnReply(bool $notifyOnReply): void {
+        $this->notifyOnReply = $notifyOnReply;
+    }
+
+    public function getNotifyOnMentions(): ?bool {
+        return $this->notifyOnMentions;
+    }
+
+    public function setNotifyOnMentions(bool $notifyOnMentions): void {
+        $this->notifyOnMentions = $notifyOnMentions;
     }
 
     public function isAdmin(): bool {

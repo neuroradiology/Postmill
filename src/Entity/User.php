@@ -259,6 +259,20 @@ class User implements UserInterface, EquatableInterface {
      */
     private $showThumbnails = true;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default": true})
+     *
+     * @var bool
+     */
+    private $notifyOnReply = true;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": true})
+     *
+     * @var bool
+     */
+    private $notifyOnMentions = true;
+
     public function __construct(string $username, string $password, \DateTime $created = null) {
         $this->setUsername($username);
         $this->password = $password;
@@ -644,6 +658,22 @@ class User implements UserInterface, EquatableInterface {
 
     public function setShowThumbnails(bool $showThumbnails): void {
         $this->showThumbnails = $showThumbnails;
+    }
+
+    public function getNotifyOnReply(): bool {
+        return $this->notifyOnReply;
+    }
+
+    public function setNotifyOnReply(bool $notifyOnReply): void {
+        $this->notifyOnReply = $notifyOnReply;
+    }
+
+    public function getNotifyOnMentions(): bool {
+        return $this->notifyOnMentions;
+    }
+
+    public function setNotifyOnMentions(bool $notifyOnMentions): void {
+        $this->notifyOnMentions = $notifyOnMentions;
     }
 
     /**

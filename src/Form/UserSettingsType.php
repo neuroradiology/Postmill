@@ -88,6 +88,16 @@ final class UserSettingsType extends AbstractType {
                 'label' => 'label.show_thumbnails',
                 'required' => false,
             ])
+            ->add('notifyOnReply', CheckboxType::class, [
+                'help' => 'help.notify_on_reply',
+                'label' => 'label.notify_on_reply',
+                'required' => false,
+            ])
+            ->add('notifyOnMentions', CheckboxType::class, [
+                'help' => 'help.notify_on_mentions',
+                'label' => 'label.notify_on_mentions',
+                'required' => false,
+            ])
             ->add('save', SubmitType::class);
     }
 

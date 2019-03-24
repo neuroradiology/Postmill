@@ -199,6 +199,7 @@ heading:
     you_were_mentioned: You were mentioned by %user%
     search: Search
     search_results: '{0} No results for %query%|{1} 1 result for %query%:|]1,Inf[ %count% results for %query%:'
+    notifications: Notifications
 
 help:
     delete_forum_warning: All content on this forum will be irreversibly deleted!
@@ -219,6 +220,8 @@ help:
         still subscribe to and moderate forums you choose to hide.
     hidden_forums_no_comment_hiding: Comments posted to hidden forums will still be displayed in the "recent comments" listing.
     required_field: This field is required.
+    notify_on_reply: Get notifications when someone replies to your posts.
+    notify_on_mentions: Get notifications when someone links to your user profile.
 
 inbox:
     message_reply_head: 'Re: %title%'
@@ -319,6 +322,8 @@ label:
     search: Search for a post...
     show_thumbnails: Show thumbnails
     search_query: Search query
+    notify_on_reply: Notify on reply
+    notify_on_mentions: Notify on mentions
 
 log:
     comment_deletion: '%user% deleted comment by %author% in "%submission%"'

@@ -1,4 +1,7 @@
-{% use '_forms/standard_form_theme.html.twig' with form_label as parent_form_label %}
+{% use '_forms/standard_form_theme.html.twig' with
+    form_label as parent_form_label,
+    form_help as parent_form_help
+%}
 
 {% block checkbox_label %}
   {{- block('parent_form_label') -}}
@@ -8,7 +11,7 @@
   <div>
     {{ form_errors(form) }}
     <div class="form-row form-row--single-line form-row--no-collapse">
-      <span class="form-row__align" role="presentation"></span>
+      <span class="form-row__align" aria-hidden="true"></span>
       {{ form_widget(form) }}
       {{ form_label(form) }}
     </div>
@@ -31,3 +34,12 @@
     {{ form_help(form) }}
   </div>
 {%- endblock form_row %}
+
+{%- block form_help -%}
+  {%- if help -%}
+    <div class="form-row form-row--single-line">
+      <div class="form-row__align" aria-hidden="true"></div>
+      {{ block('parent_form_help') }}
+    </div>
+  {%- endif -%}
+{%- endblock form_help -%}

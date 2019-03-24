@@ -30,6 +30,14 @@
     </fieldset>
 
     <fieldset class="fieldset form__group">
+      <legend class="form__group-header">{{ 'heading.notifications'|trans }}</legend>
+
+        {{ form_row(form.notifyOnReply) }}
+
+        {{ form_row(form.notifyOnMentions) }}
+    </fieldset>
+
+    <fieldset class="fieldset form__group">
       <legend class="form__group-header">{{ 'label.appearance'|trans }}</legend>
 
       {{ form_row(form.preferred_theme, {attr: {class: 'select2'}}) }}

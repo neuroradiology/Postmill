@@ -345,12 +345,22 @@ class Submission extends Votable {
     }
 
     public function addMention(User $mentioned) {
-        if (
-            !$mentioned->isBlocking($this->getUser()) &&
-            $mentioned !== $this->getUser()
-        ) {
-            $mentioned->sendNotification(new SubmissionMention($mentioned, $this));
+        if ($mentioned === $this->getUser()) {
+            // don't notify yourself
+            return;
         }
+
+        if (!$mentioned->getNotifyOnMentions()) {
+            // don't notify users who've disabled mention notifications
+            return;
+        }
+
+        if ($mentioned->isBlocking($this->getUser())) {
+            // don't notify users blocking you
+            return;
+        }
+
+        $mentioned->sendNotification(new SubmissionMention($mentioned, $this));
     }
 
     public function getImage(): ?string {

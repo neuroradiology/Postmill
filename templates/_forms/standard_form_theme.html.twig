@@ -43,6 +43,19 @@
   </span>
 {%- endblock checkbox_row %}
 
+{% block form_help -%}
+  {%- if help is not empty -%}
+    {%- set help_attr = help_attr|merge({class: (help_attr.class|default('') ~ ' form-help')|trim}) -%}
+    <p id="{{ id }}_help"{% with { attr: help_attr } %}{{ block('attributes') }}{% endwith %}>
+      {%- if translation_domain is same as(false) -%}
+        {{- help -}}
+      {%- else -%}
+        {{- help|trans({}, translation_domain) -}}
+      {%- endif -%}
+    </p>
+  {%- endif -%}
+{%- endblock form_help %}
+
 {%- block form_row -%}
   {{- form_errors(form) -}}
   <div class="form-row form__row">

@@ -273,13 +273,29 @@ class Comment extends Votable {
     }
 
     public function addMention(User $mentioned) {
-        if (
-            !$mentioned->isBlocking($this->getUser()) &&
-            $mentioned !== $this->getUser() &&
-            $mentioned !== ($this->getParent() ?: $this->getSubmission())->getUser()
-        ) {
-            $mentioned->sendNotification(new CommentMention($mentioned, $this));
+        if ($mentioned === $this->getUser()) {
+            // don't notify yourself
+            return;
         }
+
+        if (!$mentioned->getNotifyOnMentions()) {
+            // don't notify users who've disabled mention notifications
+            return;
+        }
+
+        if ($mentioned->isBlocking($this->getUser())) {
+            // don't notify users blocking you
+            return;
+        }
+
+        $replyingTo = ($this->getParent() ?: $this->getSubmission())->getUser();
+
+        if ($replyingTo === $mentioned && $replyingTo->getNotifyOnReply()) {
+            // don't notify users who'll get a notification for the reply anyway
+            return;
+        }
+
+        $mentioned->sendNotification(new CommentMention($mentioned, $this));
     }
 
     protected function createVote(User $user, ?string $ip, int $choice): Vote {
@@ -358,8 +374,13 @@ class Comment extends Votable {
     private function notify() {
         $receiver = ($this->parent ?: $this->submission)->getUser();
 
-        if ($this->user === $receiver || $receiver->isBlocking($this->user)) {
-            // don't send notification to oneself or to a blocking user
+        if (
+            $this->user === $receiver ||
+            !$receiver->getNotifyOnReply() ||
+            $receiver->isBlocking($this->user)
+        ) {
+            // don't send notifications to oneself, to a user who's disabled
+            // them, or to a user who's blocked the user replying
             return;
         }
 
