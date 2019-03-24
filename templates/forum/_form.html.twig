@@ -1,17 +1,7 @@
 {{ form_start(form) }}
   {{ form_row(form.name) }}
-
   {{ form_row(form.title) }}
-
-  <div class="form__row">
-    {{ form_label(form.description) }}
-    {{ form_errors(form.description) }}
-    {{ form_widget(form.description) }}
-
-    <div class="form__help">
-      <p>{{ 'help.forum_description'|trans }}</p>
-    </div>
-  </div>
+  {{ form_row(form.description) }}
 
   {{ form_row(form.sidebar, {attr: {rows: 8}}) }}
 

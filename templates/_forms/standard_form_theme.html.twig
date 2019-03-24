@@ -35,17 +35,18 @@
   </div>
 {%- endblock button_row -%}
 
-{% block checkbox_row -%}
+{% block checkbox_row %}
   {{- form_errors(form) -}}
   <span class="form-row form-row--single-line form-row--no-collapse">
     {{- form_widget(form) -}}
     {{- form_label(form) -}}
   </span>
-{%- endblock checkbox_row %}
+  {{- form_help(form) -}}
+{% endblock checkbox_row %}
 
 {% block form_help -%}
   {%- if help is not empty -%}
-    {%- set help_attr = help_attr|merge({class: (help_attr.class|default('') ~ ' form-help')|trim}) -%}
+    {%- set help_attr = help_attr|merge({class: (help_attr.class|default('') ~ ' form-help form__help')|trim}) -%}
     <p id="{{ id }}_help"{% with { attr: help_attr } %}{{ block('attributes') }}{% endwith %}>
       {%- if translation_domain is same as(false) -%}
         {{- help -}}
@@ -57,11 +58,15 @@
 {%- endblock form_help %}
 
 {%- block form_row -%}
+  {%- if help is not empty -%}
+    {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+  {%- endif -%}
   {{- form_errors(form) -}}
   <div class="form-row form__row">
     {{- form_label(form) -}}
-    {{- form_widget(form) -}}
+    {{- form_widget(form, widget_attr ?? {}) -}}
   </div>
+  {{- form_help(form) -}}
 {%- endblock form_row -%}
 
 {%- block form_errors -%}
@@ -88,6 +93,7 @@
     </p>
     <div class="markdown-input__preview-container"></div>
   </div>
+  {{- form_help(form) -}}
 {%- endblock markdown_row -%}
 
 {# labels #}
@@ -182,3 +188,31 @@
   {%- set attr = attr|merge({'style': 'display: none'}) -%}
   {{- block('form_widget') -}}
 {% endblock honeypot_widget %}
+
+{# repeated form type #}
+
+{% block repeated_errors %}
+  {{- form_errors(form.first) -}}
+{% endblock repeated_errors %}
+
+{% block repeated_label %}
+  {{- form_label(form.first) -}}
+{% endblock repeated_label %}
+
+{% block repeated_row %}
+  {{- block('form_row') -}}
+{% endblock repeated_row %}
+
+{%- block repeated_widget -%}
+  <div class="compound-form-widget">
+    {{- form_widget(form.first, { attr: attr|merge(form.first.vars.attr) }) -}}
+    {{- form_widget(form.second, { attr: attr|merge(form.second.vars.attr)|merge({
+      'placeholder': 'placeholder.repeat'|trans,
+      'aria-label': form.second.vars.label is defined
+        ? form.second.vars.label|trans
+        : (form.second.vars.label_format is defined
+          ? form.second.vars.label_format|replace({'%name%': name, '%id%': id})
+          : form.second.vars.name|humanize)
+    })}) -}}
+  </div>
+{%- endblock repeated_widget -%}

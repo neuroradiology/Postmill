@@ -184,11 +184,10 @@ heading:
 help:
     delete_forum_warning: Ĉiu enhavo en ĉi tiu diskutejo senrevene estos forigita
     forum_description: Mallonga priskrivo de la diskutejo. Retserĉiloj montros ĉi tiun priskrivon en siaj rezultoj
-    append_to_default_style: Lasu tion krom se via CSS disponigas kompletan stilfolion por la tuta ejo.
+    append_to_default_style: Lasu tion krom se via CSS disponigas kompletan stilfolion por la tuta ejo. Agordi ĉi tion ne efikas dum la plivastigado de eksistenta estoso.
     block_users: Bloki uzantoj evitas, ke ili sendu al vi privatajn mesaĝojn, kaj vi ne ricevos avizojn, kiam ili respondos al vi.
     revision_summary: Enigu resumon de via ŝanĝoj
     parent_theme_input: Enigu la <uzantnomo>/<estoso> de la estoso vi volas plivastigi. Alternative vi povas enigi UUID, por plivastigi konkretan revizion.
-    append_to_default_style_inheritance_warning: Agordi ĉi tion ne efikas dum la plivastigado de eksistenta estoso.
     will_appear_in_the_url: Ĝi aperos en la URL
 
 inbox:

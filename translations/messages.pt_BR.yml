@@ -171,11 +171,10 @@ heading:
 help:
     delete_forum_warning: Todo o conteúdo deste fórum será apagado permanentemente!
     forum_description: Uma curta descrição dp fórum. Motores de busca vão mostrar esta descrição nos resultados.
-    append_to_default_style: Deixe desmarcado a menos que seu CSS ofereça uma folha de estilo completa para o site inteiro.
+    append_to_default_style: Deixe desmarcado a menos que seu CSS ofereça uma folha de estilo completa para o site inteiro. Ativar isto não tem nehum efeito ao extender um tema existente.
     block_users: Bloquear usuários impede que eles lhe enviem mensagens privadas, e você não receberá notificações quando eles lhe responderem.
     revision_summary: Insira um sumário das suas alterações.
     parent_theme_input: Insira o <username>/<theme> do tema que você quer extender. Ou então, insira uma UUID para extender uma revisão específica.
-    append_to_default_style_inheritance_warning: Ativar isto não tem nehum efeito ao extender um tema existente.
 
 inbox:
     message_reply_head: 'Re: %title%'

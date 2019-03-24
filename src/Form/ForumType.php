@@ -43,7 +43,9 @@ final class ForumType extends AbstractType {
         $builder
             ->add('name', TextType::class)
             ->add('title', TextType::class)
-            ->add('description', TextareaType::class)
+            ->add('description', TextareaType::class, [
+                'help' => 'help.forum_description',
+            ])
             ->add('sidebar', MarkdownType::class, [
                 'label' => 'label.sidebar',
             ])

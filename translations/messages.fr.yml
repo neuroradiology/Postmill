@@ -190,11 +190,10 @@ heading:
 help:
     delete_forum_warning: Tout le contenu de ce forum sera supprimé pour toujours!
     forum_description: Une courte description du forum. Les moteurs de recherche afficheront cette description dans leurs résultats.
-    append_to_default_style: Laissez décoché sauf si votre CSS est une feuille de style complète visant le site tout entier.
+    append_to_default_style: Laissez décoché sauf si votre CSS est une feuille de style complète visant le site tout entier. Régler cela n'aura pas d'effet si un thème existant est étendu.
     block_users: Bloquer un utilisateur l'empêche de vous envoyer des messages privés, et vous ne recevrez pas de notifications lorsqu'ils vous répondent.
     revision_summary: Veuillez saisir un résumé de vos modifications.
     parent_theme_input: Veuillez saisir l'<utilisateur>/<thème> du thème que vous voulez étendre. Vous pouvez également saisir un UUID pour étendre une modification particulière.
-    append_to_default_style_inheritance_warning: Régler cela n'aura pas d'effet si un thème existant est étendu.
     will_appear_in_the_url: Apparaîtra dans l'URL.
     search_external_prefix: Veuillez noter:
     search_external_message: Votre requête sera redirigée vers DuckDuckGo.

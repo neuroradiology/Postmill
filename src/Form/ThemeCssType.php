@@ -38,6 +38,7 @@ class ThemeCssType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
             ->add('parent', TextType::class, [
+                'help' => 'help.parent_theme_input',
                 'invalid_message' => 'No such theme.',
                 'label' => 'label.parent_theme',
                 'required' => false,
@@ -55,10 +56,12 @@ class ThemeCssType extends AbstractType {
                 'required' => false,
             ])
             ->add('appendToDefaultStyle', CheckboxType::class, [
+                'help' => 'help.append_to_default_style',
                 'required' => false,
                 'label' => 'label.append_to_default_style',
             ])
             ->add('comment', TextareaType::class, [
+                'help' => 'help.revision_summary',
                 'label' => 'label.comment',
                 'required' => false,
             ]);

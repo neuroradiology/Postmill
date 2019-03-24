@@ -13,6 +13,7 @@ class ForumCategoryType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
             ->add('name', TextType::class, [
+                'help' => 'help.will_appear_in_the_url',
                 'label' => 'label.name',
             ])
             ->add('title', TextType::class, [

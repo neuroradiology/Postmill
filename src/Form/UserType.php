@@ -53,8 +53,11 @@ final class UserType extends AbstractType {
         $editing = $builder->getData() && $builder->getData()->getEntityId();
 
         $builder
-            ->add('username', TextType::class)
+            ->add('username', TextType::class, [
+                'help' => 'user.username_rules',
+            ])
             ->add('password', RepeatedType::class, [
+                'help' => 'user.password_rules',
                 'property_path' => 'plainPassword',
                 'required' => !$editing,
                 'first_options' => ['label' => $editing ? 'user_form.new_password' : 'user_form.password'],
@@ -62,6 +65,7 @@ final class UserType extends AbstractType {
                 'type' => PasswordType::class,
             ])
             ->add('email', EmailType::class, [
+                'help' => 'user.email_optional',
                 'required' => false,
             ]);
 

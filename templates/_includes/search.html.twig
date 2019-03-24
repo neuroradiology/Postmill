@@ -12,18 +12,16 @@
       <input class="form-control" type="hidden" name="forum" value="{{ forum_path }}" />
     {% endif %}
 
-    <div class="form__row">
+    <div class="form-row form__row">
       <input class="form-control" type="text" name="query" placeholder="{{ 'label.search'|trans }}" />
     </div>
-    
-    <div class="form__help">
-      <p>
-        <strong>{{ 'help.search_external_prefix'|trans }}</strong>
-        {{ 'help.search_external_message'|trans }}
-      </p>
-    </div>
 
-    <div class="form__row form__button-row">
+    <p class="form-help form__help">
+      <strong>{{ 'help.search_external_prefix'|trans }}</strong>
+      {{ 'help.search_external_message'|trans }}
+    </p>
+
+    <div class="form-row form__row">
       <button class="button" type="submit">
         {{ 'action.search'|trans }}
       </button>
