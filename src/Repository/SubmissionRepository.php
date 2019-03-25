@@ -22,7 +22,7 @@ class SubmissionRepository extends ServiceEntityRepository {
     public const TIME_MONTH = 'month';
     public const TIME_WEEK = 'week';
     public const TIME_DAY = 'day';
-    public const DEFAULT_TIME = self::TIME_ALL;
+    public const DEFAULT_TIME = self::TIME_DAY;
 
     /**
      * `$sortBy` -> ordered column name mapping.
@@ -97,7 +97,7 @@ class SubmissionRepository extends ServiceEntityRepository {
      */
     public function findSubmissions(string $sortBy, array $options = [], Request $request = null) {
         $maxPerPage = $options['max_per_page'] ?? self::MAX_PER_PAGE;
-        $time = $request ? $request->query->get('t') : null;
+        $time = $request->query->get('t');
 
         // Silently fail on invalid time
         if (!$this->isValidTime($time)) {
