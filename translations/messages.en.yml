@@ -323,6 +323,9 @@ label:
     search_query: Search query
     notify_on_reply: Notify on reply
     notify_on_mentions: Notify on mentions
+    sort_by_mode: 'Sort by: %mode%'
+    filter_on_mode: 'Filter on: %mode%'
+    from_time: 'From: %time%'
 
 log:
     comment_deletion: '%user% deleted comment by %author% in "%submission%"'
@@ -365,7 +368,8 @@ nav:
     my_account: My account
     user_settings: User settings
     forums: Forums
-    comments: Recent comments
+    submissions: Submissions
+    comments: Comments
     messages: Messages
     wiki: Wiki
     next: Next

@@ -1,0 +1,118 @@
+{% macro front_post_types(current) %}
+  <ul class="unlistify tabs__bar">
+    <li class="tabs__tab {{ current == 'submissions' ? 'tabs__tab--active' }}">
+      <a href="{{ path('front') }}"
+         class="tab tabs__link {{ current == 'submissions' ? 'tab--active tabs__link--active' }}">
+        {{- 'nav.submissions'|trans -}}
+      </a>
+    </li>
+    <li class="tabs__tab {{ current == 'comments' ? 'tabs__tab--active' }}">
+      <a href="{{ path('comment_list') }}"
+         class="tab tabs__link {{ current == 'comments' ? 'tab--active tabs__link--active' }}">
+        {{- 'nav.comments'|trans -}}
+      </a>
+    </li>
+  </ul>
+{% endmacro front_post_types %}
+
+{% macro forum_post_types(forum_name, current) %}
+  <ul class="unlistify tabs__bar">
+    <li class="tabs__tab {{ current == 'submissions' ? 'tabs__tab--active' }}">
+      <a href="{{ path('forum', { forum_name: forum_name }) }}"
+         class="tab tabs__link {{ current == 'submissions' ? 'tab--active tabs__link--active' }}">
+        {{- 'nav.submissions'|trans -}}
+      </a>
+    </li>
+    <li class="tabs__tab {{ current == 'comments' ? 'tabs__tab--active' }}">
+      <a href="{{ path('forum_comments', { forum_name: forum_name }) }}"
+         class="tab tabs__link {{ current == 'comments' ? 'tab--active tabs__link--active' }}">
+        {{- 'nav.comments'|trans -}}
+      </a>
+    </li>
+  </ul>
+{% endmacro forum_post_types %}
+
+{% macro submission_sort(current) %}
+  {% from _self import _submission_sort_items %}
+  <li class="dropdown tabs__tab">
+    <button type="button" class="tab dropdown__toggle no-underline">
+      {{ 'label.sort_by_mode'|trans({
+        '%mode%': '<b class="no-underline__exempt">%s</b>'|format(('submissions.sort_by_'~current)|trans|e)
+      })|raw }}
+      <span class="dropdown__arrow"></span>
+    </button>
+    <ul class="dropdown__menu card unlistify">
+      {{ _submission_sort_items(current, ['hot', 'new'], null) }}
+      {{ _submission_sort_items(current, ['top', 'controversial', 'most_commented'], 'day') }}
+    </ul>
+  </li>
+{% endmacro submission_sort %}
+
+{% macro _submission_sort_items(current, types, time) %}
+  {% set attr = app.request.attributes %}
+  {% for type in types %}
+    <li>
+      <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? [])|merge({sortBy: type, t: time})) }}"
+         class="menu-link">
+        {{- ('submissions.sort_by_'~type)|trans -}}
+      </a>
+    </li>
+  {% endfor %}
+{% endmacro _submission_sort_items %}
+
+{% macro submission_time(sort_by) %}
+  {% if sort_by in ['top', 'controversial', 'most_commented'] %}
+    {% set attr = app.request.attributes %}
+    {% set times = ['day', 'week', 'month', 'year', 'all'] %}
+    {% set current = app.request.query.get('t') %}
+    {% if current not in times %}
+      {% set current = 'all' %}
+    {% endif %}
+    <li class="dropdown tabs__tab">
+      <button type="button" class="dropdown__toggle tab no-underline">
+        {{ 'label.from_time'|trans({
+          '%time%': '<b class="no-underline__exempt">%s</b>'|format(('submissions.time_'~current)|trans|e)
+        })|raw }}
+        <span class="dropdown__arrow"></span>
+      </button>
+      <ul class="dropdown__menu card unlistify">
+        {% for time in times %}
+          <li>
+            <a href="{{ path(attr.get('_route'), (attr.get('_route_params') ?? [])|merge({t: time})) }}"
+               class="menu-link {{ time == current ? 'menu-link--active' }}">
+              {{- ('submissions.time_'~time)|trans -}}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+    <ul>
+  {% endif %}
+{% endmacro submission_time %}
+
+{% macro submission_filter(choice, sort_by) %}
+  {% set filter_modes = {
+    featured: { label: 'front.featured'|trans },
+    subscribed: { label: 'front.subscribed'|trans, condition: is_granted('ROLE_USER') },
+    all: { label: 'front.all'|trans },
+    moderated: { label: 'nav.moderated'|trans, condition: (app.user.moderatorTokens ?? [])|length > 0 },
+  } %}
+  <li class="dropdown tabs__tab">
+    <button href="#" class="tab dropdown__toggle no-underline">
+      {{ 'label.filter_on_mode'|trans({
+        '%mode%': '<b class="no-underline__exempt">%s</b>'|format(filter_modes[choice].label|e),
+      })|raw }}
+      <span class="dropdown__arrow"></span>
+    </button>
+    <ul class="dropdown__menu card unlistify">
+      {% for route, mode in filter_modes if (mode.condition ?? true) %}
+        <li>
+          <a href="{{ path(route, {sortBy: sort_by}) }}"
+             class="menu-link {{ choice == 'route' ? 'menu-link--active' }}">
+            {{- mode.label -}}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </li>
+{% endmacro submission_filter %}

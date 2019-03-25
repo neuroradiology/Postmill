@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% from 'submission/_macros.html.twig' import submission, submission_sort %}
+{% from '_macros/post_nav.html.twig' import submission_sort, submission_time %}
+{% from 'submission/_macros.html.twig' import submission %}
 
 {% block page_classes 'forum-category-page' %}
 {% block title 'heading.category'|trans({'%category%': category.title}) %}
@@ -42,12 +43,11 @@
 {% block body %}
   <h1 class="page-heading">{{ 'heading.category'|trans({'%category%': category.title}) }}</h1>
 
-  <nav class="tabs submission-sort">
-    <ul class="tabs__bar">
-      {{- submission_sort(sort_by) -}}
+  <nav class="tabs">
+    <ul class="unlistify tabs__bar">
+      {{ submission_sort(sort_by) }}
+      {{ submission_time(sort_by) }}
     </ul>
-
-    {% include '_includes/time_filters.html.twig' with {sort_by: sort_by, time: app.request.query.get('t')} %}
   </nav>
 
   {% for submission in submissions %}

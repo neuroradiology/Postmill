@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% from '_macros/post_nav.html.twig' import front_post_types %}
 {% from 'comment/_macros.html.twig' import comment %}
 
 {% block page_classes 'comment-list-page' %}
@@ -9,6 +10,10 @@
 {% endblock %}
 
 {% block body %}
+  <nav class="tabs">
+    {{ front_post_types('comments') }}
+  </nav>
+
   <h1 class="page-heading">{{ block('title') }}</h1>
 
   {% for comment in comments %}
