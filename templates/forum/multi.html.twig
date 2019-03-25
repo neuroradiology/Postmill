@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
-{% from 'submission/_macros.html.twig' import submission, submission_sort, submission_time %}
+{% from '_macros/post_nav.html.twig' import submission_sort, submission_time %}
+{% from 'submission/_macros.html.twig' import submission %}
 
 {% block page_classes 'multi-forum-page' %}
 
@@ -10,10 +11,11 @@
 {% block title '/f/'~forums|join(', /f/') %}
 
 {% block body %}
-  <nav class="tabs submission-sort">
-    <ul class="tabs__bar">{{ submission_sort(sort_by) }}</ul>
-
-    {% include '_includes/time_filters.html.twig' with {sort_by: sort_by, time: app.request.query.get('t')} %}
+  <nav class="tabs">
+    <ul class="unlistify tabs__bar">
+      {{ submission_sort(sort_by) }}
+      {{ submission_time(sort_by) }}
+    </ul>
   </nav>
 
   {% for submission in submissions %}

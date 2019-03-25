@@ -17,12 +17,20 @@ class SubmissionRepository extends ServiceEntityRepository {
     public const SORT_TOP = 'top';
     public const SORT_CONTROVERSIAL = 'controversial';
     public const SORT_MOST_COMMENTED = 'most_commented';
-    public const TIME_ALL = 'all';
-    public const TIME_YEAR = 'year';
-    public const TIME_MONTH = 'month';
-    public const TIME_WEEK = 'week';
+
     public const TIME_DAY = 'day';
-    public const DEFAULT_TIME = self::TIME_ALL;
+    public const TIME_WEEK = 'week';
+    public const TIME_MONTH = 'month';
+    public const TIME_YEAR = 'year';
+    public const TIME_ALL = 'all';
+
+    public const VALID_TIMES = [
+        self::TIME_DAY,
+        self::TIME_WEEK,
+        self::TIME_MONTH,
+        self::TIME_YEAR,
+        self::TIME_ALL,
+    ];
 
     /**
      * `$sortBy` -> ordered column name mapping.
@@ -97,11 +105,11 @@ class SubmissionRepository extends ServiceEntityRepository {
      */
     public function findSubmissions(string $sortBy, array $options = [], Request $request = null) {
         $maxPerPage = $options['max_per_page'] ?? self::MAX_PER_PAGE;
-        $time = $request ? $request->query->get('t') : null;
+        $time = $request->query->get('t', self::TIME_ALL);
 
         // Silently fail on invalid time
-        if (!$this->isValidTime($time)) {
-            $time = self::DEFAULT_TIME;
+        if (!\in_array($time, self::VALID_TIMES, true)) {
+            $time = self::TIME_ALL;
         }
 
         $rsm = $this->createResultSetMappingBuilder('s');
@@ -202,16 +210,6 @@ class SubmissionRepository extends ServiceEntityRepository {
         $this->hydrateAssociations($submissions);
 
         return $submissions;
-    }
-
-    private function isValidTime($time): bool {
-        return \in_array($time, [
-            self::TIME_ALL,
-            self::TIME_YEAR,
-            self::TIME_MONTH,
-            self::TIME_WEEK,
-            self::TIME_DAY,
-        ], true);
     }
 
     private static function filterQuery(QueryBuilder $qb, array $options): void {

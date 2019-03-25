@@ -1,4 +1,6 @@
 {% extends 'forum/base.html.twig' %}
+
+{% from '_macros/post_nav.html.twig' import forum_post_types %}
 {% from 'comment/_macros.html.twig' import comment %}
 
 {% block page_classes 'comment-list-page' %}
@@ -12,6 +14,10 @@
   <h1 class="page-heading">{{ 'title.recent_comments_forum'|trans({
     '%forum%': '<a href="%s">/f/%s</a>'|format(path('forum', {forum_name: forum.name})|e, forum.name|e)
   })|raw }}</h1>
+
+  <nav class="unlistify tabs">
+    {{ forum_post_types(forum.name, 'comments') }}
+  </nav>
 
   {% if comments|length > 0 %}
     {% for comment in comments %}

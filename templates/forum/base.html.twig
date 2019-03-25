@@ -74,11 +74,6 @@
     {# sorted nav items #}
     {% with { items: {} } %}
       {% set item %}
-        <li><a href="{{ path('forum_comments', {forum_name: forum.name}) }}">{{ 'nav.recent_comments'|trans }}</a></li>
-      {% endset %}
-      {% set items = items|merge({('nav.recent_comments'|trans): item}) %}
-
-      {% set item %}
         <li><a href="{{ path('forum_bans', {forum_name: forum.name}) }}">{{ 'nav.bans'|trans }}</a></li>
       {% endset %}
       {% set items = items|merge({('nav.bans'|trans): item}) %}

@@ -1,6 +1,7 @@
 {% extends 'forum/base.html.twig' %}
 
-{% from 'submission/_macros.html.twig' import submission, submission_sort %}
+{% from '_macros/post_nav.html.twig' import forum_post_types, submission_sort, submission_time %}
+{% from 'submission/_macros.html.twig' import submission %}
 
 {% block title %}{{ forum.title }}{% endblock %}
 
@@ -21,7 +22,7 @@
   {% endif %}
 {% endblock %}
 
-{% block page_classes %}forum-front{% endblock %}
+{% block page_classes 'forum-front' %}
 
 {% block body %}
   {% filter spaceless %}
@@ -31,12 +32,13 @@
     </h1>
   {% endfilter %}
 
-  <nav class="tabs submission-sort">
-    <ul class="unlistify tabs__bar">
-      {{- submission_sort(sort_by) -}}
-    </ul>
+  <nav class="tabs">
+    {{ forum_post_types(forum.name, 'submissions') }}
 
-    {% include '_includes/time_filters.html.twig' with {sort_by: sort_by, time: app.request.query.get('t')} %}
+    <ul class="unlistify tabs__bar">
+      {{ submission_sort(sort_by) }}
+      {{ submission_time(sort_by) }}
+    </ul>
   </nav>
 
   {% if submissions.isEmpty() %}
