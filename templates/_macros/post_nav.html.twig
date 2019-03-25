@@ -85,12 +85,12 @@
 
 {% macro submission_time(sort_by) %}
   {% from _self import _tab_button %}
-  {% set times = ['day', 'week', 'month', 'year', 'all'] %}
-  {% set current = app.request.query.get('t') %}
+  {% set current = app.request.query.get('t', 'all') %}
+  {% set times = constant('App\\Repository\\SubmissionRepository::VALID_TIMES') %}
   {% if current not in times %}
-    {% set current = constant('App\\Repository\\SubmissionRepository::DEFAULT_TIME') %}
+    {% set current = 'all' %}
   {% endif %}
-  {% if current != 'all' or sort_by in ['top', 'controversial', 'most_commented'] %}
+  {% if app.request.query.has('t') or sort_by not in ['hot', 'new'] %}
     {% set attr = app.request.attributes %}
     {% set current_label = 'submissions.time_%s'|format(current)|trans %}
     <li class="dropdown tabs__tab">
