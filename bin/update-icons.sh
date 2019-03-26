@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Download icons, create sprite sheet, save to templates/_includes/icons.svg.
+# Download icons, create sprite sheet, save to assets/icons/icons.svg.
 # The generated sprite sheet should be committed to the git repository.
 
 # Note: this must be kept compatible with regular /bin/sh so it runs under the
@@ -11,7 +11,7 @@ set -e
 PROJECT_ROOT=$(dirname $(dirname $(realpath $0)))
 PATH="$PROJECT_ROOT/node_modules/.bin:$PATH"
 TEMP=$(mktemp -d)
-OUT="$PROJECT_ROOT/templates/_includes/icons.svg"
+OUT="$PROJECT_ROOT/assets/icons/icons.svg"
 
 trap 'rm -rf "$TEMP"' EXIT
 

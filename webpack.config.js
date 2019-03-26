@@ -9,6 +9,11 @@ Encore
     .addStyleEntry('postmill', './assets/css/postmill.css')
     .addStyleEntry('postmill-night', './assets/css/postmill-night.css')
     .cleanupOutputBeforeBuild()
+    .copyFiles({
+        from: './assets/icons',
+        to: 'images/[path][name].[hash:8].[ext]',
+        pattern: /\.svg$/i,
+    })
     .enableLessLoader()
     .enableSingleRuntimeChunk()
     .enableSourceMaps(!Encore.isProduction())

@@ -1,4 +1,11 @@
-{% macro icon(name, alt_text = '') -%}
+{% macro icon(name, alt_text = '') %}
+  {#- prevent preloading sprite sheet more than once -#}
+  {%- set icon_asset = asset('build/images/icons.svg') -%}
+  {%- if not app.request.attributes.get('icons_are_linked') -%}
+    {%- set icon_asset = preload(icon_asset) -%}
+  {%- endif -%}
+  {%- do app.request.attributes.set('icons_are_linked', true) -%}
+
   {%- filter spaceless -%}
     <span class="icon {{ alt_text ? 'icon--with-alt-text' }}">
       {%- if alt_text is not empty -%}
@@ -15,7 +22,7 @@
                  width="0"
                  height="0">
       {%- endif -%}
-      <svg width="16" height="16"><use xlink:href="#{{ name }}"/></svg>
+      <svg width="16" height="16"><use xlink:href="{{ icon_asset }}#{{ name }}"/></svg>
     </span>
   {%- endfilter -%}
-{%- endmacro %}
+{% endmacro icon %}
