@@ -1,89 +1,113 @@
+@import (reference) '../_mixins';
 @import (reference) '../_variables';
 
 .site-nav {
   background-color: var(--primary);
   display: flex;
-  flex-direction: column;
   margin-bottom: 1rem;
 
-  @media screen and (min-width: @desktop-min-width) {
-    flex-direction: row;
-    padding: 0 1rem;
+  &__has-notifications {
+    background-color: var(--notification);
   }
 
-  &__logo,
-  &__mobile-toggle,
   &__link {
     color: var(--primary-fg);
-    display: block;
+    display: inline-block;
     font-size: @nav-font-size;
-    white-space: nowrap;
+    padding: 0.875rem;
   }
 
-  &__logo {
-    font-weight: bold;
-    padding: 1rem;
+  &__search {
+    align-items: center;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__search-input {
+    border: none !important;
+    border-radius: 0 4rem 4rem 0;
+    padding-left: 0 !important;
+  }
+
+  &__search-label {
+    background-color: var(--bg-page);
+    border-radius: 4rem 0 0 4rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+  }
+
+  &__search-row {
+    display: flex;
   }
 
   &__mobile-toggle {
-    padding: 1rem;
+    .unbuttonize();
 
-    &--has-notifications {
-      background-color: var(--notification);
+    &:hover {
+      background-color: var(--primary-alt);
+    }
+  }
+
+  &__main-menu {
+    display: flex;
+  }
+
+  &__user-menu {
+    display: flex;
+  }
+
+  @media screen and (min-width: @desktop-min-width) {
+    padding: 0 1rem;
+  }
+
+  @media not screen and (min-width: @desktop-min-width) {
+    &__mobile-hidden:hover {
+      background-color: var(--primary-alt);
     }
 
-    @media screen and (min-width: @desktop-min-width) {
+    &__mobile-toggle:not(:hover) + :not(:hover) {
       display: none;
     }
-  }
 
-  &__link {
-    padding: 0.5rem 1rem;
-
-    @media screen and (min-width: @desktop-min-width) {
-      padding: 1rem;
+    &__mobile-toggle + * {
+      background-color: var(--primary-alt);
+      position: absolute;
+      left: 0;
+      right: 0;
     }
-  }
 
-  // holds logo and mobile toggle
-  &__header {
-    display: flex;
-    justify-content: space-between;
-  }
+    &__header {
+      order: 1;
+    }
 
-  // holds the menus, hidden on mobile until toggled
-  &__inner {
-    display: none;
+    &__search {
+      display: block;
+      margin-left: 0;
+      order: 2;
+    }
 
-    &--mobile-visible {
-      display: flex;
+    &__user-menu {
+      order: 3;
+    }
+
+    &__main-menu-container {
+      order: 4;
+    }
+
+    &__main-menu {
       flex-direction: column;
     }
 
-    @media screen and (min-width: @desktop-min-width) {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+    &__link {
+      display: block;
+    }
+
+    &__search-row {
+      padding: 0.5rem 1rem;
+    }
+
+    &__search-input {
       width: 100%;
-    }
-  }
-
-  // one on each side
-  &__menu {
-    display: flex;
-    flex-direction: column;
-
-    @media screen and (min-width: @desktop-min-width) {
-      flex-direction: row;
-    }
-  }
-
-  // menu item
-  &__item {
-    display: block;
-
-    &--has-notifications {
-      background-color: var(--notification);
     }
   }
 
