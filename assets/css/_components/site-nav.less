@@ -53,17 +53,18 @@
     color: var(--primary-fg);
   }
 
-  &__mobile-toggle:hover {
+  .no-js &__mobile-toggle:hover,
+  .js &__mobile-hidden.dropdown--extended > &__mobile-toggle {
     background-color: var(--primary-alt);
-  }
-
-  &__menu {
-    display: flex;
   }
 
   // desktop styles
   @media screen and (min-width: @desktop-min-width) {
     padding: 0 1rem;
+
+    &__menu {
+      display: flex;
+    }
 
     &__search {
       align-items: center;
@@ -87,12 +88,9 @@
       width: 100%;
     }
 
-    &__mobile-hidden:hover {
+    .no-js &__mobile-hidden:hover,
+    .js &__mobile-hidden.dropdown--extended {
       background-color: var(--primary-alt);
-    }
-
-    &__mobile-toggle:not(:hover) + :not(:hover) {
-      display: none;
     }
 
     &__mobile-toggle + * {
@@ -112,6 +110,7 @@
     }
 
     &__user-menu {
+      display: flex;
       flex: 3 0 auto;
       order: 3;
 

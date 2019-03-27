@@ -1,12 +1,6 @@
 @import '../_variables';
 
 .dropdown {
-  position: relative;
-
-  @media not screen and (min-width: @desktop-min-width) {
-    position: static;
-  }
-
   &__arrow::after {
     border-left: 0.5ch solid transparent;
     border-right: 0.5ch solid transparent;
@@ -23,30 +17,44 @@
     border-top: none;
   }
 
-  &__menu {
-    display: none;
+  .dropdown-menu() {
     position: absolute;
     left: 0;
     right: auto;
     z-index: 100;
+  }
 
-    @media not screen and (min-width: @desktop-min-width) {
-      width: 100%;
+  // desktop menus
+  @media screen and (min-width: @desktop-min-width) {
+    &:not(&--mobile-only) {
+      position: relative;
+    }
+
+    .js &:not(&--mobile-only):not(&--expanded) > &__menu,
+    .no-js &:not(&--mobile-only):not(:hover) > &__menu {
+      display: none;
+    }
+
+    &:not(&--mobile-only) > &__menu {
+      .dropdown-menu();
+    }
+
+    &--right:not(&--mobile-only) > &__menu {
+      left: auto;
+      right: 0;
     }
   }
 
-  &--right > &__menu {
-    left: unset;
-    right: 0;
-  }
+  // mobile menus
+  @media not screen and (min-width: @desktop-min-width) {
+    &__menu {
+      .dropdown-menu();
+      width: 100%;
+    }
 
-  // js toggle
-  &--expanded > &__menu {
-    display: block;
-  }
-
-  // toggle dropdown by hovering when JS isn't available
-  .no-js &:hover > &__menu {
-    display: block;
+    .js &:not(&--expanded) > &__menu,
+    .no-js &:not(:hover) > &__menu {
+      display: none;
+    }
   }
 }
