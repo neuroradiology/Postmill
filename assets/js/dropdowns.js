@@ -96,19 +96,30 @@ function globalKeyDownHandler(event) {
     event.preventDefault();
 }
 
-function toggleHandler() {
-    toggle($(this).parent('.dropdown'));
-}
-
-function menuActionsHandler() {
-    toggle($('.dropdown--expanded'));
-}
-
 // init
 
 $('.dropdown').addClass('dropdown-container').addClass('js'); // BC
 $('.dropdown__toggle').attr('aria-haspopup', true).attr('aria-expanded', false);
 
-$(document).on('click', '.dropdown__toggle', toggleHandler);
-$(document).on('click', MENU_ACTIONS, menuActionsHandler);
 $(document).on('keydown', globalKeyDownHandler);
+
+// close the menu upon clicking a link or button or similar inside it
+$(document).on('click', MENU_ACTIONS, () => {
+    event.stopPropagation();
+
+    toggle($('.dropdown--expanded'));
+});
+
+// prevent closing the menu when clicking on things in it that aren't buttons or
+// links or anything
+$(document).on('click', '.dropdown__menu', event => event.stopPropagation());
+
+// make the toggles work
+$(document).on('click', '.dropdown__toggle', function (event) {
+    event.stopPropagation();
+
+    toggle($(this).parent('.dropdown'));
+});
+
+// close the menu when clicking elsewhere on a page
+$(document).on('click', () => toggle($('.dropdown--expanded')));
