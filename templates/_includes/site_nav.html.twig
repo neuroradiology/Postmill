@@ -1,9 +1,16 @@
 {% from '_macros/icon.html.twig' import icon %}
 {%- set notification_count = is_granted('ROLE_USER') ? app.user.notifications|length : 0 -%}
+{%- set search_query = app.request.query.get('q') %}
+{%- if app.request.attributes.get('_route') != 'search' or search_query is iterable %}
+  {%- set search_query = null -%}
+{%- endif -%}
 
 <nav class="site-nav site-nav__flex">
   <header class="site-nav__header">
-    <a href="{{ path('front') }}" class="site-nav__link"><b>{{ site_name() }}</b></a>
+    <a href="{{ path('front') }}" class="site-nav__link no-underline">
+      <span class="no-desktop">{{ icon('home') }}</span>
+      <b class="no-mobile no-underline__exempt">{{ site_name() }}</b>
+    </a>
   </header>
 
   <div class="site-nav__main-menu-container site-nav__mobile-hidden">
@@ -12,18 +19,18 @@
     </button>
 
     {# left portion of site nav #}
-    <ul class="site-nav__main-menu unlistify">
+    <ul class="site-nav__menu site-nav__main-menu unlistify">
       <li>
         <a href="{{ path('forum_list') }}" class="site-nav__link">{{ 'nav.forums'|trans }}</a>
       </li>
 
       <li>
-        <a href="{{ path('wiki') }}" class="site-nav__link">{{ 'nav.wiki'|trans }}</a>
+        <a href="{{ path('wiki') }}" class="site-nav__link {{ app.request.attributes.getk}}">{{ 'nav.wiki'|trans }}</a>
       </li>
 
       {% if is_granted('ROLE_ADMIN') %}
         <li class="dropdown dropdown-container">
-          <a href="#" class="dropdown__toggle site-nav__link no-underline dropdown-toggle">
+          <a href="#" class="dropdown__toggle no-underline no-wrap site-nav__link dropdown-toggle">
             <span class="no-underline__exempt">{{ 'label.admin'|trans }}</span>
             <span class="dropdown__arrow" role="presentation"></span>
           </a>
@@ -37,7 +44,7 @@
     </ul>
   </div>
 
-  <form action="{{ path('search') }}" class="site-nav__search">
+  <form action="{{ path('search') }}" class="site-nav__mobile-hidden site-nav__search">
     <button type="button" class="site-nav__mobile-toggle no-desktop">
       <span class="site-nav__link">
         {{ icon('search') }}
@@ -45,15 +52,19 @@
     </button>
 
     <div class="site-nav__search-row">
-      <label class="site-nav__search-label" for="main-search" aria-label="{{ 'label.search_query'|trans }}">
+      <label class="site-nav__search-label" for="site-nav-search" aria-label="{{ 'label.search_query'|trans }}">
         {{ icon('search') }}
       </label>
-      <input name="q" type="search" class="form-control site-nav__search-input" id="main-search">
+      <input name="q"
+             type="search"
+             class="form-control site-nav__search-input"
+             id="site-nav-search"
+             value="{{ search_query }}">
     </div>
   </form>
 
   {# right portion of site nav #}
-  <ul class="unlistify site-nav__user-menu">
+  <ul class="site-nav__menu site-nav__user-menu unlistify">
     {% if not is_granted('ROLE_USER') %}
       <li>
         <a href="{{ path('login') }}" class="site-nav__link">{{ 'nav.log_in'|trans }}</a>
@@ -66,7 +77,7 @@
       {% if notification_count > 0 %}
         <li class="site-nav__has-notifications">
           <a href="{{ path('notifications') }}"
-             class="site-nav__link no-underline"
+             class="no-underline no-wrap site-nav__link"
              title="{{ 'nav.notifications_count'|trans({'%count%': notification_count|localizednumber}) }}">
             {{ icon('envelope-open') }}
             <small class="no-underline__exempt" aria-hidden="true">{{ notification_count|localizednumber }}</small>
@@ -75,7 +86,7 @@
       {% endif %}
 
       <li>
-        <a href="{{ path('submit', { forum_name: forum.name ?? null }) }}" class="site-nav__link no-underline">
+        <a href="{{ path('submit', { forum_name: forum.name ?? null }) }}" class="no-underline no-wrap site-nav__link">
           {{ icon('plus') }}
           <span class="no-underline__exempt no-mobile">{{ 'nav.submit'|trans }}</span>
         </a>
