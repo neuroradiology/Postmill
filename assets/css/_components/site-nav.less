@@ -6,12 +6,10 @@
   display: flex;
   margin-bottom: 1rem;
 
-  &__has-notifications {
-    background-color: var(--notification);
-  }
-
   &__link {
+    .unbuttonize();
     color: var(--primary-fg);
+    cursor: pointer;
     display: inline-block;
     font-size: @nav-font-size;
     padding: 0.875em 1em;
@@ -19,12 +17,17 @@
 
     &--active::after {
       background-color: var(--primary-fg);
+      bottom: 1px;
       content: '';
+      height: 2px;
+      left: 0;
       position: absolute;
       width: 100%;
-      height: 2px;
-      bottom: 1px;
     }
+  }
+
+  &__has-notifications {
+    background-color: var(--notification);
   }
 
   &__search-input {
@@ -50,12 +53,8 @@
     color: var(--primary-fg);
   }
 
-  &__mobile-toggle {
-    .unbuttonize();
-
-    &:hover {
-      background-color: var(--primary-alt);
-    }
+  &__mobile-toggle:hover {
+    background-color: var(--primary-alt);
   }
 
   &__menu {
@@ -77,6 +76,17 @@
 
   // mobile styles
   @media not screen and (min-width: @desktop-min-width) {
+    > * {
+      flex: 1 0 auto;
+    }
+
+    &__link {
+      padding-left: 0;
+      padding-right: 0;
+      text-align: center;
+      width: 100%;
+    }
+
     &__mobile-hidden:hover {
       background-color: var(--primary-alt);
     }
@@ -92,7 +102,9 @@
       right: 0;
     }
 
-    &__header { order: 1; }
+    &__header {
+      order: 1;
+    }
 
     &__search {
       display: block;
@@ -100,14 +112,33 @@
     }
 
     &__user-menu {
-      margin-left: auto;
+      flex: 3 0 auto;
       order: 3;
+
+      > * {
+        flex: 1 0 auto;
+      }
     }
 
-    &__main-menu-container { order: 4; }
+    &__main-menu-container {
+      order: 4;
+    }
 
     &__main-menu {
       flex-direction: column;
+    }
+
+    &__main-menu &__link {
+      padding: 0.5rem 1rem;
+      text-align: left;
+
+      &--active::after {
+        top: 0;
+        left: 2px;
+        bottom: unset;
+        width: 2px;
+        height: 100%;
+      }
     }
 
     &__link {
@@ -116,10 +147,6 @@
 
     &__search-row {
       padding: 0.5rem 1rem;
-    }
-
-    &__search-input {
-      width: 100%;
     }
   }
 
