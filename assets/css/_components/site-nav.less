@@ -3,8 +3,12 @@
 
 .site-nav {
   background-color: var(--primary);
-  display: flex;
   margin-bottom: 1rem;
+
+  &__container {
+    display: flex;
+    width: 100%;
+  }
 
   &__link {
     .unbuttonize();
@@ -60,7 +64,9 @@
 
   // desktop styles
   @media screen and (min-width: @desktop-min-width) {
-    padding: 0 1rem;
+    &__container {
+      padding: 0 1rem;
+    }
 
     &__menu {
       display: flex;
@@ -77,7 +83,7 @@
 
   // mobile styles
   @media not screen and (min-width: @desktop-min-width) {
-    > * {
+    &__container > * {
       flex: 1 0 auto;
     }
 
@@ -149,8 +155,8 @@
     }
   }
 
-  .no-js & :hover > &__link.dropdown__toggle,
-  .js & .dropdown--expanded > &__link.dropdown__toggle {
+  .no-js :hover > &__link.dropdown__toggle,
+  .js .dropdown--expanded > &__link.dropdown__toggle {
     background-color: var(--primary-alt);
   }
 }
