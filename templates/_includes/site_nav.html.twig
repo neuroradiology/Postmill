@@ -141,11 +141,11 @@
 
         {# user menu #}
         <li class="dropdown dropdown--right dropdown-container">
-          <a href="#" class="dropdown__toggle no-underline site-nav__link dropdown-toggle no-wrap {{ active == 'user' ? 'site-nav__link--active' }}">
+          <button type="button" class="dropdown__toggle no-underline site-nav__link dropdown-toggle no-wrap {{ active == 'user' ? 'site-nav__link--active' }}">
             {{ icon('user') }}
             <strong class="no-underline__exempt no-mobile">{{ app.user.username }}</strong>
             <span class="dropdown__arrow no-mobile" aria-hidden="true"></span>
-          </a>
+          </button>
 
           <ul class="card dropdown__menu dropdown-menu unlistify no-wrap">
             <li>
