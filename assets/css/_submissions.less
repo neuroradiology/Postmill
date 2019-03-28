@@ -37,42 +37,39 @@
   &__body {
     padding-top: 1rem;
   }
-}
 
-.submission-header > * {
-  margin-bottom: 0;
-}
-
-.submission-row {
-  .vote-flex;
-}
-
-.submission-image,
-.submission-thumbnail {
-  display: block;
-}
-
-.submission-image-container {
-  margin-right: 1rem;
-
-  @media screen and (max-width: 480px) {
-    // don't show thumbnails on tiny screens
-    display: none;
-  }
-}
-
-.submission-info {
-  .meta;
-}
-
-.submission-nav {
-  .meta-nav;
-
-  ul {
+  &__header > * {
     margin-bottom: 0;
   }
-}
 
-.submission-permalink-nav {
-  .horizontal-menu();
+  &__row {
+    .vote-flex();
+  }
+
+  &__image,
+  &__thumbnail {
+    display: block;
+  }
+
+  &__image-container {
+    margin-right: 1rem;
+
+    @media screen and (max-width: 480px) {
+      // don't show thumbnails on tiny screens
+      display: none;
+    }
+  }
+
+  &__info {
+    .meta;
+  }
+
+
+  &__nav {
+    .meta-nav;
+
+    ul {
+      margin-bottom: 0;
+    }
+  }
 }

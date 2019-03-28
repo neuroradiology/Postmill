@@ -44,7 +44,7 @@ class UserControllerTest extends WebTestCase {
 
         $this->assertContains(
             'You will be notified about this comment.',
-            $crawler->filter('.comment-body')->text()
+            $crawler->filter('.comment__body')->text()
         );
     }
 
@@ -63,7 +63,7 @@ class UserControllerTest extends WebTestCase {
 
         $this->assertContains(
             'You will be notified about this comment.',
-            $crawler->filter('.comment-body')->text()
+            $crawler->filter('.comment__body')->text()
         );
     }
 

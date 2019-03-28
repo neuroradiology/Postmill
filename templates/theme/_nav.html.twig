@@ -1,18 +1,18 @@
 <nav class="tabs">
   <ul class="tabs__bar unlistify">
     {% with { active: current_page == 'css' } %}
-      <li class="tabs__tab {{ active ? 'tabs__tab--active' }}">
+      <li>
         <a href="{{ path('edit_theme_css', { username: theme.author.username, name: theme.name }) }}"
-           class="tab tabs__link {{ active ? 'tab--active tabs__link--active' }}">
+           class="tab {{ active ? 'tab--active' }}">
           {{- 'nav.css'|trans -}}
         </a>
       </li>
     {% endwith %}
 
     {% with { active: current_page == 'settings' } %}
-      <li class="tabs__tab {{ active ? 'tabs__tab--active' }}">
+      <li>
         <a href="{{ path('edit_theme_settings', { username: theme.author.username, name: theme.name }) }}"
-           class="tab tabs__link {{ active ? 'tab--active tabs__link--active' }}">
+           class="tab {{ active ? 'tab--active' }}">
           {{- 'nav.theme_settings'|trans -}}
         </a>
       </li>

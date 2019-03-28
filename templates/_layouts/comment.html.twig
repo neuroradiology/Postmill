@@ -2,29 +2,28 @@
   {%- from 'vote/_macros.html.twig' import vote -%}
   <article class="comment
                   comment--{{ level > 1 ? 'nested' : 'top-level' }}
-                  comment-{{ level > 1 ? 'level-'~(level - 1) : 'top-level' }}
                   {{ show_context ? 'comment--with-context' }}
-                  {{ comment.softDeleted ? 'comment--soft-deleted comment-soft-deleted' }}"
+                  {{ comment.softDeleted ? 'comment--soft-deleted' }}"
            id="comment_{{ comment.id }}"
            data-level="{{ level }}">
     {% if show_context %}
       {{- block('comment_context') -}}
     {% endif %}
 
-    <div class="comment__row comment-row">
-      <div class="comment__vote comment-vote">
+    <div class="comment__row">
+      <div class="comment__vote">
         {{ vote(comment, 'comment_vote') }}
       </div>
 
-      <div class="comment__main comment-inner">
-        <h1 class="comment__info comment-info break-text">
+      <div class="comment__main">
+        <h1 class="comment__info break-text">
           {{ 'comments.info'|trans({
             '%user%': block('comment_info_user'),
             '%timestamp%': block('comment_info_timestamp'),
           })|raw }}
 
           {% if comment.editedAt %}
-            <span class="comment__edited-at comment-info-edited-at {{ comment.moderated ? 'comment__moderated comment-info-moderated' }}">
+            <span class="comment__edited-at {{ comment.moderated ? 'comment__moderated' }}">
               {{ (comment.moderated ? 'comments.moderator_info' : 'comments.edit_info')|trans({
                 '%edited_at%': block('comment_info_edited_at')
               })|raw }}
@@ -32,11 +31,11 @@
           {% endif %}
         </h1>
 
-        <div class="comment__body comment-body break-text">
+        <div class="comment__body break-text">
           {{ comment.body|cached_markdown({ context: 'comment', comment: comment })|raw }}
         </div>
 
-        <nav class="comment__nav comment-nav">
+        <nav class="comment__nav">
           <ul>{{ block('comment_nav') }}</ul>
         </nav>
 
@@ -48,7 +47,7 @@
     </div>
 
     {% if recurse and comment.children|length > 0 %}
-      <div class="comment__replies comment-replies">
+      <div class="comment__replies">
         {%- for reply in comment.children -%}
           {%- with { comment: reply, level: level + 1 } -%}
             {{- block('comment') -}}
@@ -90,7 +89,7 @@
 
   {%- if not comment.softDeleted -%}
     {{- user_link(comment.user, {
-      class: 'comment__author comment-user',
+      class: 'comment__author',
       flag: comment.userFlag,
       submitter: comment.user is same as(comment.submission.user),
     }) -}}
@@ -103,7 +102,7 @@
   {%- set date = comment.timestamp|localizeddate('long', 'short') -%}
   <time datetime="{{ comment.timestamp|date('c') }}"
         title="{{ date }}"
-        class="comment__timestamp comment-timestamp relative-time">
+        class="comment__timestamp relative-time">
     {{- 'comments.info_at_timestamp'|trans({'%timestamp%': date}) -}}
   </time>
 {%- endblock comment_info_timestamp -%}
@@ -129,7 +128,7 @@
 {%- endblock comment_nav -%}
 
 {%- block comment_nav_reply -%}
-  <li class="comment-nav-reply">
+  <li>
     <a href="{{ path('comment', {
       forum_name: comment.submission.forum.name,
       submission_id: comment.submission.id,
@@ -138,7 +137,7 @@
       forumName: comment.submission.forum.name,
       submissionId: comment.submission.id,
       commentId: comment.id
-    }) }}" class="comment__reply-link">
+    }) }}">
       {{- 'comments.reply'|trans -}}
     </a>
   </li>

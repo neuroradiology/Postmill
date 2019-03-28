@@ -57,13 +57,13 @@
         </li>
 
         {% if is_granted('ROLE_ADMIN') %}
-          <li class="dropdown dropdown-container">
+          <li class="dropdown">
             <button type="button"
-                    class="dropdown__toggle no-underline no-wrap site-nav__link dropdown-toggle {{ active == 'admin' ? 'site-nav__link--active' }}">
+                    class="dropdown__toggle no-underline no-wrap site-nav__link {{ active == 'admin' ? 'site-nav__link--active' }}">
               <span class="no-underline__exempt">{{ 'label.admin'|trans }}</span>
               <span class="dropdown__arrow" aria-hidden="true"></span>
             </button>
-            <ul class="card dropdown__menu no-wrap unlistify dropdown-menu">
+            <ul class="card dropdown__menu no-wrap unlistify">
               <li>
                 <a href="{{ path('user_bans') }}" class="menu-link">
                   {{ icon('hammer') }}
@@ -140,14 +140,14 @@
         </li>
 
         {# user menu #}
-        <li class="dropdown dropdown--right dropdown-container">
-          <button type="button" class="dropdown__toggle no-underline site-nav__link dropdown-toggle no-wrap {{ active == 'user' ? 'site-nav__link--active' }}">
+        <li class="dropdown dropdown--right">
+          <button type="button" class="dropdown__toggle no-underline site-nav__link no-wrap {{ active == 'user' ? 'site-nav__link--active' }}">
             {{ icon('user') }}
             <strong class="no-underline__exempt no-mobile">{{ app.user.username }}</strong>
             <span class="dropdown__arrow no-mobile" aria-hidden="true"></span>
           </button>
 
-          <ul class="card dropdown__menu dropdown-menu unlistify no-wrap">
+          <ul class="card dropdown__menu unlistify no-wrap">
             <li>
               <a href="{{ path('user', {username: app.user.username}) }}"
                  class="menu-link">

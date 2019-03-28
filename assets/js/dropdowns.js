@@ -35,7 +35,6 @@ function toggleAttributes($dropdowns) {
 
         $dropdown
             .toggleClass('dropdown--expanded')
-            .toggleClass('expanded') // BC
             .find('.dropdown__toggle')
             .attr('aria-expanded', expanded);
     });
@@ -98,7 +97,6 @@ function globalKeyDownHandler(event) {
 
 // init
 
-$('.dropdown').addClass('dropdown-container').addClass('js'); // BC
 $('.dropdown__toggle').attr('aria-haspopup', true).attr('aria-expanded', false);
 
 $(document).on('keydown', globalKeyDownHandler);

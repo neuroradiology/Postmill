@@ -1,14 +1,14 @@
 {% macro front_post_types(current) %}
   <ul class="unlistify tabs__bar">
-    <li class="tabs__tab {{ current == 'submissions' ? 'tabs__tab--active' }}">
+    <li>
       <a href="{{ path('front') }}"
-         class="tab tabs__link {{ current == 'submissions' ? 'tab--active tabs__link--active' }}">
+         class="tab {{ current == 'submissions' ? 'tab--active' }}">
         {{- 'nav.submissions'|trans -}}
       </a>
     </li>
-    <li class="tabs__tab {{ current == 'comments' ? 'tabs__tab--active' }}">
+    <li>
       <a href="{{ path('comment_list') }}"
-         class="tab tabs__link {{ current == 'comments' ? 'tab--active tabs__link--active' }}">
+         class="tab {{ current == 'comments' ? 'tab--active' }}">
         {{- 'nav.comments'|trans -}}
       </a>
     </li>
@@ -17,15 +17,15 @@
 
 {% macro forum_post_types(forum_name, current) %}
   <ul class="unlistify tabs__bar">
-    <li class="tabs__tab {{ current == 'submissions' ? 'tabs__tab--active' }}">
+    <li>
       <a href="{{ path('forum', { forum_name: forum_name }) }}"
-         class="tab tabs__link {{ current == 'submissions' ? 'tab--active tabs__link--active' }}">
+         class="tab {{ current == 'submissions' ? 'tab--active' }}">
         {{- 'nav.submissions'|trans -}}
       </a>
     </li>
-    <li class="tabs__tab {{ current == 'comments' ? 'tabs__tab--active' }}">
+    <li>
       <a href="{{ path('forum_comments', { forum_name: forum_name }) }}"
-         class="tab tabs__link {{ current == 'comments' ? 'tab--active tabs__link--active' }}">
+         class="tab {{ current == 'comments' ? 'tab--active' }}">
         {{- 'nav.comments'|trans -}}
       </a>
     </li>
@@ -35,7 +35,7 @@
 {% macro submission_sort(current) %}
   {% from _self import _submission_sort_items, _tab_button %}
   {% set current_label = 'submissions.sort_by_%s'|format(current)|trans %}
-  <li class="dropdown tabs__tab">
+  <li class="dropdown">
     {{ _tab_button(current_label, 'label.sort_by_mode', '%mode%', 'sort') }}
 
     <ul class="dropdown__menu card unlistify">
@@ -67,7 +67,7 @@
     moderated: { label: 'nav.moderated'|trans, condition: (app.user.moderatorTokens ?? [])|length > 0 },
   } %}
   {% set current_label = filter_modes[choice].label %}
-  <li class="dropdown tabs__tab">
+  <li class="dropdown">
     {{ _tab_button(current_label, 'label.filter_on_mode', '%mode%', 'filter') }}
 
     <ul class="dropdown__menu card unlistify">
@@ -93,7 +93,7 @@
   {% if app.request.query.has('t') or sort_by not in ['hot', 'new'] %}
     {% set attr = app.request.attributes %}
     {% set current_label = 'submissions.time_%s'|format(current)|trans %}
-    <li class="dropdown tabs__tab">
+    <li class="dropdown">
       {{ _tab_button(current_label, 'label.from_time', '%time%', 'clock') }}
 
       <ul class="dropdown__menu card unlistify">

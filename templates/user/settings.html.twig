@@ -9,8 +9,8 @@
   <h1 class="page-heading">{{ block('title') }}</h1>
 
   {{ form_start(form) }}
-    <fieldset class="fieldset form__group">
-      <legend class="form__group-header">{{ 'label.general'|trans }}</legend>
+    <fieldset class="fieldset">
+      <legend>{{ 'label.general'|trans }}</legend>
 
       {{ form_row(form.locale) }}
 
@@ -21,24 +21,24 @@
       {{ form_row(form.showThumbnails) }}
     </fieldset>
 
-    <fieldset class="fieldset form__group">
-      <legend class="form__group-header">{{ 'label.posting'|trans }}</legend>
+    <fieldset class="fieldset">
+      <legend>{{ 'label.posting'|trans }}</legend>
 
       {{ form_row(form.autoFetchSubmissionTitles) }}
 
       {{ form_row(form.enablePostPreviews) }}
     </fieldset>
 
-    <fieldset class="fieldset form__group">
-      <legend class="form__group-header">{{ 'heading.notifications'|trans }}</legend>
+    <fieldset class="fieldset">
+      <legend>{{ 'heading.notifications'|trans }}</legend>
 
         {{ form_row(form.notifyOnReply) }}
 
         {{ form_row(form.notifyOnMentions) }}
     </fieldset>
 
-    <fieldset class="fieldset form__group">
-      <legend class="form__group-header">{{ 'label.appearance'|trans }}</legend>
+    <fieldset class="fieldset">
+      <legend>{{ 'label.appearance'|trans }}</legend>
 
       {{ form_row(form.preferred_theme, {attr: {class: 'select2'}}) }}
 

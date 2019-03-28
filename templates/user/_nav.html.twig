@@ -5,9 +5,9 @@
       { path: 'user_submissions', label: 'user.submissions' },
       { path: 'user_comments', label: 'user.comments' },
     ] %}
-      <li class="tabs__tab {{ tab.path == current ? 'tabs__tab--active' }}">
+      <li>
         <a href="{{ path(tab.path, {username: user.username}) }}"
-           class="tab tabs__link {{ tab.path == current ? 'tab--active tabs__link--active' }}">
+           class="tab {{ tab.path == current ? 'tab--active' }}">
           {{- tab.label|trans -}}
         </a>
       </li>

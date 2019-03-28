@@ -1,20 +1,20 @@
 {%- block submission_info_submitter -%}
   {%- from 'user/_macros.html.twig' import user_link -%}
   {{ user_link(submission.user, {
-    class: 'submission-submitter',
+    class: 'submission__submitter',
     flag: submission.userFlag,
   }) }}
 {%- endblock submission_info_submitter -%}
 
 {%- block submission_info_timestamp -%}
   {%- set date = submission.timestamp|localizeddate('long', 'short') -%}
-  <time datetime="{{ submission.timestamp|date('c') }}" title="{{ date }}" class="submission-timestamp relative-time">
+  <time datetime="{{ submission.timestamp|date('c') }}" title="{{ date }}" class="submission__timestamp relative-time">
     {{- 'submissions.info_at_timestamp'|trans({'%timestamp%': date}) -}}
   </time>
 {%- endblock submission_info_timestamp -%}
 
 {%- block submission_info_forum_name -%}
-  <a href="{{ path('forum', {forum_name: submission.forum.name}) }}" class="submission-forum">
+  <a href="{{ path('forum', {forum_name: submission.forum.name}) }}" class="submission__forum">
     {{- submission.forum.name -}}
   </a>
 {%- endblock submission_info_forum_name -%}
@@ -31,17 +31,17 @@
   {%- from 'vote/_macros.html.twig' import vote -%}
   {%- set open_external = submission.url is not empty and open_external_links_in_new_tab -%}
   <article class="{{ block('submission_classes') }}">
-    <div class="submission-row">
-      <div class="submission-vote">
+    <div class="submission__row">
+      <div class="submission__vote">
         {{- vote(submission, 'submission_vote') -}}
       </div>
 
       {% if submission.image and show_thumbnails %}
-        <div class="submission-image-container">
-          <a href="{{ block('submission_url') }}" class="submission-image" {% if submission.url %}rel="nofollow noreferrer noopener" {% if open_external %}target="_blank"{% endif %}{% endif %}>
+        <div class="submission__image-container">
+          <a href="{{ block('submission_url') }}" class="submission__image" {% if submission.url %}rel="nofollow noreferrer noopener" {% if open_external %}target="_blank"{% endif %}{% endif %}>
             <img src="{{ submission.image|imagine_filter('submission_thumbnail_1x') }}"
                  srcset="{{ submission.image|imagine_filter('submission_thumbnail_2x') }} 2x"
-                 class="submission-thumbnail"
+                 class="submission__thumbnail"
                  alt=""
                  width="70"
                  height="70">
@@ -49,10 +49,10 @@
         </div>
       {% endif %}
 
-      <div class="submission-inner">
-        <header class="submission-header">
-          <h1 class="submission__title break-text submission-title">
-            <a href="{{ block('submission_url') }}" class="submission__link submission-link" {% if submission.url %}rel="nofollow noreferrer noopener" {% if open_external %}target="{{ open_external ? '_blank' }}"{% endif %}{% endif %}>
+      <div class="submission__inner">
+        <header class="submission__header">
+          <h1 class="submission__title break-text">
+            <a href="{{ block('submission_url') }}" class="submission__link" {% if submission.url %}rel="nofollow noreferrer noopener" {% if open_external %}target="{{ open_external ? '_blank' }}"{% endif %}{% endif %}>
               {{- submission.title -}}
             </a>
 
@@ -71,7 +71,7 @@
             {% endif %}
 
             {% if submission.url is not empty and '://' in submission.url %}
-              <small class="submission__host submission-host">
+              <small class="submission__host">
                 {%- with {host: submission.url|split('://')[1]|split('/')[0]} -%}
                   {{- host[0:4] == 'www.' ? host[4:] : host -}}
                 {%- endwith -%}
@@ -79,7 +79,7 @@
             {% endif %}
           </h1>
 
-          <p class="submission-info">
+          <p class="submission__info">
             {%- if show_forum_name -%}
               {{ 'submissions.info_with_forum_name'|trans({
                 '%submitter%': block('submission_info_submitter'),
@@ -94,7 +94,7 @@
             {%- endif -%}
 
             {% if submission.editedAt %}
-              <span class="submission-info-edited-at {{ submission.moderated ? 'submission-info-moderated' }}">
+              <span class="submission__info-edited-at {{ submission.moderated ?  'submission__info-moderated' }}">
                 {{ (submission.moderated ? 'submissions.moderator_info' : 'submissions.edit_info')|trans({
                   '%edited_at%': block('submission_info_edited_at')
                 })|raw }}
@@ -105,14 +105,14 @@
 
         {%- if show_body -%}
           {% if submission.body is not null %}
-            <div class="submission__body break-text submission-body">
+            <div class="submission__body break-text">
               {{- submission.body|cached_markdown({ context: 'submission', submission: submission })|raw -}}
             </div>
           {% endif %}
         {%- endif -%}
 
         {%- filter spaceless -%}
-          <nav class="submission-nav">
+          <nav class="submission__nav">
             <ul>
               <li>
                 <a href="{{ path('submission', {forum_name: submission.forum.name, submission_id: submission.id, slug: submission.title|slugify}) }}">
@@ -184,9 +184,9 @@
 
 {% block submission_classes %}
   submission
-  {{ submission.url ? 'submission--has-url submission-has-url' }}
-  {{ submission.body is not null ? 'submission--has-body submission-has-body' }}
-  {{ not show_body ? 'submission--collapsed submission-body-hidden' : 'submission--expanded' }}
-  {{ submission.sticky ? 'submission--sticky submission-sticky' }}
-  {{ submission.locked ? 'submission--locked submission-locked' }}
+  {{ submission.url ? 'submission--has-url' }}
+  {{ submission.body is not null ? 'submission--has-body' }}
+  {{ not show_body ? 'submission--collapsed' : 'submission--expanded' }}
+  {{ submission.sticky ? 'submission--sticky' }}
+  {{ submission.locked ? 'submission--locked' }}
 {% endblock submission_classes %}
