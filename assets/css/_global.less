@@ -30,6 +30,21 @@ a:hover {
   text-decoration: underline;
 }
 
+// spoiler tags
+a[href="#s"],
+a[href="#spoiler"] {
+  background-color: currentColor;
+  color: inherit;
+  cursor: text;
+  outline: none;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    background-color: unset;
+  }
+}
+
 // Avoid having to deal with margin collapsing. This approach requires
 // containers to have a top padding of 1rem for typographic elements to look
 // good.
