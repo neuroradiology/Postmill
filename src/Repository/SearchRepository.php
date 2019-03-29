@@ -85,8 +85,8 @@ final class SearchRepository {
 
         $qb = $this->em->getConnection()->createQueryBuilder()
             ->select($rsm->generateSelectClause())
-            ->addSelect(":entity AS entity")
-            ->addSelect("ts_rank(search_doc, plainto_tsquery(:query)) AS search_rank")
+            ->addSelect(":entity::TEXT AS entity")
+            ->addSelect("ts_rank(search_doc, plainto_tsquery(:query::TEXT)) AS search_rank")
             ->from($table, 'e')
             ->where('search_doc @@ plainto_tsquery(:query)')
             ->setParameter('entity', self::ENTITY_TYPES[$entityClass], Type::TEXT)
