@@ -89,13 +89,17 @@ final class SearchRepository {
             ->addSelect("ts_rank(search_doc, plainto_tsquery(:query)) AS search_rank")
             ->from($table, 'e')
             ->where('search_doc @@ plainto_tsquery(:query)')
-            ->setParameter('entity', self::ENTITY_TYPES[$entityClass])
-            ->setParameter('query', $options['query'])
+            ->setParameter('entity', self::ENTITY_TYPES[$entityClass], Type::TEXT)
+            ->setParameter('query', $options['query'], Type::TEXT)
             ->orderBy('search_rank', 'DESC')
             ->setMaxResults(self::MAX_PER_PAGE);
 
-        return $this->em->createNativeQuery($qb->getSQL(), $rsm)
-            ->setParameters($qb->getParameters())
-            ->execute();
+        $nativeQuery = $this->em->createNativeQuery($qb->getSQL(), $rsm);
+
+        foreach ($qb->getParameters() as $key => $value) {
+            $nativeQuery->setParameter($key, $value, $qb->getParameterType($key));
+        }
+
+        return $nativeQuery->execute();
     }
 }
