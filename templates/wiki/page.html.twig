@@ -1,8 +1,5 @@
 {% extends 'base.html.twig' %}
-
-{% block page_classes %}
-  wiki-page
-{% endblock %}
+{% from '_macros/icon.html.twig' import icon %}
 
 {% block title %}
   {{ page.latestRevision.title }}
@@ -13,10 +10,10 @@
 {% endblock %}
 
 {% block body %}
-  <article class="wiki-page">
-    <h1 class="wiki-page-title">{{ block('title') }}</h1>
+  <article class="wiki-article">
+    <h1 class="page-heading wiki-article__title">{{ block('title') }}</h1>
 
-    <div class="wiki-page-body">
+    <div class="wiki-article__body">
       {{ page.latestRevision.body|cached_markdown({ context: 'wiki', page: page })|raw }}
     </div>
   </article>
@@ -36,7 +33,10 @@
       </p>
 
     {% if page.locked %}
-      <p>{{ 'wiki.locked_notice'|trans }}</p>
+      <p class="wiki-lock-notice">
+        <span>{{ icon('lock') }}</span>
+        <span>{{ 'wiki.locked_notice'|trans }}</span>
+      </p>
     {% endif %}
 
     {% if is_granted('lock', page) or is_granted('delete', page) %}
@@ -67,7 +67,7 @@
   <section class="sidebar__section sidebar__section--wiki-toolbox">
     <h1 class="sidebar__title">{{ 'label.toolbox'|trans }}</h1>
 
-    <ul>
+    <ul class="sidebar__list unlistify">
       {% if is_granted('write', page) %}
         <li><a href="{{ path('wiki_edit', {path: page.path}) }}">{{ 'wiki.edit_page'|trans }}</a></li>
       {% endif %}
@@ -78,7 +78,7 @@
   <section class="sidebar__section sidebar__section--wiki-navigation">
     <h1 class="sidebar__title">{{ 'wiki.navigation'|trans }}</h1>
 
-    <ul>
+    <ul class="sidebar__list unlistify">
       <li><a href="{{ path('wiki_all') }}">{{ 'wiki.all_pages'|trans }}</a></li>
       <li><a href="{{ path('wiki_recent_changes') }}">{{ 'label.recent_changes'|trans }}</a></li>
     </ul>

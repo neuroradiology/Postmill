@@ -13,8 +13,6 @@
 {% block body %}
   {{ include('user/_nav.html.twig', {current: 'user', user: user}, with_context=false) }}
 
-  <h1 class="page-heading break-text">{{ user.username }}</h1>
-
   {% for contribution in contributions %}
     {% if contribution.type == 'submission' %}
       {{ submission(contribution.submission) }}

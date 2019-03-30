@@ -29,7 +29,7 @@
   <section class="sidebar__section">
     <h1 class="sidebar__title">{{ 'heading.multi_forum_view'|trans }}</h1>
 
-    <ul>
+    <ul class="sidebar__list unlistify">
       {% for forum in forums %}
         <li><a href="{{ path('forum', {forum_name: forum}) }}">{{ forum }}</a></li>
       {% endfor %}

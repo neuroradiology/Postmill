@@ -1,4 +1,6 @@
 {% macro forum_list_header() %}
+  <h1 class="page-heading">{{ 'forum_list.page_title'|trans }}</h1>
+
   <nav class="tabs forum-list-view-selector">
     <ul class="unlistify tabs__bar">
       {% with { active: app.request.attributes.get('_route') == 'forum_list' } %}
@@ -17,8 +19,6 @@
       {% endwith %}
     </ul>
   </nav>
-
-  <h1 class="page-heading">{{ 'forum_list.page_title'|trans }}</h1>
 
   {% if is_granted('create_forum') %}
     <p role="navigation">

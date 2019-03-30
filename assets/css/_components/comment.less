@@ -23,10 +23,15 @@
  */
 .comment {
   background: var(--bg-page);
-  border: solid 1px var(--border);
+  border: solid 1px var(--border-light);
+  border-left-width: 3px;
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
+
+  & .comment {
+    margin-left: 10px;
+  }
 
   // new approach to borders - may or may not deprecate the old approach
   &--with-context {
@@ -34,12 +39,12 @@
 
     & > .comment {
       &__row {
-        border: solid var(--border);
+        border: solid var(--border-light);
         border-width: 1px 1px 0;
       }
 
       &__replies {
-        border: solid var(--border);
+        border: solid var(--border-light);
         border-width: 0 1px 0 1px;
       }
     }
@@ -70,6 +75,7 @@
 
   &__body {
     padding-right: 0.5rem;
+    max-width: var(--paragraph-width);
   }
 
   &__nav {

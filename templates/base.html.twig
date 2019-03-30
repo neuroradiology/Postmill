@@ -43,19 +43,17 @@
       <div class="content-wrapper">
         <main class="body">{% block body %}{% endblock %}</main>
         <aside class="sidebar">{% block sidebar %}{% endblock %}</aside>
-      </div>
-    {% endblock %}
 
-    {% block site_footer %}
-      <footer class="site-footer">
-        <p class="site-footer-version">
-          {{ 'site_footer.version'|trans({
-            '%branch%': app_branch(),
-            '%version%': app_version(),
-            '%app%': '<a href="https://postmill.xyz/">Postmill</a>',
-          })|raw }}
-        </p>
-      </footer>
+        <footer class="site-footer">
+          <p class="site-footer-version">
+            {{ 'site_footer.version'|trans({
+              '%branch%': app_branch(),
+              '%version%': app_version(),
+              '%app%': '<a href="https://postmill.xyz/">Postmill</a>',
+            })|raw }}
+          </p>
+        </footer>
+      </div>
     {% endblock %}
 
     {% block javascripts %}

@@ -202,7 +202,7 @@ inbox:
     message_reply_head: 'Re: %title%'
 
 item:
-    short_url: 'URL courte: %url%'
+    short_url: 'URL courte'
 label:
     name: Nom
     author: Auteur

@@ -194,7 +194,7 @@ inbox:
     message_reply_head: 'Re: %title%'
 
 item:
-    short_url: 'Mallonga URL: %url%'
+    short_url: 'Mallonga URL'
 
 label:
     name: Nomo

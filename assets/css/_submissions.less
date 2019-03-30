@@ -36,6 +36,7 @@
 
   &__body {
     padding-top: 1rem;
+    max-width: var(--paragraph-width);
   }
 
   &__header > * {
@@ -70,6 +71,29 @@
 
     ul {
       margin-bottom: 0;
+    }
+  }
+}
+
+.submission-meta {
+  &__short-url {
+    & > span {
+      display: block;
+    }
+
+    & > :first-child {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    & > :last-child {
+      padding: .2em .4em;
+      background: var(--fg-broken);
+      color: var(--text-invert);
+      font-family: var(--mono-font-family);
+      -webkit-user-select: all;
+      -moz-user-select: all;
+      user-select: all;
     }
   }
 }

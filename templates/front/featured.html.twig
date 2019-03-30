@@ -9,7 +9,7 @@
     <h1 class="sidebar__title">{{ 'front.featured_forums'|trans }}</h1>
 
     {% if forums|length > 0 %}
-      <ul>
+      <ul class="sidebar__list unlistify">
         {% for name in forums %}
           <li><a href="{{ path('forum', {forum_name: name}) }}">{{ name }}</a></li>
         {% endfor %}

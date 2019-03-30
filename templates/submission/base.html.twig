@@ -19,17 +19,15 @@
       </span>
     </p>
 
-    <p class="submission-meta__short-url">{{ 'item.short_url'|trans({
-      '%url%': '<a href="%s" rel="nofollow"><kbd>%s</kbd></a>'|format(
-        url('submission_shortcut', {id: submission.id})|e,
-        url('submission_shortcut', {id: submission.id})|replace({
-          'https://www.': '',
-          'https://': '',
-          'http://www.': '',
-          'http://': ''
-        })|e
-      )})|raw
-    }}</p>
+    <p class="submission-meta__short-url">
+      <span>
+        {{ 'item.short_url'|trans }}
+      </span>
+
+      <span>
+        {{ url('submission_shortcut', {id: submission.id})|e }}
+      </span>
+    </p>
   </section>
 
   {{ parent() }}
