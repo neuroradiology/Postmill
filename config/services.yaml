@@ -19,7 +19,6 @@ services:
         autowire: true
         bind:
             $defaultLocale: "%env(APP_LOCALE)%"
-            $enableExternalSearch: "%env(bool:APP_ENABLE_EXTERNAL_SEARCH)%"
             $enableWebhooks: "%env(bool:APP_ENABLE_WEBHOOKS)%"
             $secret: "%env(APP_SECRET)%"
             $siteName: "%env(SITE_NAME)%"

@@ -39,9 +39,3 @@
 
   {% include '_includes/pagination.html.twig' with {pager: submissions} %}
 {% endblock %}
-
-{% block sidebar %}
-  {% if app_external_search_enabled() %}
-    {% include '_includes/search.html.twig' %}
-  {% endif %}
-{% endblock %}

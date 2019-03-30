@@ -8,6 +8,7 @@
     <meta name="generator" content="postmill {{ app_version() }}">
 
     <link rel="apple-touch-icon-precomposed" href="{{ asset('apple-touch-icon-precomposed.png') }}">
+    <link rel="search" type="application/opensearchdescription+xml" title="{{ site_name() }}" href="{{ path('opensearch_description') }}">
 
     {% block stylesheets %}
       {{ include('_includes/stylesheets.html.twig', {

@@ -195,8 +195,6 @@ help:
     revision_summary: Veuillez saisir un résumé de vos modifications.
     parent_theme_input: Veuillez saisir l'<utilisateur>/<thème> du thème que vous voulez étendre. Vous pouvez également saisir un UUID pour étendre une modification particulière.
     will_appear_in_the_url: Apparaîtra dans l'URL.
-    search_external_prefix: Veuillez noter:
-    search_external_message: Votre requête sera redirigée vers DuckDuckGo.
 
 inbox:
     message_reply_head: 'Re: %title%'

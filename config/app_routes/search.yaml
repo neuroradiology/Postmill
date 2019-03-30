@@ -3,7 +3,7 @@ search:
     path: /search
     methods: [GET]
 
-external_search:
-    controller: App\Controller\SearchController::external
-    path: /external_search
-    methods: [POST]
+opensearch_description:
+    controller: App\Controller\SearchController::openSearchDescription
+    defaults: { _format: xml }
+    path: /opensearch.xml

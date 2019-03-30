@@ -4,18 +4,10 @@ namespace App\Controller;
 
 use App\Repository\SearchRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 final class SearchController extends AbstractController {
-    /**
-     * @var bool
-     */
-    private $enableExternalSearch;
-
-    public function __construct(bool $enableExternalSearch) {
-        $this->enableExternalSearch = $enableExternalSearch;
-    }
-
-    public function search(Request $request, SearchRepository $search) {
+    public function search(Request $request, SearchRepository $search): Response {
         $searchOptions = $search->parseRequest($request);
 
         if ($searchOptions) {
@@ -28,26 +20,15 @@ final class SearchController extends AbstractController {
         ]);
     }
 
-    public function external(Request $request) {
-        if (!$this->enableExternalSearch) {
-            throw $this->createNotFoundException('Search is not enabled');
-        }
+    public function openSearchDescription(): Response {
+        $response = new Response();
+        $response->headers->set(
+            'Content-Type',
+            'application/opensearchdescription+xml; charset=UTF-8'
+        );
+        $response->setPublic();
+        $response->setSharedMaxAge(86400);
 
-        $host = $request->getHttpHost();
-
-        $userQuery = $request->request->get('query');
-        $forum = $request->request->get('forum');
-
-        $site = "site:$host";
-
-        if (isset($forum)) {
-            $site .= $forum;
-        }
-
-        $finalQuery = urlencode("$site $userQuery");
-
-        $url = 'https://duckduckgo.com/?q='.$finalQuery;
-
-        return $this->redirect($url);
+        return $this->render('search/opensearch.xml.twig', [], $response);
     }
 }
