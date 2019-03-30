@@ -17,6 +17,25 @@ final class SearchRepository {
         Submission::class => 'submission',
     ];
 
+    private const ENTITY_HEADLINES = [
+        Comment::class => [
+            'body_excerpt' => [
+                'document' => 'e.body',
+                'config' => 'MaxFragments=3',
+            ],
+        ],
+        Submission::class => [
+            'title_highlighted' => [
+                'document' => 'e.title',
+                'config' => 'HighlightAll=TRUE',
+            ],
+            'body_excerpt' => [
+                'document' => 'e.body',
+                'config' => 'MaxFragments=3',
+            ],
+        ],
+    ];
+
     /**
      * @var EntityManagerInterface
      */
@@ -81,14 +100,27 @@ final class SearchRepository {
         $rsm->addScalarResult('entity', 'entity');
         $rsm->addScalarResult('search_rank', 'search_rank');
 
+        $qb = $this->em->getConnection()->createQueryBuilder();
+
+        foreach (self::ENTITY_HEADLINES[$entityClass] as $name => $headline) {
+            $rsm->addScalarResult($name, $name);
+
+            $qb->addSelect(\sprintf(
+                "ts_headline(%s, search_query, :{$name}_config) AS %s",
+                $headline['document'],
+                $name
+            ))->setParameter("{$name}_config", $headline['config'] ?? '');
+        }
+
         $table = $this->em->getClassMetadata($entityClass)->getTableName();
 
-        $qb = $this->em->getConnection()->createQueryBuilder()
-            ->select($rsm->generateSelectClause())
+        $qb
+            ->addSelect($rsm->generateSelectClause())
             ->addSelect(":entity::TEXT AS entity")
-            ->addSelect("ts_rank(search_doc, plainto_tsquery(:query::TEXT)) AS search_rank")
+            ->addSelect("ts_rank(search_doc, search_query) AS search_rank")
             ->from($table, 'e')
-            ->where('search_doc @@ plainto_tsquery(:query)')
+            ->from('plainto_tsquery(:query::TEXT)', 'search_query')
+            ->where('search_doc @@ search_query')
             ->setParameter('entity', self::ENTITY_TYPES[$entityClass], Type::TEXT)
             ->setParameter('query', $options['query'], Type::TEXT)
             ->orderBy('search_rank', 'DESC')

@@ -53,7 +53,11 @@
         <header class="submission__header">
           <h1 class="submission__title break-text">
             <a href="{{ block('submission_url') }}" class="submission__link" {% if submission.url %}rel="nofollow noreferrer noopener" {% if open_external %}target="{{ open_external ? '_blank' }}"{% endif %}{% endif %}>
-              {{- submission.title -}}
+              {%- if raw_title is not null -%}
+                {{ raw_title|raw }}
+              {%- else -%}
+                {{ submission.title }}
+              {%- endif -%}
             </a>
 
             {% if submission.sticky %}
@@ -104,9 +108,13 @@
         </header>
 
         {%- if show_body -%}
-          {% if submission.body is not null %}
+          {% if raw_body is not null or submission.body is not null %}
             <div class="submission__body break-text">
-              {{- submission.body|cached_markdown({ context: 'submission', submission: submission })|raw -}}
+              {%- if raw_body is not null -%}
+                {{ raw_body|raw }}
+              {%- elseif submission.body is not null -%}
+                {{ submission.body|cached_markdown({ context: 'submission', submission: submission })|raw }}
+              {%- endif -%}
             </div>
           {% endif %}
         {%- endif -%}

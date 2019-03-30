@@ -29,9 +29,16 @@
 
   {% for result in results %}
     {% if result.entity == 'comment' %}
-      {{ comment(result[0], { show_context: true }) }}
+      {{ comment(result[0], {
+        show_context: true,
+        raw_body: '<p>%s</p>'|format(result.body_excerpt)
+      }) }}
     {% elseif result.entity == 'submission' %}
-      {{ submission(result[0], { show_body: true }) }}
+      {{ submission(result[0], {
+        show_body: true,
+        raw_title: result.title_highlighted,
+        raw_body: result.body_excerpt is not empty ? '<p>%s</p>'|format(result.body_excerpt) : null
+      }) }}
     {% endif %}
   {% else %}
     {% if query is not empty %}
